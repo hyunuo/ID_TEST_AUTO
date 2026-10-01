@@ -1,0 +1,17 @@
+# TEST/FIXTURE ONLY: fictional requirement upgrade with a guarded previous state.
+kind: delta
+spec_family: OCP
+version: fixture-v2
+inherits: fixture-v1
+data_kind: fixture
+provenance:
+  source_type: fixture
+  source_document: TEST_OCP
+  source_version: fixture-v2
+  source_section: TEST_REQUIREMENT_CHANGE
+  status: candidate
+changes:
+  - action: REQUIREMENT_CHANGE
+    rule_id: TEST.OCP.COUNT
+    previous: {requirement: optional}
+    current: {requirement: required}

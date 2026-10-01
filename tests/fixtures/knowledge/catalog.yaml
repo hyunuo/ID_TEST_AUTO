@@ -1,0 +1,22 @@
+# TEST/FIXTURE ONLY: invented test identities; no production specification knowledge.
+kind: catalog
+sources:
+  - {source_type: fixture, source_document: TEST_SCHEMA, source_version: fixture-v1}
+  - {source_type: fixture, source_document: TEST_SCHEMA, source_version: fixture-v2}
+  - {source_type: fixture, source_document: TEST_SCHEMA, source_version: fixture-v3}
+  - {source_type: fixture, source_document: TEST_SCHEMA, source_version: fixture-v4}
+  - {source_type: fixture, source_document: TEST_OCP, source_version: fixture-v1}
+  - {source_type: fixture, source_document: TEST_OCP, source_version: fixture-v2}
+  - {source_type: fixture, source_document: TEST_MFND, source_version: fixture-v1}
+features:
+  - feature_id: TEST.FEATURE_ALPHA
+    aliases: [TEST_ALPHA]
+    provenance: &evidence
+      source_type: fixture
+      source_document: TEST_SCHEMA
+      source_version: fixture-v1
+      source_section: TEST_FEATURES
+      status: candidate
+  - feature_id: TEST.FEATURE_BETA
+    aliases: [TEST_BETA]
+    provenance: *evidence

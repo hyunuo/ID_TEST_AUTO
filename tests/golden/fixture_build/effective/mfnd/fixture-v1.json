@@ -1,0 +1,93 @@
+{
+  "changes": [
+    {
+      "action": "BASE",
+      "provenance": {
+        "source_document": "TEST_MFND",
+        "source_section": "TEST_BIT_REQUIREMENT",
+        "source_type": "fixture",
+        "source_version": "fixture-v1",
+        "status": "candidate",
+        "verified_by": null,
+        "verified_date": null
+      },
+      "source_file": "mfnd/base.yaml",
+      "source_hash": "ba36922a8dce616b7e3c9959ed936214d0876a8207f758e8c8462cd85d0c6809",
+      "spec": {
+        "spec_family": "MFND",
+        "version": "fixture-v1"
+      },
+      "target": "TEST.MFND.FLAG"
+    }
+  ],
+  "data_kind": "fixture",
+  "fields": [],
+  "kind": "effective_snapshot",
+  "parent": null,
+  "rules": [
+    {
+      "history": [
+        {
+          "action": "BASE",
+          "provenance": {
+            "source_document": "TEST_MFND",
+            "source_section": "TEST_BIT_REQUIREMENT",
+            "source_type": "fixture",
+            "source_version": "fixture-v1",
+            "status": "candidate",
+            "verified_by": null,
+            "verified_date": null
+          },
+          "source_file": "mfnd/base.yaml",
+          "source_hash": "ba36922a8dce616b7e3c9959ed936214d0876a8207f758e8c8462cd85d0c6809",
+          "spec": {
+            "spec_family": "MFND",
+            "version": "fixture-v1"
+          },
+          "target": "TEST.MFND.FLAG"
+        }
+      ],
+      "introduced_in": {
+        "spec_family": "MFND",
+        "version": "fixture-v1"
+      },
+      "last_changed_in": {
+        "spec_family": "MFND",
+        "version": "fixture-v1"
+      },
+      "rule": {
+        "applicable_when": {},
+        "applies_when": {},
+        "check": {
+          "bit": null,
+          "type": "BIT_SET"
+        },
+        "override": null,
+        "provenance": {
+          "source_document": "TEST_MFND",
+          "source_section": "TEST_BIT_REQUIREMENT",
+          "source_type": "fixture",
+          "source_version": "fixture-v1",
+          "status": "candidate",
+          "verified_by": null,
+          "verified_date": null
+        },
+        "requirement": null,
+        "rule_id": "TEST.MFND.FLAG",
+        "target": {
+          "bit": 0,
+          "command": "id-ctrl",
+          "field_id": "TEST.ID_CTRL.FLAGS"
+        }
+      }
+    }
+  ],
+  "schema_ref": {
+    "spec_family": "TEST",
+    "version": "fixture-v1"
+  },
+  "spec": {
+    "spec_family": "MFND",
+    "version": "fixture-v1"
+  }
+}

@@ -1,0 +1,33 @@
+# TEST/FIXTURE ONLY. Removal/deprecation history must remain in generated lineage.
+kind: delta
+spec_family: TEST
+version: fixture-v4
+inherits: fixture-v3
+data_kind: fixture
+provenance:
+  source_type: fixture
+  source_document: TEST_SCHEMA
+  source_version: fixture-v4
+  source_section: TEST_REMOVE
+  status: candidate
+schema_changes:
+  - action: REMOVE
+    target: {field_id: TEST.ID_CTRL.OBSOLETE}
+    previous: {name: TEST_OBSOLETE}
+  - action: MODIFY
+    target: {field_id: TEST.ID_CTRL.FLAGS, bit: 0}
+    previous: {state: defined, feature: TEST.FEATURE_ALPHA}
+    current: {state: reserved, feature: null, validation: {behavior: must_be_zero}}
+  - action: DEPRECATE
+    target: {field_id: TEST.ID_CTRL.ADDED}
+    previous: {lifecycle: active}
+    current: {lifecycle: deprecated}
+changes:
+  - action: REQUIREMENT_CHANGE
+    rule_id: TEST.BASE.COUNT
+    previous: {requirement: optional}
+    current: {requirement: required}
+  - action: DEPRECATE
+    rule_id: TEST.BASE.ADDED
+    previous: {provenance: {status: candidate}}
+    current: {provenance: {status: deprecated}}

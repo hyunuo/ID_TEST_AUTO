@@ -1,0 +1,32 @@
+# Python and local development environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+
+# Local secret configuration
+.env
+.env.*
+!.env.example
+
+# Rebuildable knowledge artifacts and validation outputs
+/generated/**
+!/generated/**/
+!/generated/**/.gitkeep
+/results/**
+!/results/**/
+!/results/**/.gitkeep
+
+# Local editor and OS files
+.idea/
+.vscode/
+.DS_Store

@@ -1,0 +1,1 @@
+"""Versioned specification snapshot construction."""

@@ -1,0 +1,17 @@
+# TEST/FIXTURE ONLY: fictional OCP-shaped requirements; not OCP specification values.
+kind: base
+spec_family: OCP
+version: fixture-v1
+data_kind: fixture
+schema_ref: {spec_family: TEST, version: fixture-v1}
+provenance:
+  source_type: fixture
+  source_document: TEST_OCP
+  source_version: fixture-v1
+  source_section: TEST_REQUIREMENTS
+  status: candidate
+rules:
+  - rule_id: TEST.OCP.COUNT
+    target: {command: id-ctrl, field_id: TEST.ID_CTRL.COUNT}
+    requirement: optional
+    check: {type: MIN, value: 1}

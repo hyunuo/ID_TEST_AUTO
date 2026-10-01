@@ -1,0 +1,16 @@
+# TEST/FIXTURE ONLY: fictional MFND-shaped requirement; no command-support policy.
+kind: base
+spec_family: MFND
+version: fixture-v1
+data_kind: fixture
+schema_ref: {spec_family: TEST, version: fixture-v1}
+provenance:
+  source_type: fixture
+  source_document: TEST_MFND
+  source_version: fixture-v1
+  source_section: TEST_BIT_REQUIREMENT
+  status: candidate
+rules:
+  - rule_id: TEST.MFND.FLAG
+    target: {command: id-ctrl, field_id: TEST.ID_CTRL.FLAGS, bit: 0}
+    check: {type: BIT_SET}

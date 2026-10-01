@@ -1,0 +1,93 @@
+{
+  "changes": [
+    {
+      "action": "BASE",
+      "provenance": {
+        "source_document": "TEST_OCP",
+        "source_section": "TEST_REQUIREMENTS",
+        "source_type": "fixture",
+        "source_version": "fixture-v1",
+        "status": "candidate",
+        "verified_by": null,
+        "verified_date": null
+      },
+      "source_file": "ocp/base.yaml",
+      "source_hash": "9b8e1c1abcd5aabc99616ab0d9e6e28921620baafc23ae7a057f138a703557f1",
+      "spec": {
+        "spec_family": "OCP",
+        "version": "fixture-v1"
+      },
+      "target": "TEST.OCP.COUNT"
+    }
+  ],
+  "data_kind": "fixture",
+  "fields": [],
+  "kind": "effective_snapshot",
+  "parent": null,
+  "rules": [
+    {
+      "history": [
+        {
+          "action": "BASE",
+          "provenance": {
+            "source_document": "TEST_OCP",
+            "source_section": "TEST_REQUIREMENTS",
+            "source_type": "fixture",
+            "source_version": "fixture-v1",
+            "status": "candidate",
+            "verified_by": null,
+            "verified_date": null
+          },
+          "source_file": "ocp/base.yaml",
+          "source_hash": "9b8e1c1abcd5aabc99616ab0d9e6e28921620baafc23ae7a057f138a703557f1",
+          "spec": {
+            "spec_family": "OCP",
+            "version": "fixture-v1"
+          },
+          "target": "TEST.OCP.COUNT"
+        }
+      ],
+      "introduced_in": {
+        "spec_family": "OCP",
+        "version": "fixture-v1"
+      },
+      "last_changed_in": {
+        "spec_family": "OCP",
+        "version": "fixture-v1"
+      },
+      "rule": {
+        "applicable_when": {},
+        "applies_when": {},
+        "check": {
+          "type": "MIN",
+          "value": 1
+        },
+        "override": null,
+        "provenance": {
+          "source_document": "TEST_OCP",
+          "source_section": "TEST_REQUIREMENTS",
+          "source_type": "fixture",
+          "source_version": "fixture-v1",
+          "status": "candidate",
+          "verified_by": null,
+          "verified_date": null
+        },
+        "requirement": "optional",
+        "rule_id": "TEST.OCP.COUNT",
+        "target": {
+          "bit": null,
+          "command": "id-ctrl",
+          "field_id": "TEST.ID_CTRL.COUNT"
+        }
+      }
+    }
+  ],
+  "schema_ref": {
+    "spec_family": "TEST",
+    "version": "fixture-v1"
+  },
+  "spec": {
+    "spec_family": "OCP",
+    "version": "fixture-v1"
+  }
+}

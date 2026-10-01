@@ -1,0 +1,33 @@
+# TEST/FIXTURE ONLY. Nothing here defines actual NVMe fields.
+kind: delta
+spec_family: TEST
+version: fixture-v2
+inherits: fixture-v1
+data_kind: fixture
+provenance:
+  source_type: fixture
+  source_document: TEST_SCHEMA
+  source_version: fixture-v2
+  source_section: TEST_ADD
+  status: candidate
+schema_changes:
+  - action: ADD
+    target: {field_id: TEST.ID_CTRL.ADDED}
+    current:
+      field_id: TEST.ID_CTRL.ADDED
+      name: TEST_ADDED
+      command: id-ctrl
+      offset: 3
+      length: 1
+      endian: little
+      value_type: integer
+  - action: ADD
+    target: {field_id: TEST.ID_CTRL.FLAGS, bit: 2}
+    current: {state: reserved}
+changes:
+  - action: ADD
+    rule_id: TEST.BASE.ADDED
+    current:
+      rule_id: TEST.BASE.ADDED
+      target: {command: id-ctrl, field_id: TEST.ID_CTRL.ADDED}
+      check: {type: EXACT, value: 7}

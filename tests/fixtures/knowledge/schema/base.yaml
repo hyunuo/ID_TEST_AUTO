@@ -1,0 +1,48 @@
+# TEST/FIXTURE ONLY: offsets, lengths, bits and values are arbitrary test data.
+kind: base
+spec_family: TEST
+version: fixture-v1
+data_kind: fixture
+provenance:
+  source_type: fixture
+  source_document: TEST_SCHEMA
+  source_version: fixture-v1
+  source_section: TEST_BASE
+  status: candidate
+fields:
+  - field_id: TEST.ID_CTRL.FLAGS
+    name: TEST_FLAGS
+    command: id-ctrl
+    offset: 0
+    length: 1
+    endian: little
+    value_type: bitmask
+    bits:
+      - {bit: 0, state: defined, feature: TEST.FEATURE_ALPHA}
+      - {bit: 1, state: reserved, validation: {behavior: must_be_zero}}
+  - field_id: TEST.ID_CTRL.COUNT
+    name: TEST_COUNT
+    command: id-ctrl
+    offset: 1
+    length: 1
+    endian: little
+    value_type: integer
+  - field_id: TEST.ID_CTRL.OBSOLETE
+    name: TEST_OBSOLETE
+    command: id-ctrl
+    offset: 2
+    length: 1
+    endian: little
+    value_type: integer
+  - field_id: TEST.ID_NS.DUMMY_SIZE
+    name: TEST_DUMMY_SIZE
+    command: id-ns
+    offset: 0
+    length: 8
+    endian: little
+    value_type: integer
+rules:
+  - rule_id: TEST.BASE.COUNT
+    target: {command: id-ctrl, field_id: TEST.ID_CTRL.COUNT}
+    requirement: optional
+    check: {type: EXACT, value: 2}

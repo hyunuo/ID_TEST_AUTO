@@ -1,0 +1,26 @@
+# TEST/FIXTURE ONLY. Explicit null removes a test zero-check during redefinition.
+kind: delta
+spec_family: TEST
+version: fixture-v3
+inherits: fixture-v2
+data_kind: fixture
+provenance:
+  source_type: fixture
+  source_document: TEST_SCHEMA
+  source_version: fixture-v3
+  source_section: TEST_MODIFY
+  status: candidate
+schema_changes:
+  - action: modify
+    target: {field_id: TEST.ID_CTRL.FLAGS, bit: 1}
+    previous: {state: reserved}
+    current: {state: defined, feature: TEST.FEATURE_BETA, validation: null}
+  - action: MODIFY
+    target: {field_id: TEST.ID_CTRL.COUNT}
+    previous: {offset: 1}
+    current: {offset: 4}
+changes:
+  - action: MODIFY
+    rule_id: TEST.BASE.COUNT
+    previous: {check: {type: EXACT, value: 2}}
+    current: {check: {value: 5}}

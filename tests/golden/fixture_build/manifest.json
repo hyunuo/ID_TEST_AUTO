@@ -1,0 +1,70 @@
+{
+  "builder_version": "0.1.0",
+  "format_version": 1,
+  "git_commit": "TEST_FIXTURE_COMMIT",
+  "knowledge_hash": "6112a2415f4dbc0285935f3f86688afb536158185f47f2648b75d1b3d07fba8b",
+  "snapshots": [
+    {
+      "spec_family": "MFND",
+      "version": "fixture-v1"
+    },
+    {
+      "spec_family": "OCP",
+      "version": "fixture-v1"
+    },
+    {
+      "spec_family": "OCP",
+      "version": "fixture-v2"
+    },
+    {
+      "spec_family": "TEST",
+      "version": "fixture-v1"
+    },
+    {
+      "spec_family": "TEST",
+      "version": "fixture-v2"
+    },
+    {
+      "spec_family": "TEST",
+      "version": "fixture-v3"
+    },
+    {
+      "spec_family": "TEST",
+      "version": "fixture-v4"
+    }
+  ],
+  "sources": [
+    {
+      "path": "catalog.yaml",
+      "sha256": "0dc15050460aa7262f77fc0814a0a87f3f88e74ba99f7dd212b047118486100b"
+    },
+    {
+      "path": "mfnd/base.yaml",
+      "sha256": "ba36922a8dce616b7e3c9959ed936214d0876a8207f758e8c8462cd85d0c6809"
+    },
+    {
+      "path": "ocp/base.yaml",
+      "sha256": "9b8e1c1abcd5aabc99616ab0d9e6e28921620baafc23ae7a057f138a703557f1"
+    },
+    {
+      "path": "ocp/delta.yaml",
+      "sha256": "e59999bb229d394bd07a95ce0a419f4e41ec3f9fe4a7ef8d7dc8be01f8c30bf8"
+    },
+    {
+      "path": "schema/add.yaml",
+      "sha256": "ec79c0f773691907557e5a56c8e9b49f6405b2248f5a55db5f2703bd7e070b40"
+    },
+    {
+      "path": "schema/base.yaml",
+      "sha256": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9"
+    },
+    {
+      "path": "schema/modify.yaml",
+      "sha256": "2ac11f8a6c5533062e5da531022bac0936dd6e470b820308eb9d1ae0311b820e"
+    },
+    {
+      "path": "schema/remove.yaml",
+      "sha256": "70dd40a6e945f5966dfaaec281ebc0677e8a4f17df91087954641c803ba62fbb"
+    }
+  ]
+}

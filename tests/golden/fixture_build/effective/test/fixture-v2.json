@@ -1,0 +1,546 @@
+{
+  "changes": [
+    {
+      "action": "BASE",
+      "provenance": {
+        "source_document": "TEST_SCHEMA",
+        "source_section": "TEST_BASE",
+        "source_type": "fixture",
+        "source_version": "fixture-v1",
+        "status": "candidate",
+        "verified_by": null,
+        "verified_date": null
+      },
+      "source_file": "schema/base.yaml",
+      "source_hash": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9",
+      "spec": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "target": "TEST.BASE.COUNT"
+    },
+    {
+      "action": "BASE",
+      "provenance": {
+        "source_document": "TEST_SCHEMA",
+        "source_section": "TEST_BASE",
+        "source_type": "fixture",
+        "source_version": "fixture-v1",
+        "status": "candidate",
+        "verified_by": null,
+        "verified_date": null
+      },
+      "source_file": "schema/base.yaml",
+      "source_hash": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9",
+      "spec": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "target": "TEST.ID_CTRL.COUNT"
+    },
+    {
+      "action": "BASE",
+      "provenance": {
+        "source_document": "TEST_SCHEMA",
+        "source_section": "TEST_BASE",
+        "source_type": "fixture",
+        "source_version": "fixture-v1",
+        "status": "candidate",
+        "verified_by": null,
+        "verified_date": null
+      },
+      "source_file": "schema/base.yaml",
+      "source_hash": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9",
+      "spec": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "target": "TEST.ID_CTRL.FLAGS"
+    },
+    {
+      "action": "BASE",
+      "provenance": {
+        "source_document": "TEST_SCHEMA",
+        "source_section": "TEST_BASE",
+        "source_type": "fixture",
+        "source_version": "fixture-v1",
+        "status": "candidate",
+        "verified_by": null,
+        "verified_date": null
+      },
+      "source_file": "schema/base.yaml",
+      "source_hash": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9",
+      "spec": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "target": "TEST.ID_CTRL.OBSOLETE"
+    },
+    {
+      "action": "BASE",
+      "provenance": {
+        "source_document": "TEST_SCHEMA",
+        "source_section": "TEST_BASE",
+        "source_type": "fixture",
+        "source_version": "fixture-v1",
+        "status": "candidate",
+        "verified_by": null,
+        "verified_date": null
+      },
+      "source_file": "schema/base.yaml",
+      "source_hash": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9",
+      "spec": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "target": "TEST.ID_NS.DUMMY_SIZE"
+    },
+    {
+      "action": "ADD",
+      "provenance": {
+        "source_document": "TEST_SCHEMA",
+        "source_section": "TEST_ADD",
+        "source_type": "fixture",
+        "source_version": "fixture-v2",
+        "status": "candidate",
+        "verified_by": null,
+        "verified_date": null
+      },
+      "source_file": "schema/add.yaml",
+      "source_hash": "ec79c0f773691907557e5a56c8e9b49f6405b2248f5a55db5f2703bd7e070b40",
+      "spec": {
+        "spec_family": "TEST",
+        "version": "fixture-v2"
+      },
+      "target": "TEST.ID_CTRL.ADDED"
+    },
+    {
+      "action": "ADD",
+      "provenance": {
+        "source_document": "TEST_SCHEMA",
+        "source_section": "TEST_ADD",
+        "source_type": "fixture",
+        "source_version": "fixture-v2",
+        "status": "candidate",
+        "verified_by": null,
+        "verified_date": null
+      },
+      "source_file": "schema/add.yaml",
+      "source_hash": "ec79c0f773691907557e5a56c8e9b49f6405b2248f5a55db5f2703bd7e070b40",
+      "spec": {
+        "spec_family": "TEST",
+        "version": "fixture-v2"
+      },
+      "target": "TEST.ID_CTRL.FLAGS[2]"
+    },
+    {
+      "action": "ADD",
+      "provenance": {
+        "source_document": "TEST_SCHEMA",
+        "source_section": "TEST_ADD",
+        "source_type": "fixture",
+        "source_version": "fixture-v2",
+        "status": "candidate",
+        "verified_by": null,
+        "verified_date": null
+      },
+      "source_file": "schema/add.yaml",
+      "source_hash": "ec79c0f773691907557e5a56c8e9b49f6405b2248f5a55db5f2703bd7e070b40",
+      "spec": {
+        "spec_family": "TEST",
+        "version": "fixture-v2"
+      },
+      "target": "TEST.BASE.ADDED"
+    }
+  ],
+  "data_kind": "fixture",
+  "fields": [
+    {
+      "history": [
+        {
+          "action": "ADD",
+          "provenance": {
+            "source_document": "TEST_SCHEMA",
+            "source_section": "TEST_ADD",
+            "source_type": "fixture",
+            "source_version": "fixture-v2",
+            "status": "candidate",
+            "verified_by": null,
+            "verified_date": null
+          },
+          "source_file": "schema/add.yaml",
+          "source_hash": "ec79c0f773691907557e5a56c8e9b49f6405b2248f5a55db5f2703bd7e070b40",
+          "spec": {
+            "spec_family": "TEST",
+            "version": "fixture-v2"
+          },
+          "target": "TEST.ID_CTRL.ADDED"
+        }
+      ],
+      "introduced_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v2"
+      },
+      "last_changed_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v2"
+      },
+      "schema": {
+        "bits": [],
+        "command": "id-ctrl",
+        "endian": "little",
+        "field_id": "TEST.ID_CTRL.ADDED",
+        "length": 1,
+        "lifecycle": "active",
+        "name": "TEST_ADDED",
+        "offset": 3,
+        "state": null,
+        "validation": null,
+        "value_type": "integer"
+      }
+    },
+    {
+      "history": [
+        {
+          "action": "BASE",
+          "provenance": {
+            "source_document": "TEST_SCHEMA",
+            "source_section": "TEST_BASE",
+            "source_type": "fixture",
+            "source_version": "fixture-v1",
+            "status": "candidate",
+            "verified_by": null,
+            "verified_date": null
+          },
+          "source_file": "schema/base.yaml",
+          "source_hash": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9",
+          "spec": {
+            "spec_family": "TEST",
+            "version": "fixture-v1"
+          },
+          "target": "TEST.ID_CTRL.COUNT"
+        }
+      ],
+      "introduced_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "last_changed_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "schema": {
+        "bits": [],
+        "command": "id-ctrl",
+        "endian": "little",
+        "field_id": "TEST.ID_CTRL.COUNT",
+        "length": 1,
+        "lifecycle": "active",
+        "name": "TEST_COUNT",
+        "offset": 1,
+        "state": null,
+        "validation": null,
+        "value_type": "integer"
+      }
+    },
+    {
+      "history": [
+        {
+          "action": "BASE",
+          "provenance": {
+            "source_document": "TEST_SCHEMA",
+            "source_section": "TEST_BASE",
+            "source_type": "fixture",
+            "source_version": "fixture-v1",
+            "status": "candidate",
+            "verified_by": null,
+            "verified_date": null
+          },
+          "source_file": "schema/base.yaml",
+          "source_hash": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9",
+          "spec": {
+            "spec_family": "TEST",
+            "version": "fixture-v1"
+          },
+          "target": "TEST.ID_CTRL.FLAGS"
+        },
+        {
+          "action": "ADD",
+          "provenance": {
+            "source_document": "TEST_SCHEMA",
+            "source_section": "TEST_ADD",
+            "source_type": "fixture",
+            "source_version": "fixture-v2",
+            "status": "candidate",
+            "verified_by": null,
+            "verified_date": null
+          },
+          "source_file": "schema/add.yaml",
+          "source_hash": "ec79c0f773691907557e5a56c8e9b49f6405b2248f5a55db5f2703bd7e070b40",
+          "spec": {
+            "spec_family": "TEST",
+            "version": "fixture-v2"
+          },
+          "target": "TEST.ID_CTRL.FLAGS[2]"
+        }
+      ],
+      "introduced_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "last_changed_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v2"
+      },
+      "schema": {
+        "bits": [
+          {
+            "bit": 0,
+            "feature": "TEST.FEATURE_ALPHA",
+            "lifecycle": "active",
+            "state": "defined",
+            "validation": null
+          },
+          {
+            "bit": 1,
+            "feature": null,
+            "lifecycle": "active",
+            "state": "reserved",
+            "validation": {
+              "behavior": "must_be_zero"
+            }
+          },
+          {
+            "bit": 2,
+            "feature": null,
+            "lifecycle": "active",
+            "state": "reserved",
+            "validation": null
+          }
+        ],
+        "command": "id-ctrl",
+        "endian": "little",
+        "field_id": "TEST.ID_CTRL.FLAGS",
+        "length": 1,
+        "lifecycle": "active",
+        "name": "TEST_FLAGS",
+        "offset": 0,
+        "state": null,
+        "validation": null,
+        "value_type": "bitmask"
+      }
+    },
+    {
+      "history": [
+        {
+          "action": "BASE",
+          "provenance": {
+            "source_document": "TEST_SCHEMA",
+            "source_section": "TEST_BASE",
+            "source_type": "fixture",
+            "source_version": "fixture-v1",
+            "status": "candidate",
+            "verified_by": null,
+            "verified_date": null
+          },
+          "source_file": "schema/base.yaml",
+          "source_hash": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9",
+          "spec": {
+            "spec_family": "TEST",
+            "version": "fixture-v1"
+          },
+          "target": "TEST.ID_CTRL.OBSOLETE"
+        }
+      ],
+      "introduced_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "last_changed_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "schema": {
+        "bits": [],
+        "command": "id-ctrl",
+        "endian": "little",
+        "field_id": "TEST.ID_CTRL.OBSOLETE",
+        "length": 1,
+        "lifecycle": "active",
+        "name": "TEST_OBSOLETE",
+        "offset": 2,
+        "state": null,
+        "validation": null,
+        "value_type": "integer"
+      }
+    },
+    {
+      "history": [
+        {
+          "action": "BASE",
+          "provenance": {
+            "source_document": "TEST_SCHEMA",
+            "source_section": "TEST_BASE",
+            "source_type": "fixture",
+            "source_version": "fixture-v1",
+            "status": "candidate",
+            "verified_by": null,
+            "verified_date": null
+          },
+          "source_file": "schema/base.yaml",
+          "source_hash": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9",
+          "spec": {
+            "spec_family": "TEST",
+            "version": "fixture-v1"
+          },
+          "target": "TEST.ID_NS.DUMMY_SIZE"
+        }
+      ],
+      "introduced_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "last_changed_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "schema": {
+        "bits": [],
+        "command": "id-ns",
+        "endian": "little",
+        "field_id": "TEST.ID_NS.DUMMY_SIZE",
+        "length": 8,
+        "lifecycle": "active",
+        "name": "TEST_DUMMY_SIZE",
+        "offset": 0,
+        "state": null,
+        "validation": null,
+        "value_type": "integer"
+      }
+    }
+  ],
+  "kind": "effective_snapshot",
+  "parent": {
+    "spec_family": "TEST",
+    "version": "fixture-v1"
+  },
+  "rules": [
+    {
+      "history": [
+        {
+          "action": "ADD",
+          "provenance": {
+            "source_document": "TEST_SCHEMA",
+            "source_section": "TEST_ADD",
+            "source_type": "fixture",
+            "source_version": "fixture-v2",
+            "status": "candidate",
+            "verified_by": null,
+            "verified_date": null
+          },
+          "source_file": "schema/add.yaml",
+          "source_hash": "ec79c0f773691907557e5a56c8e9b49f6405b2248f5a55db5f2703bd7e070b40",
+          "spec": {
+            "spec_family": "TEST",
+            "version": "fixture-v2"
+          },
+          "target": "TEST.BASE.ADDED"
+        }
+      ],
+      "introduced_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v2"
+      },
+      "last_changed_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v2"
+      },
+      "rule": {
+        "applicable_when": {},
+        "applies_when": {},
+        "check": {
+          "type": "EXACT",
+          "value": 7
+        },
+        "override": null,
+        "provenance": {
+          "source_document": "TEST_SCHEMA",
+          "source_section": "TEST_ADD",
+          "source_type": "fixture",
+          "source_version": "fixture-v2",
+          "status": "candidate",
+          "verified_by": null,
+          "verified_date": null
+        },
+        "requirement": null,
+        "rule_id": "TEST.BASE.ADDED",
+        "target": {
+          "bit": null,
+          "command": "id-ctrl",
+          "field_id": "TEST.ID_CTRL.ADDED"
+        }
+      }
+    },
+    {
+      "history": [
+        {
+          "action": "BASE",
+          "provenance": {
+            "source_document": "TEST_SCHEMA",
+            "source_section": "TEST_BASE",
+            "source_type": "fixture",
+            "source_version": "fixture-v1",
+            "status": "candidate",
+            "verified_by": null,
+            "verified_date": null
+          },
+          "source_file": "schema/base.yaml",
+          "source_hash": "597d7f1dab336e3dca8cdace143b67ae312d98e90b42734896300a02a56630d9",
+          "spec": {
+            "spec_family": "TEST",
+            "version": "fixture-v1"
+          },
+          "target": "TEST.BASE.COUNT"
+        }
+      ],
+      "introduced_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "last_changed_in": {
+        "spec_family": "TEST",
+        "version": "fixture-v1"
+      },
+      "rule": {
+        "applicable_when": {},
+        "applies_when": {},
+        "check": {
+          "type": "EXACT",
+          "value": 2
+        },
+        "override": null,
+        "provenance": {
+          "source_document": "TEST_SCHEMA",
+          "source_section": "TEST_BASE",
+          "source_type": "fixture",
+          "source_version": "fixture-v1",
+          "status": "candidate",
+          "verified_by": null,
+          "verified_date": null
+        },
+        "requirement": "optional",
+        "rule_id": "TEST.BASE.COUNT",
+        "target": {
+          "bit": null,
+          "command": "id-ctrl",
+          "field_id": "TEST.ID_CTRL.COUNT"
+        }
+      }
+    }
+  ],
+  "schema_ref": null,
+  "spec": {
+    "spec_family": "TEST",
+    "version": "fixture-v2"
+  }
+}
