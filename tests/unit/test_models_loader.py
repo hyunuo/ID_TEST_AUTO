@@ -5,7 +5,7 @@ from copy import deepcopy
 import pytest
 from pydantic import ValidationError
 
-from conftest import build_from, edit_yaml
+from conftest import build_from, edit_yaml, make_symlink
 from ssd_validator.errors import KnowledgeError
 from ssd_validator.knowledge.yaml_loader import load_document, load_knowledge
 from ssd_validator.models.identifiers import SpecFamily, SpecVersion
@@ -91,7 +91,7 @@ def test_empty_and_generated_source_roots_fail(tmp_path):
 
 
 def test_source_symlink_rejected(tmp_path, source_root):
-    (tmp_path / "linked.yaml").symlink_to(source_root / "catalog.yaml")
+    make_symlink(tmp_path / "linked.yaml", source_root / "catalog.yaml")
     with pytest.raises(KnowledgeError, match="SOURCE_SYMLINK"):
         load_knowledge(tmp_path)
 

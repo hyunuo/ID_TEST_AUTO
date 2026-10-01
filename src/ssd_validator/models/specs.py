@@ -124,14 +124,23 @@ class BaseSpec(SpecSource):
         return self
 
 
+class SchemaReferenceChange(DomainModel):
+    previous: SpecVersion | None = Field(...)
+    current: SpecVersion
+    provenance: Provenance | None = None
+
+
 class DeltaSpec(SpecSource):
     kind: Literal["delta"]
     inherits: VersionLabel
     schema_changes: tuple[SchemaChange, ...] = ()
     changes: tuple[RuleChange, ...] = ()
+    schema_ref_change: SchemaReferenceChange | None = None
 
     @model_validator(mode="after")
     def validate_delta(self):
+        if self.schema_ref_change is not None and self.spec_family not in {SpecFamily.OCP, SpecFamily.MFND}:
+            raise ValueError("Only requirement deltas can change schema_ref")
         if self.spec_family in {SpecFamily.OCP, SpecFamily.MFND} and self.schema_changes:
             raise ValueError("OCP/MFND deltas change requirements, not field schemas")
         require_unique([change.rule_id for change in self.changes], "delta rule target")

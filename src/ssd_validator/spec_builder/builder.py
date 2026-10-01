@@ -69,6 +69,12 @@ def build_knowledge(sources: tuple[LoadedSource, ...], *, git_commit: str | None
             grouped[source.document.spec.key].append(source)
     if not grouped:
         raise KnowledgeError("NO_SPECS", "No base/delta specs found")
+    portable_keys = {}
+    for key in sorted(grouped):
+        portable = key.casefold()
+        if portable in portable_keys:
+            raise KnowledgeError("ARTIFACT_PATH_COLLISION", f"{portable_keys[portable]} and {key}")
+        portable_keys[portable] = key
     parents = {}
     for key, group in sorted(grouped.items()):
         deltas = [source for source in group if isinstance(source.document, DeltaSpec)]

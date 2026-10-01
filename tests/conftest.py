@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from shutil import copytree
+import os
 
 import pytest
 from ruamel.yaml import YAML
@@ -10,6 +11,17 @@ from ssd_validator.knowledge.yaml_loader import load_knowledge
 from ssd_validator.spec_builder.builder import build_knowledge
 
 FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "knowledge"
+
+
+def make_symlink(link, target, *, directory=False):
+    try:
+        link.symlink_to(target, target_is_directory=directory)
+    except OSError as error:
+        if getattr(error, "winerror", None) != 1314:
+            raise
+        if os.environ.get("SSD_REQUIRE_SYMLINK_TESTS") == "1":
+            pytest.fail("Symlink tests require Windows symlink privilege or Developer Mode")
+        pytest.skip("Windows symlink privilege unavailable; required in CI")
 
 
 @pytest.fixture

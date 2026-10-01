@@ -11,7 +11,7 @@ from ssd_validator.models.provenance import ChangeRecord
 
 
 class DiffEntry(DomainModel):
-    category: Literal["schema", "requirement", "provenance"]
+    category: Literal["schema", "requirement", "provenance", "schema_reference"]
     action: Literal["added", "removed", "modified"]
     target: Text
     property: Text
@@ -62,6 +62,14 @@ def diff_snapshots(old, new) -> SpecDiff:
     if old.spec.spec_family != new.spec.spec_family:
         raise KnowledgeError("DIFF_FAMILY_MISMATCH", "Snapshots must belong to the same spec family")
     before, after, changes = _entities(old), _entities(new), []
+    if old.schema_ref != new.schema_ref:
+        changes.append(DiffEntry(
+            category="schema_reference", action="modified", target="@schema_ref", property="schema_ref",
+            previous=old.schema_ref.model_dump(mode="json") if old.schema_ref else None,
+            current=new.schema_ref.model_dump(mode="json") if new.schema_ref else None,
+            previous_provenance=tuple(r for r in old.changes if r.target == "@schema_ref"),
+            current_provenance=tuple(r for r in new.changes if r.target == "@schema_ref"),
+        ))
     for identity in sorted(set(before) | set(after)):
         category, target = identity
         left, left_history = before.get(identity, ({}, ()))

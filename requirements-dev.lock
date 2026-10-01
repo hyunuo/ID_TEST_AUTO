@@ -1,0 +1,20 @@
+# Exact versions used for development and CI; Python 3.12.
+# Update deliberately, run the semantic/golden tests, then review the changes.
+annotated-doc==0.0.5
+annotated-types==0.8.0
+colorama==0.4.6
+iniconfig==2.3.0
+markdown-it-py==4.2.0
+mdurl==0.1.2
+packaging==26.3
+pluggy==1.6.0
+pydantic==2.13.5
+pydantic-core==2.46.5
+pygments==2.21.0
+pytest==9.1.1
+rich==15.0.0
+ruamel.yaml==0.19.1
+shellingham==1.5.4
+typer==0.27.2
+typing-extensions==4.16.0
+typing-inspection==0.4.4

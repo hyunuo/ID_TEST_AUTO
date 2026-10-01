@@ -2,7 +2,7 @@
 
 from typing import Annotated, Literal
 
-from pydantic import Field, StrictBool, StrictInt, StrictStr, model_validator
+from pydantic import Field, StrictBool, StrictInt, StrictStr, field_validator, model_validator
 
 from .common import DomainModel, Identifier, Text
 from .identifiers import TargetRef
@@ -55,10 +55,32 @@ class MaskCheck(DomainModel):
         return self
 
 
+class LookupEntry(DomainModel):
+    key: StrictInt | StrictStr
+    value: Value
+
+
 class LookupCheck(DomainModel):
     type: Literal["LOOKUP"]
     key: Text
-    values: dict[StrictInt | StrictStr, Value] = Field(min_length=1)
+    values: tuple[LookupEntry, ...] = Field(min_length=1)
+
+    @field_validator("values", mode="before")
+    @classmethod
+    def mapping_entries(cls, values):
+        if isinstance(values, dict):
+            return [{"key": key, "value": value} for key, value in values.items()]
+        return values
+
+    @model_validator(mode="after")
+    def unique_keys(self):
+        keys = [(type(entry.key).__name__, entry.key) for entry in self.values]
+        if len(keys) != len(set(keys)):
+            raise ValueError("Duplicate typed LOOKUP key")
+        object.__setattr__(self, "values", tuple(sorted(self.values, key=lambda entry: (
+            type(entry.key).__name__, entry.key,
+        ))))
+        return self
 
 
 class DerivedCheck(DomainModel):
@@ -100,6 +122,13 @@ class RequirementRule(DomainModel):
     applicable_when: dict[Text, Value] = Field(default_factory=dict)
     provenance: Provenance | None = None
     override: OverrideSpec | None = None
+
+    @field_validator("applies_when", "applicable_when", mode="before")
+    @classmethod
+    def unambiguous_condition_keys(cls, values):
+        if isinstance(values, dict) and any(isinstance(key, str) and key != key.strip() for key in values):
+            raise ValueError("Condition paths cannot contain surrounding whitespace")
+        return values
 
     @model_validator(mode="after")
     def validate_target(self):

@@ -47,7 +47,7 @@
             "source_section": "TEST_REMOVE",
             "source_type": "fixture",
             "source_version": "fixture-v4",
-            "status": "candidate",
+            "status": "deprecated",
             "verified_by": null,
             "verified_date": null
           },

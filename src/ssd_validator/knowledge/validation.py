@@ -8,8 +8,9 @@ from ssd_validator.models.identifiers import SpecFamily
 from ssd_validator.models.provenance import KnowledgeStatus
 from ssd_validator.models.rules import (
     ApplicabilityCheck, BitCheck, BoundCheck, CapabilityCheck, DerivedCheck,
-    EnumCheck, ExactCheck, LookupCheck, MaskCheck, RangeCheck,
+    EnumCheck, ExactCheck, LookupCheck, MaskCheck, RangeCheck, RequirementRule,
 )
+from ssd_validator.models.identifiers import TargetRef
 from ssd_validator.models.specs import BaseSpec, DeltaSpec, KnowledgeCatalog
 
 # Public context paths explicitly described by the SDS. No product values live here.
@@ -46,15 +47,17 @@ class KnowledgeValidator:
         for source in sources:
             document = source.document
             if isinstance(document, (BaseSpec, DeltaSpec)):
-                self.provenance(document.provenance)
                 if document.spec_family == SpecFamily.TEST and document.data_kind != "fixture":
                     raise KnowledgeError("TEST_IS_FIXTURE", "TEST family is only valid for fixture data")
+                self.provenance(document.provenance, document.data_kind)
                 if document.data_kind == "fixture" and document.provenance.source_type != "fixture":
                     raise KnowledgeError("FIXTURE_PROVENANCE", "Fixture source must declare fixture provenance")
             if isinstance(document, DeltaSpec):
                 for change in (*document.schema_changes, *document.changes):
                     if change.provenance is not None:
-                        self.provenance(change.provenance)
+                        self.provenance(change.provenance, document.data_kind)
+                if document.schema_ref_change and document.schema_ref_change.provenance:
+                    self.provenance(document.schema_ref_change.provenance, document.data_kind)
             if isinstance(document, BaseSpec):
                 self.schema_fields(document.fields, document.data_kind)
 
@@ -65,15 +68,20 @@ class KnowledgeValidator:
             for bit in field.bits:
                 if bit.feature is not None and bit.feature not in self.features:
                     raise KnowledgeError("UNKNOWN_FEATURE", f"{field.field_id}[{bit.bit}] references {bit.feature}")
+                if bit.feature is not None:
+                    self.provenance(self.features[bit.feature].provenance, data_kind)
 
-    def provenance(self, evidence):
+    def provenance(self, evidence, data_kind=None):
         if evidence.key not in self.sources:
             raise KnowledgeError("DANGLING_PROVENANCE", f"Unknown source document {evidence.key}")
         if evidence.status == KnowledgeStatus.CONFIRMED and (evidence.verified_by is None or evidence.verified_date is None):
             raise KnowledgeError("UNVERIFIED_CONFIRMED", "Confirmed evidence requires reviewer and review date")
+        if data_kind == "production" and evidence.source_type == "fixture":
+            raise KnowledgeError("FIXTURE_IN_PRODUCTION", "Production knowledge cannot use fixture evidence")
 
     def snapshot(self, snapshot, snapshots):
         fields = {item.schema.field_id: item.schema for item in snapshot.fields}
+        effective_fields = {item.schema.field_id: item for item in snapshot.fields}
         if snapshot.schema_ref is not None:
             reference = snapshots.get(snapshot.schema_ref.key)
             if reference is None:
@@ -86,14 +94,15 @@ class KnowledgeValidator:
                 if item.schema.field_id in fields:
                     raise KnowledgeError("DUPLICATE_FIELD", item.schema.field_id)
                 fields[item.schema.field_id] = item.schema
+                effective_fields[item.schema.field_id] = item
         self.schema_fields(fields.values(), snapshot.data_kind)
         for record in snapshot.changes:
-            self.provenance(record.provenance)
+            self.provenance(record.provenance, snapshot.data_kind)
         rules = {entry.rule.rule_id: entry.rule for entry in snapshot.rules}
         for rule in rules.values():
             if snapshot.data_kind == "fixture" and not rule.rule_id.startswith(("TEST.", "FIXTURE.")):
                 raise KnowledgeError("UNMARKED_FIXTURE", rule.rule_id)
-            self.provenance(rule.provenance)
+            self.provenance(rule.provenance, snapshot.data_kind)
             for key in (*rule.applies_when, *rule.applicable_when):
                 if key not in CONTEXT_PATHS:
                     raise KnowledgeError("UNKNOWN_CONDITION_KEY", f"{rule.rule_id}: {key}")
@@ -112,6 +121,9 @@ class KnowledgeValidator:
                 bit = bit if bit is not None else rule.check.bit
             if bit is not None and bit not in {entry.bit for entry in field.bits}:
                 raise KnowledgeError("UNKNOWN_BIT", f"{rule.rule_id}: {bit}")
+            if (bit is not None and rule.provenance.status != KnowledgeStatus.DEPRECATED
+                    and next(entry for entry in field.bits if entry.bit == bit).lifecycle == "deprecated"):
+                raise KnowledgeError("DEPRECATED_TARGET", f"{rule.rule_id}: {field.field_id}[{bit}]")
             if isinstance(rule.check, MaskCheck):
                 if bit is not None or field.value_type != "bitmask" or rule.check.mask >= 1 << (field.length * 8):
                     raise KnowledgeError("INVALID_MASK", rule.rule_id)
@@ -130,14 +142,14 @@ class KnowledgeValidator:
                 raise KnowledgeError("UNKNOWN_CONDITION_KEY", rule.check.key)
             if isinstance(rule.check, LookupCheck):
                 expected_type = int if field.value_type in {"integer", "bitmask"} else str
-                if any(type(value) is not expected_type for value in rule.check.values.values()):
+                if any(type(entry.value) is not expected_type for entry in rule.check.values):
                     raise KnowledgeError("CHECK_TYPE", rule.rule_id)
             if isinstance(rule.check, DerivedCheck) and rule.check.function not in self.functions:
                 raise KnowledgeError("UNKNOWN_FUNCTION", rule.check.function)
             if isinstance(rule.check, CapabilityCheck) and rule.check.capability_id not in self.capabilities:
                 raise KnowledgeError("UNKNOWN_CAPABILITY", rule.check.capability_id)
             if rule.override is not None:
-                self.provenance(rule.override.provenance)
+                self.provenance(rule.override.provenance, snapshot.data_kind)
                 for identity in rule.override.overrides:
                     other = rules.get(identity)
                     if other is None:
@@ -149,7 +161,35 @@ class KnowledgeValidator:
                 if rule.override.enabled and rule.override.provenance.status != KnowledgeStatus.CONFIRMED:
                     raise KnowledgeError("UNCONFIRMED_OVERRIDE", "Enabled override evidence must be reviewed and confirmed")
         _validate_override_cycles(rules)
-        _validate_literal_conflicts(rules.values(), fields)
+        constraints = tuple(check for item in effective_fields.values() for check in _schema_constraints(item))
+        _validate_literal_conflicts(rules.values(), fields, constraints)
+
+
+def _schema_constraints(item):
+    """Explicit, confirmed schema behavior contributes temporary constraints.
+
+    Reserved alone contributes nothing; schema evidence remains the authority.
+    """
+    field = item.schema
+    if field.lifecycle == "deprecated":
+        return
+    targets = [(None, field.validation)] + [(bit.bit, bit.validation) for bit in field.bits
+                                           if bit.lifecycle != "deprecated"]
+    for bit, validation in targets:
+        if validation is None:
+            continue
+        target = field.field_id if bit is None else f"{field.field_id}[{bit}]"
+        history = [record for record in item.history if record.target in {field.field_id, target}]
+        evidence = history[-1].provenance
+        if evidence.status != KnowledgeStatus.CONFIRMED:
+            continue
+        if bit is None and field.value_type not in {"integer", "bitmask"}:
+            raise KnowledgeError("SCHEMA_VALIDATION_UNSUPPORTED", f"Static zero check: {field.field_id}")
+        yield RequirementRule(
+            rule_id=f"SCHEMA.VALIDATION.{field.field_id}.{bit if bit is not None else 'FIELD'}",
+            target=TargetRef(command=field.command, field_id=field.field_id, bit=bit),
+            check=ExactCheck(type="EXACT", value=0), provenance=evidence,
+        )
 
 
 def _validate_override_cycles(rules):
@@ -168,7 +208,7 @@ def _typed(value):
     return type(value).__name__, value
 
 
-def _validate_literal_conflicts(rules, fields):
+def _validate_literal_conflicts(rules, fields, schema_constraints=()):
     """Check confirmed literal constraints within one snapshot and equality scopes.
 
     LOOKUP/DERIVED/CAPABILITY execution and cross-profile resolution are out of scope.
@@ -178,6 +218,10 @@ def _validate_literal_conflicts(rules, fields):
     for rule in rules:
         if rule.provenance.status == KnowledgeStatus.CONFIRMED:
             by_field[rule.target.field_id].append(rule)
+    schema_by_field = defaultdict(list)
+    for rule in schema_constraints:
+        schema_by_field[rule.target.field_id].append(rule)
+        by_field.setdefault(rule.target.field_id, [])
     for field_id, group in sorted(by_field.items()):
         dimensions = defaultdict(set)
         for rule in group:
@@ -197,8 +241,9 @@ def _validate_literal_conflicts(rules, fields):
             )]
             excluded = {identity for rule in active if rule.override and rule.override.enabled for identity in rule.override.overrides}
             active = [rule for rule in active if rule.rule_id not in excluded]
-            if not _literal_compatible(active, fields[field_id]):
-                raise KnowledgeError("EXPLICIT_CONFLICT", f"{field_id}: {', '.join(sorted(rule.rule_id for rule in active))}")
+            checked = [*active, *schema_by_field[field_id]]
+            if not _literal_compatible(checked, fields[field_id]):
+                raise KnowledgeError("EXPLICIT_CONFLICT", f"{field_id}: {', '.join(sorted(rule.rule_id for rule in checked))}")
 
 
 def _literal_compatible(rules, field):

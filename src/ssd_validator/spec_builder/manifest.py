@@ -2,12 +2,19 @@
 
 import json
 import subprocess
+import platform
+from importlib.metadata import version
 from hashlib import sha256
 from pathlib import Path
 
 from ssd_validator.models.effective import BuildManifest, SourceFile
 
-BUILDER_VERSION = "0.1.0"
+BUILDER_VERSION = "0.2.0"
+
+
+def runtime_toolchain() -> dict[str, str]:
+    return {"python": platform.python_version(), "platform": platform.system(),
+            **{name: version(name) for name in ("pydantic", "ruamel.yaml", "typer")}}
 
 
 def git_commit(root: Path) -> str | None:

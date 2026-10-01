@@ -9,6 +9,7 @@ from hashlib import sha256
 from pathlib import Path
 
 from ssd_validator.errors import KnowledgeError
+from ssd_validator.spec_builder.manifest import runtime_toolchain
 from .serialization import canonical_bytes
 
 INDEX = "artifact_index.json"
@@ -41,6 +42,15 @@ def _check_destination(destination: Path) -> list[Path]:
 
 
 def write_build(result, destination: Path, *, source_root: Path, generated_at: datetime | None = None) -> None:
+    # Validate every planned path before creating staging directories or touching
+    # existing output. Case folding also guarantees portable builds on Linux.
+    payloads, portable_paths = {}, set()
+    for snapshot in result.snapshots:
+        name = f"effective/{snapshot.spec.spec_family.value.lower()}/{snapshot.spec.version}.json"
+        if name.casefold() in portable_paths:
+            raise KnowledgeError("ARTIFACT_PATH_COLLISION", name)
+        portable_paths.add(name.casefold())
+        payloads[name] = canonical_bytes(snapshot)
     original_destination = destination.absolute()
     if original_destination.is_symlink():
         raise KnowledgeError("UNSAFE_OUTPUT", "Output must not be a symlink")
@@ -52,13 +62,11 @@ def write_build(result, destination: Path, *, source_root: Path, generated_at: d
     stage = Path(tempfile.mkdtemp(prefix=".knowledge-stage-", dir=destination.parent))
     backup = None
     try:
-        payloads = {
-            f"effective/{snapshot.spec.spec_family.value.lower()}/{snapshot.spec.version}.json": canonical_bytes(snapshot)
-            for snapshot in result.snapshots
-        }
         payloads["manifests/build.json"] = canonical_bytes(result.manifest)
         now = generated_at or datetime.now(timezone.utc)
-        payloads["manifests/execution.json"] = canonical_bytes({"generated_at": now.isoformat()})
+        payloads["manifests/execution.json"] = canonical_bytes({
+            "generated_at": now.isoformat(), "toolchain": runtime_toolchain(),
+        })
         for marker in markers:
             target = stage / marker.relative_to(destination)
             target.parent.mkdir(parents=True, exist_ok=True)

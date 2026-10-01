@@ -44,7 +44,8 @@ Python 3.12 이상을 사용합니다. 아래 명령은 프로젝트 루트에�
 ```bash
 python -m venv .venv
 . .venv/bin/activate
-python -m pip install -e '.[dev]'
+python -m pip install -r requirements-dev.lock
+python -m pip install --no-deps -e .
 ```
 
 전체 테스트:
@@ -52,6 +53,14 @@ python -m pip install -e '.[dev]'
 ```bash
 python -m pytest -q
 ```
+
+Windows에서는 가상환경을 `.venv\Scripts\Activate.ps1`로 활성화합니다.
+Source YAML과 Golden JSON은 `.gitattributes`에 따라 LF로 유지합니다.
+심볼릭 링크 권한이 없는 로컬 Windows에서는 관련 테스트 2개가 사유와 함께 건너뛰어집니다.
+CI는 Linux/Windows 모두 `SSD_REQUIRE_SYMLINK_TESTS=1`로 실제 링크 검증을 요구합니다.
+
+Builder 0.2.0은 변경된 Rule의 승인 근거 재사용, LOOKUP 키 손실, 출력 경로 충돌을 방지합니다.
+스냅샷 내부 컬렉션은 변경할 수 없으며 Target 정체성, 폐기된 bit, production/fixture 근거 경계도 검증합니다.
 
 fixture Knowledge 빌드 및 버전 비교:
 

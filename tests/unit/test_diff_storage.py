@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest
+from conftest import make_symlink
 
 from ssd_validator.analyzer.spec_diff import diff_snapshots
 from ssd_validator.application.build_knowledge import select_build
@@ -109,7 +110,7 @@ def test_output_symlink_rejected(tmp_path, source_root, built):
     real = tmp_path / "real"
     real.mkdir()
     linked = tmp_path / "linked"
-    linked.symlink_to(real, target_is_directory=True)
+    make_symlink(linked, real, directory=True)
     with pytest.raises(KnowledgeError, match="UNSAFE_OUTPUT"):
         write_build(built, linked, source_root=source_root)
 
