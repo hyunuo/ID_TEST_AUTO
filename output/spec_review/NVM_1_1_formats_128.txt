@@ -1,0 +1,32 @@
+NVM Express® NVM Command Set Specification, Revision 1.1
+128
+defined by this specification is functionally compatible with both DIF and DIX. DIF functionality is achieved 
+by configuring the metadata to be contiguous with logical block data (as shown in Figure 145), while DIX 
+functionality is achieved by configuring the metadata and data to be in separate buffers (as shown in Figure 
+146).
+The NVM Express interface supports the same end-to-end protection types defined in the SCSI Protection 
+information model specified in SBC-4. The type of end-to-end data protection (i.e., Type 1, Type 2, or Type 
+3) is selected when a namespace is formatted and is reported in the Identify Namespace data structure 
+(refer to Figure 114).
+Protection Information Formats
+The following protection information formats are defined:
+a) 16b Guard Protection Information;
+b) 32b Guard Protection Information; and
+c) 64b Guard Protection Information.
+The following protection information formats are defined as extended protection information formats and 
+are only supported when the Controller Attributes (CTRATT) field has the Extended LBA Formats 
+Supported (ELBAS) bit set to ‘1’ (refer to the Identify Controller data structure in the NVM Express Base 
+Specification):
+a) 16b Guard Protection Information with the STS field set to a non-zero value;
+b) 32b Guard Protection Information; and
+c) 64b Guard Protection Information.
+5.3.1.1 16b Guard Protection Information
+If the Storage Tag Size (STS) field for the LBA Format is cleared to 0h, then the 16b Guard Protection 
+Information is shown in Figure 147 and is contained in the metadata associated with each logical block. 
+The Guard field contains a CRC-16 computed over the logical block data. The formula used to calculate 
+the CRC-16 is defined in SBC-4. In addition to a CRC-16, DIX also specifies an optional IP checksum that 
+is not supported by the NVM Express interface. The Application Tag is an opaque data field not interpreted 
+by the controller and that may be used to disable checking of protection information. The Reference Tag 
+associates logical block data with an address and protects against misdirected or out-of-order logical block 
+transfer. Like the Application Tag, the Reference Tag may also be used to disable checking of protection 
+information. 

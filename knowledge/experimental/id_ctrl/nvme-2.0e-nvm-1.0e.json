@@ -1,0 +1,570 @@
+{
+  "bundle": {
+    "bundle_id": "nvme-2.0e-nvm-1.0e",
+    "base_revision": "2.0e",
+    "nvm_revision": "1.0e",
+    "snapshot_keys": [
+      "NVME:2.0e-nvm-1.0e-ctrl-focus-v1"
+    ]
+  },
+  "context": {
+    "bundle_id": "nvme-2.0e-nvm-1.0e",
+    "facts": {
+      "logical_block_atomic_parameters_applicable": true
+    }
+  },
+  "rules": [
+    {
+      "rule_id": "EXPERIMENTAL.SQES_REQUIRED",
+      "target": {
+        "field_id": "NVME.CNS01.SQES"
+      },
+      "check": {
+        "type": "MASK",
+        "mask": 15,
+        "value": 6
+      },
+      "provenance": {
+        "source_type": "spec",
+        "source_document": "BASE_2_0E",
+        "source_version": "2.0e",
+        "source_section": "5.17.2.1 PDF page 280 Figure 280",
+        "status": "candidate"
+      }
+    },
+    {
+      "rule_id": "EXPERIMENTAL.CQES_REQUIRED",
+      "target": {
+        "field_id": "NVME.CNS01.CQES"
+      },
+      "check": {
+        "type": "MASK",
+        "mask": 15,
+        "value": 4
+      },
+      "provenance": {
+        "source_type": "spec",
+        "source_document": "BASE_2_0E",
+        "source_version": "2.0e",
+        "source_section": "5.17.2.1 PDF page 280 Figure 280",
+        "status": "candidate"
+      }
+    },
+    {
+      "rule_id": "EXPERIMENTAL.POWER_STATE_LIMIT",
+      "target": {
+        "field_id": "NVME.CNS01.NPSS"
+      },
+      "check": {
+        "type": "MAX",
+        "value": 31
+      },
+      "provenance": {
+        "source_type": "spec",
+        "source_document": "BASE_2_0E",
+        "source_version": "2.0e",
+        "source_section": "5.17.2.1 PDF page 273 Figure 280",
+        "status": "candidate"
+      }
+    },
+    {
+      "rule_id": "EXPERIMENTAL.ATOMIC_POWER_FAIL_BOUND",
+      "target": {
+        "field_id": "NVME.CNS01.AWUPF"
+      },
+      "check": {
+        "type": "FIELD_COMPARE",
+        "operator": "<=",
+        "other": {
+          "field_id": "NVME.CNS01.AWUN"
+        }
+      },
+      "provenance": {
+        "source_type": "spec",
+        "source_document": "NVM_1_0E",
+        "source_version": "1.0e",
+        "source_section": "4.1.5.2 PDF page 66 Figure 99",
+        "status": "candidate"
+      },
+      "condition": {
+        "op": "EQ",
+        "ref": {
+          "source": "context",
+          "path": "logical_block_atomic_parameters_applicable"
+        },
+        "value": true
+      }
+    },
+    {
+      "rule_id": "EXPERIMENTAL.POLICY.FORMAT_NVM",
+      "target": {
+        "field_id": "NVME.CNS01.OACS"
+      },
+      "check": {
+        "type": "CAPABILITY",
+        "capability_id": "LAB.FORMAT_NVM",
+        "support": "supported"
+      },
+      "provenance": {
+        "source_type": "policy",
+        "source_document": "LAB_ASSUMED_DEVELOPMENT_PROFILE",
+        "source_version": "v1",
+        "source_section": "Assumed development needs; not vendor or product policy",
+        "status": "provisional"
+      }
+    },
+    {
+      "rule_id": "EXPERIMENTAL.POLICY.FIRMWARE_DOWNLOAD",
+      "target": {
+        "field_id": "NVME.CNS01.OACS"
+      },
+      "check": {
+        "type": "CAPABILITY",
+        "capability_id": "LAB.FIRMWARE_DOWNLOAD",
+        "support": "supported"
+      },
+      "provenance": {
+        "source_type": "policy",
+        "source_document": "LAB_ASSUMED_DEVELOPMENT_PROFILE",
+        "source_version": "v1",
+        "source_section": "Assumed development needs; not vendor or product policy",
+        "status": "provisional"
+      }
+    }
+  ],
+  "capabilities": [
+    {
+      "capability_id": "LAB.FORMAT_NVM",
+      "target": {
+        "field_id": "NVME.CNS01.OACS",
+        "bit": 1
+      },
+      "supported": 1,
+      "unsupported": 0,
+      "provenance": {
+        "source_type": "spec",
+        "source_document": "BASE_2_0E",
+        "source_version": "2.0e",
+        "source_section": "5.17.2.1 PDF page 270 Figure 280",
+        "status": "candidate"
+      }
+    },
+    {
+      "capability_id": "LAB.FIRMWARE_DOWNLOAD",
+      "target": {
+        "field_id": "NVME.CNS01.OACS",
+        "bit": 2
+      },
+      "supported": 1,
+      "unsupported": 0,
+      "provenance": {
+        "source_type": "spec",
+        "source_document": "BASE_2_0E",
+        "source_version": "2.0e",
+        "source_section": "5.17.2.1 PDF page 270 Figure 280",
+        "status": "candidate"
+      }
+    }
+  ],
+  "field_evidence": {
+    "NVME.CNS01.OACS": {
+      "document_id": "BASE_2_0E",
+      "field_id": "NVME.CNS01.OACS",
+      "name": "Optional Admin Command Support (OACS)",
+      "byte_offset": 256,
+      "byte_length": 2,
+      "state": "defined",
+      "evidence": [
+        {
+          "document_id": "BASE_2_0E",
+          "section": "5.17.2.1",
+          "figure": "280",
+          "pdf_page": 270,
+          "printed_page": "270"
+        }
+      ],
+      "bit_fields": [
+        {
+          "name": "are reserved.",
+          "lsb": 11,
+          "msb": 15,
+          "state": "reserved",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to ‘1’, then the controller supports the Command and Feature",
+          "lsb": 10,
+          "msb": 10,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to ‘1’, then the controller supports the Get LBA Status capability",
+          "lsb": 9,
+          "msb": 9,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to '1', then the controller supports the Doorbell Buffer Config",
+          "lsb": 8,
+          "msb": 8,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to ‘1’, then the controller supports the Virtualization",
+          "lsb": 7,
+          "msb": 7,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to ‘1’, then the controller supports the NVMe-MI Send command",
+          "lsb": 6,
+          "msb": 6,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to ‘1’, then the controller supports Directives. If cleared to ‘0’,",
+          "lsb": 5,
+          "msb": 5,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to ‘1’, then the controller supports the Device Self-test",
+          "lsb": 4,
+          "msb": 4,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to ‘1’, then the controller supports the Namespace Management",
+          "lsb": 3,
+          "msb": 3,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to ‘1’, then the controller supports the Firmware Commit",
+          "lsb": 2,
+          "msb": 2,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to ‘1’, then the controller supports the Format NVM command.",
+          "lsb": 1,
+          "msb": 1,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        },
+        {
+          "name": "if set to ‘1’, then the controller supports the Security Send command",
+          "lsb": 0,
+          "msb": 0,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 270,
+              "printed_page": "270"
+            }
+          ]
+        }
+      ],
+      "array": null,
+      "nested_template_id": null,
+      "children": [],
+      "description": "Optional Admin Command Support (OACS): This field indicates the\noptional Admin commands and features supported by the controller. Refer\nto section 3.1.3.\nBits 15:11 are reserved.\nBit 10 if set to ‘1’, then the controller supports the Command and Feature\nLockdown capability (refer to section 8.4). If cleared to ‘0’, then the\ncontroller does not support the Command and Feature Lockdown\ncapability. This value shall be the same for all controllers in the NVM\nsubsystem.\nBit 9 if set to ‘1’, then the controller supports the Get LBA Status capability\n(refer to the NVM Command Set Specification). If cleared to ‘0’, then the\ncontroller does not support the Get LBA Status capability.\nBit 8 if set to '1', then the controller supports the Doorbell Buffer Config\ncommand. If cleared to '0', then the controller does not support the\nDoorbell Buffer Config command.\nBit 7 if set to ‘1’, then the controller supports the Virtualization\nManagement command. If cleared to ‘0’, then the controller does not\nsupport the Virtualization Management command.\nBit 6 if set to ‘1’, then the controller supports the NVMe-MI Send command\nand NVMe-MI Receive command. If cleared to ‘0’, then the controller does\nnot support the NVMe-MI Send command and NVMe-MI Receive\ncommand.\nBit 5 if set to ‘1’, then the controller supports Directives. If cleared to ‘0’,\nthen the controller does not support Directives. A controller that supports\nDirectives shall support the Directive Send and Directive Receive\ncommands. Refer to section 8.7.\nBit 4 if set to ‘1’, then the controller supports the Device Self-test\ncommand. If cleared to ‘0’, then the controller does not support the Device\nSelf-test command.\nBit 3 if set to ‘1’, then the controller supports the Namespace Management\ncapability (refer to section 8.11). If cleared to ‘0’, then the controller does\nnot support the Namespace Management capability.\nBit 2 if set to ‘1’, then the controller supports the Firmware Commit\ncommand and Firmware Image Download command. If cleared to ‘0’, then\nthe controller does not support the Firmware Commit command and\nFirmware Image Download command.\nBit 1 if set to ‘1’, then the controller supports the Format NVM command.\nIf cleared to ‘0’, then the controller does not support the Format NVM\ncommand.\nBit 0 if set to ‘1’, then the controller supports the Security Send command\nand Security Receive command. If cleared to ‘0’, then the controller does\nnot support the Security Send command and Security Receive command.",
+      "review_status": "candidate"
+    },
+    "NVME.CNS01.NPSS": {
+      "document_id": "BASE_2_0E",
+      "field_id": "NVME.CNS01.NPSS",
+      "name": "Number of Power States Support (NPSS)",
+      "byte_offset": 263,
+      "byte_length": 1,
+      "state": "defined",
+      "evidence": [
+        {
+          "document_id": "BASE_2_0E",
+          "section": "5.17.2.1",
+          "figure": "280",
+          "pdf_page": 273,
+          "printed_page": "273"
+        }
+      ],
+      "bit_fields": [],
+      "array": null,
+      "nested_template_id": null,
+      "children": [],
+      "description": "Number of Power States Support (NPSS): This field indicates the\nnumber of NVM Express power states supported by the controller. This is\na 0’s based value. Refer to section 8.15.\nPower states are numbered sequentially starting at power state 0. A\ncontroller shall support at least one power state (i.e., power state 0) and\nmay support up to 31 additional power states (i.e., up to 32 total).",
+      "review_status": "candidate"
+    },
+    "NVME.CNS01.SQES": {
+      "document_id": "BASE_2_0E",
+      "field_id": "NVME.CNS01.SQES",
+      "name": "Submission Queue Entry Size (SQES)",
+      "byte_offset": 512,
+      "byte_length": 1,
+      "state": "defined",
+      "evidence": [
+        {
+          "document_id": "BASE_2_0E",
+          "section": "5.17.2.1",
+          "figure": "280",
+          "pdf_page": 280,
+          "printed_page": "280"
+        }
+      ],
+      "bit_fields": [
+        {
+          "name": "define the maximum I/O Submission Queue entry size when using",
+          "lsb": 4,
+          "msb": 7,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 280,
+              "printed_page": "280"
+            }
+          ]
+        },
+        {
+          "name": "define the required (i.e., minimum) I/O Submission Queue entry",
+          "lsb": 0,
+          "msb": 3,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 280,
+              "printed_page": "280"
+            }
+          ]
+        }
+      ],
+      "array": null,
+      "nested_template_id": null,
+      "children": [],
+      "description": "Submission Queue Entry Size (SQES): This field defines the required\nand maximum I/O Submission Queue entry size.\nBits 7:4 define the maximum I/O Submission Queue entry size when using\nthe NVM Command Set. This value is greater than or equal to the required\nSQ entry size (i.e., bits 3:0 in this field). The value is in bytes and is\nreported as a power of two (2^n). The recommended value is 6,\ncorresponding to a standard SQ entry size of 64 bytes. Controllers that\nimplement proprietary extensions may support a larger value.\nBits 3:0 define the required (i.e., minimum) I/O Submission Queue entry\nsize. This is the minimum entry size that may be used. The value is in\nbytes and is reported as a power of two (2^n). The required value shall be\n6, corresponding to 64.",
+      "review_status": "candidate"
+    },
+    "NVME.CNS01.CQES": {
+      "document_id": "BASE_2_0E",
+      "field_id": "NVME.CNS01.CQES",
+      "name": "Completion Queue Entry Size (CQES)",
+      "byte_offset": 513,
+      "byte_length": 1,
+      "state": "defined",
+      "evidence": [
+        {
+          "document_id": "BASE_2_0E",
+          "section": "5.17.2.1",
+          "figure": "280",
+          "pdf_page": 280,
+          "printed_page": "280"
+        }
+      ],
+      "bit_fields": [
+        {
+          "name": "define the maximum I/O Completion Queue entry size. This value",
+          "lsb": 4,
+          "msb": 7,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 280,
+              "printed_page": "280"
+            }
+          ]
+        },
+        {
+          "name": "define the required (i.e., minimum) I/O Completion Queue entry",
+          "lsb": 0,
+          "msb": 3,
+          "state": "defined",
+          "evidence": [
+            {
+              "document_id": "BASE_2_0E",
+              "section": "5.17.2.1",
+              "figure": "280",
+              "pdf_page": 280,
+              "printed_page": "280"
+            }
+          ]
+        }
+      ],
+      "array": null,
+      "nested_template_id": null,
+      "children": [],
+      "description": "Completion Queue Entry Size (CQES): This field defines the required\nand maximum I/O Completion Queue entry size.\nBits 7:4 define the maximum I/O Completion Queue entry size. This value\nis greater than or equal to the required CQ entry size (i.e., bits 3:0 in this\nfield). The value is in bytes and is reported as a power of two (2^n). The\nrecommended value is 4, corresponding to a standard CQ entry size of 16\nbytes. Controllers that implement proprietary extensions may support a\nlarger value.\nBits 3:0 define the required (i.e., minimum) I/O Completion Queue entry\nsize. This is the minimum entry size that may be used. The value is in\nbytes and is reported as a power of two (2^n). The required value shall be\n4, corresponding to 16.",
+      "review_status": "candidate"
+    },
+    "NVME.CNS01.AWUN": {
+      "document_id": "NVM_1_0E",
+      "field_id": "NVME.CNS01.AWUN",
+      "name": "Atomic Write Unit Normal (AWUN)",
+      "byte_offset": 526,
+      "byte_length": 2,
+      "state": "defined",
+      "evidence": [
+        {
+          "document_id": "NVM_1_0E",
+          "section": "4.1.5.2",
+          "figure": "99",
+          "pdf_page": 65,
+          "printed_page": "65"
+        }
+      ],
+      "bit_fields": [],
+      "array": null,
+      "nested_template_id": null,
+      "children": [],
+      "description": "Atomic Write Unit Normal (AWUN): This field indicates the size of the write\noperation guaranteed to be written atomically to the NVM across all namespaces\nwith any supported namespace format during normal operation. This field is\nspecified in logical blocks and is a 0’s based value.\nIf a specific namespace guarantees a larger size than is reported in this field, then\nthis namespace specific size is reported in the NAWUN field in the Identify\nNamespace data structure. Refer to section 2.1.4.\nIf a write command is submitted with size less than or equal to the AWUN value,\nthe host is guaranteed that the write command is atomic to the NVM with respect\nto other read or write commands. If a write command is submitted with size greater\nthan the AWUN value, then there is no guarantee of command atomicity. AWUN\ndoes not have any applicability to write errors caused by power failure (refer to\nAtomic Write Unit Power Fail).\nA value of FFFFh indicates all commands are atomic as this is the largest\ncommand size. It is recommended that implementations support a minimum of\n128 KiB (appropriately scaled based on logical block size).",
+      "review_status": "candidate"
+    },
+    "NVME.CNS01.AWUPF": {
+      "document_id": "NVM_1_0E",
+      "field_id": "NVME.CNS01.AWUPF",
+      "name": "Atomic Write Unit Power Fail (AWUPF)",
+      "byte_offset": 528,
+      "byte_length": 2,
+      "state": "defined",
+      "evidence": [
+        {
+          "document_id": "NVM_1_0E",
+          "section": "4.1.5.2",
+          "figure": "99",
+          "pdf_page": 66,
+          "printed_page": "66"
+        }
+      ],
+      "bit_fields": [],
+      "array": null,
+      "nested_template_id": null,
+      "children": [],
+      "description": "Atomic Write Unit Power Fail (AWUPF): This field indicates the size of the write\noperation guaranteed to be written atomically to the NVM across all namespaces\nwith any supported namespace format during a power fail or error condition.\nIf a specific namespace guarantees a larger size than is reported in this field, then\nthis namespace specific size is reported in the NAWUPF field in the Identify\nNamespace data structure. Refer to section 2.1.4.\nThis field is specified in logical blocks and is a 0’s based value. The AWUPF value\nshall be less than or equal to the AWUN value.\nIf a write command is submitted with size less than or equal to the AWUPF value,\nthe host is guaranteed that the write is atomic to the NVM with respect to other\nread or write commands. If a write command is submitted that is greater than this\nsize, there is no guarantee of command atomicity. If the write size is less than or\nequal to the AWUPF value and the write command fails, then subsequent read\ncommands for the associated logical blocks shall return data from the previous\nsuccessful write command. If a write command is submitted with size greater than\nthe AWUPF value, then there is no guarantee of data returned on subsequent\nreads of the associated logical blocks.",
+      "review_status": "candidate"
+    }
+  },
+  "assumptions": [
+    {
+      "id": "logical_block_atomic_parameters_applicable",
+      "value": true,
+      "reason": "NVM 논리 블록의 atomicity 파라미터가 적용된다고 임시 가정함. 이 로그만으로는 적용 조건을 증명할 수 없음."
+    },
+    {
+      "id": "LAB.FORMAT_NVM",
+      "value": "required",
+      "reason": "개발 테스트를 위해 지원을 요구한다고 임시 가정함. Samsung 공식 제품 정책이 아님."
+    },
+    {
+      "id": "LAB.FIRMWARE_DOWNLOAD",
+      "value": "required",
+      "reason": "개발 테스트를 위해 지원을 요구한다고 임시 가정함. Samsung 공식 제품 정책이 아님."
+    }
+  ],
+  "candidate_knowledge_hash": "1e87e818b6852733a633e2950a7ab87cdcc4cfeb8d2910ea7d5a1aa6e5688738"
+}

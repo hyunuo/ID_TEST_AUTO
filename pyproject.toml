@@ -24,6 +24,9 @@ dev = ["pytest>=8,<10"]
 where = ["src"]
 include = ["ssd_validator*"]
 
+[tool.setuptools.package-data]
+"ssd_validator.gui" = ["*.html", "*.js"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests/unit", "tests/integration"]
 addopts = "-ra"

@@ -1,0 +1,61 @@
+kind: base
+spec_family: NVME
+version: 2.0e-nvm-1.0e-ctrl-focus-v1
+data_kind: production
+provenance:
+  source_type: spec
+  source_document: NVME_BUNDLE_2.0e_1.0e
+  source_version: 2.0e+1.0e
+  source_section: Focused Bundle projection; exact original document/page per
+    field in configuration
+  status: candidate
+fields:
+- field_id: NVME.CNS01.OACS
+  name: Optional Admin Command Support (OACS)
+  command: id-ctrl
+  offset: 256
+  length: 2
+  endian: little
+  value_type: bitmask
+  state: defined
+- field_id: NVME.CNS01.NPSS
+  name: Number of Power States Support (NPSS)
+  command: id-ctrl
+  offset: 263
+  length: 1
+  endian: little
+  value_type: integer
+  state: defined
+- field_id: NVME.CNS01.SQES
+  name: Submission Queue Entry Size (SQES)
+  command: id-ctrl
+  offset: 512
+  length: 1
+  endian: little
+  value_type: bitmask
+  state: defined
+- field_id: NVME.CNS01.CQES
+  name: Completion Queue Entry Size (CQES)
+  command: id-ctrl
+  offset: 513
+  length: 1
+  endian: little
+  value_type: bitmask
+  state: defined
+- field_id: NVME.CNS01.AWUN
+  name: Atomic Write Unit Normal (AWUN)
+  command: id-ctrl
+  offset: 526
+  length: 2
+  endian: little
+  value_type: integer
+  state: defined
+- field_id: NVME.CNS01.AWUPF
+  name: Atomic Write Unit Power Fail (AWUPF)
+  command: id-ctrl
+  offset: 528
+  length: 2
+  endian: little
+  value_type: integer
+  state: defined
+rules: []

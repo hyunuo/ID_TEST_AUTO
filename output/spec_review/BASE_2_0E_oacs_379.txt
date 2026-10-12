@@ -1,0 +1,46 @@
+NVM Express® Base Specification, Revision 2.0e
+379
+• Indicate support for Directives in the Optional Admin Command Support (OACS) field in the 
+Identify Controller data structure;
+• Support the Directive Receive command; 
+• Support the Directive Send command; and
+• Support the Identify Directive (i.e., Type 00h).
+The Directive Types that may be supported by a controller (refer to Figure 421) are the Identify Directive 
+(refer to section 8.7.2), and the Streams Directive (refer to section 8.7.3). The Directive Specific field and 
+Directive Operation field are dependent on the Directive Type specified in the command (e.g., Directive 
+Send, Directive Receive, or I/O command).
+Figure 421: Directive Types
+Directive Directive Type Value Definition I/O Command Directive
+Identify 00h Section 8.7.2 No
+Streams 01h Section 8.7.3 Yes
+If a Directive is not supported or is supported and disabled, then all Directive Send commands and Directive 
+Receive commands with that Directive Type shall be aborted with a status code of Invalid Field in 
+Command.
+Support for a specific Directive Type is indicated using the Return Parameters operation of the Identify 
+Directive. A specific Directive may be enabled or disabled using the Enable operation of the Identify 
+Directive. Before using a specific Directive, the host should determine if that Directive is supported and 
+should enable that Directive using the Identify Directive.
+Directive Use in I/O Commands
+I/O Command Directives are the subset of Directive Types that may be used as part of I/O commands. For 
+example, a Write command in the NVM Command Set may specify a Directive Type and an associated 
+Directive Specific value. I/O Command Directives shall have a Directive Type value that is less than or 
+equal to 0Fh due to the size of the Directive Type field in I/O commands. When a Directive Type is specified 
+in an I/O command, the most significant four bits are assumed to be 0h. A Directive Type of 00h in an I/O 
+command specifies that the I/O command is not using Directives. 
+In an I/O command, if the Directive Type (DTYPE) field is set to an I/O Command Directive, then the 
+Directive Specific (DSPEC) field includes additional information for the associated I/O command (refer to 
+Figure 422).
+Figure 422: Directive Specific Field Interpretation
+Directive Type Value Directive Specific Field Definition
+00h (Directives not in use) Field not used.
+01h (Streams) Specifies the identifier of the stream associated with the data. 
+02h to 0Fh Reserved
+In an I/O command:
+• if no I/O Command Directive is enabled or the DTYPE field is cleared to 00h, then the DTYPE field 
+and the DSPEC field are ignored; and 
+• if one or more I/O Command Directives is enabled and the DTYPE field is set to a value that is not 
+supported or not enabled, then the controller shall abort the command with a status code of Invalid 
+Field in Command.
+For the Streams Directive (i.e., DTYPE field set to 01h), if the DSPEC field is cleared to 0h in an I/O 
+command that supports the Streams Directive, then that I/O command shall be processed normally (i.e., as 
+if DTYPE field is cleared to 00h).

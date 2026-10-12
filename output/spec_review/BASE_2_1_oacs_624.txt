@@ -1,0 +1,49 @@
+NVM Express® Base Specification, Revision 2.1
+602
+o Indicate support for the Virtualization Management command by setting the VMS bit to ‘1’ in 
+the Optional Admin Command Support (OACS) field in the Identify Controller data structure;
+o The Virtualization Management command;
+o The Primary Controller Capabilities Structure defined in Figure 330 (Identify command with 
+CNS value of 14h);
+o The Secondary Controller List defined in Figure 330 (Identify command with CNS value of 15h); 
+and
+o The Namespace Management capability (refer to section 8.1.15);
+• One or more secondary controllers; and
+• Flexible Resources, each of which supports all of the following:
+o Assignment and removal by exactly one primary controller; and
+o Assignment to no more than one controller at a time.
+Within an NVM subsystem that supports both the Virtualization Enhancements capability and SR-IOV (refer 
+to section 8.2.6.4), all controllers that are SR-IOV PFs shall be primary controllers, and all controllers that 
+are SR-IOV VFs shall be secondary controllers of their associated PFs.
+VQ Resource Definition
+A Virtual Queue Resource (VQ Resource) is a type of controller resource that manages one CQ and one 
+SQ. For a VQ Resource that is assigned to a controller, its resource identifier is equivalent to its Queue 
+Identifier.
+The Controller Resource Types field of the Primary Controller Capabilities Structure indicates whether VQ 
+Resources are supported. If VQ Resources are unsupported, a primary controller and its associated 
+secondary controllers have all queues as Private Resources. The rest of this section assumes that VQ 
+Resources are supported.
+The secondary controller is assigned VQ Resources using the Virtualization Management command. The 
+number of VQ Resources assigned is discoverable in the Secondary Controller List entry for the associated 
+secondary controller. The number of VQ Resources assigned may also be discovered using the Get 
+Features command with the Number of Queues Feature identifier (refer to section 5.1.25.2.1).
+If a secondary controller has no assigned VQ Resources, then that controller remains in the Offline state. 
+A secondary controller is not able to transition to the Online state until VQ Resources for an Admin Queue 
+and one or more I/O Queues have been assigned to that controller (i.e., the minimum number of VQ 
+Resources that may be assigned is two).
+A primary controller that supports VQ Resources shall have at least two queue pairs that are Private 
+Resources to ensure there is a minimum of an Admin Queue pair and one I/O queue pair for the primary 
+controller at all times. A primary controller may be allocated VQ Resources using the Primary Controller 
+Flexible Allocation action of the Virtualization Management command. The VQ resources allocated take 
+effect after a Controller Level Reset and are persistent across power cycles and resets. The number of VQ 
+Resources currently allocated is discoverable in the Primary Controller Capabilities Structure. The number 
+of VQ Resources currently allocated may also be discovered using the Get Features command with the 
+Number of Queues Feature identifier (refer to section 5.1.25.2.1).
+VI Resource Definition
+A Virtual Interrupt Resource (VI Resource) is a type of controller resource that manages one interrupt 
+vector, such as an MSI-X vector. For a VI Resource that is assigned to a controller, its resource identifier 
+is equivalent to its interrupt vector number.
+The Controller Resource Types field of the Primary Controller Capabilities Structure indicates whether VI 
+Resources are supported. If VI Resources are unsupported, a primary controller and its associated 
+secondary controllers have all interrupts as Private Resources. The rest of this section assumes that VI 
+Resources are supported.

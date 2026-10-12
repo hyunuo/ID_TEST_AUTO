@@ -1,6 +1,10 @@
 # SSD NVMe ID Validation & Knowledge-Based Test Automation System
 ## Software Design Specification (SDS)
 
+> 저장소 설계 갱신 (2026-10-11 승인): §36–37과 [SQLite 전환 계획](sqlite_transition.md)을
+> 따른다. SQLite가 현재 원본이며 과거 YAML 원본/SQLite 캐시 설명을 대체한다.
+> 기존 파일 형식은 엔진 어댑터·가져오기/내보내기·TEST/FIXTURE에 유지한다.
+
 **문서 목적**  
 본 문서는 삼성 서버 SSD 제품의 신규 FW/CS FW 검증 시 수행하는 NVMe Identify 기반 검증 업무를 자동화하기 위한 시스템의 상세 설계 문서다.  
 Claude Code, Codex 또는 일반 개발자가 본 문서를 기준으로 PoC부터 운영 가능한 버전까지 구현할 수 있도록 아키텍처, 데이터 모델, Rule Resolver, Spec Delta Engine, TC 실행, 결과 판정, 저장소 구조, 테스트 전략을 정의한다.
@@ -134,10 +138,13 @@ PM1753 Effective Expected
 
 ---
 
-## 2.4 NVMe Base Spec과 OCP/MFND 같은 Requirement Spec의 역할을 분리한다
+## 2.4 NVMe 문서 조합과 외부 Requirement Spec의 역할을 분리한다
 
-### NVMe Base Spec
-주로 **Schema/Meaning**을 정의한다.
+### NVMe Base Spec + NVM Command Set Spec
+NVMe 지식은 Base Spec 단독 버전이 아니라 명시적으로 등록한 문서 조합으로 관리한다.
+Base와 NVM Command Set의 revision과 출처를 각각 유지하며, 두 문서 모두
+**Schema/Meaning과 Requirement**를 정의할 수 있다. Identify 명령 공통 동작,
+응답 구조, 명령 세트별 보완 정의를 필드 수준의 근거로 연결한다.
 
 - Field 존재 여부
 - Offset
@@ -146,6 +153,12 @@ PM1753 Effective Expected
 - Reserved / Defined
 - Value Type
 - Feature 의미
+- 고정값, 허용값, 조건부 요구사항과 필드 간 의존 관계
+
+Base `2.0e` + NVM Command Set `1.0e`, Base `2.1` + NVM Command Set `1.1`은
+서로 다른 Bundle이다. 버전 번호로 다른 문서의 revision이나 호환성을 추정하지 않는다.
+구체적인 후보 데이터 계약과 검토 흐름은 72절을 따른다. 아래 기존 예시의 단일
+`NVME` 버전은 이전 Builder의 설명용 형식이며 새 Bundle의 문서 선택을 대체하지 않는다.
 
 ### OCP / MFND / 기타 Spec
 주로 **Requirement/Capability**를 정의한다.
@@ -248,7 +261,7 @@ AI Candidate
                                 ▼
                  ┌────────────────────────────┐
                  │   Effective Snapshot DB     │
-                 │ YAML/JSON + SQLite Cache    │
+                 │ Generated Snapshot/Trace   │
                  └──────────────┬─────────────┘
                                 │
                                 │
@@ -1494,43 +1507,65 @@ Human Confirm 전에는 Expected DB에 반영하지 않는다.
 
 # 36. SQLite 역할
 
-YAML이 Source of Truth이다.
-
-SQLite는:
-
-```text
-Compiled Query Cache
-```
-
-로 사용한다.
+2026-10-11 사용자 승인으로 SQLite를 **원본 저장소**로 전환한다.
+이 결정은 본 문서의 과거 YAML 원본/SQLite 캐시 설명보다 우선한다.
+YAML/JSON은 최초 마이그레이션, 가져오기·내보내기와 TEST/FIXTURE에 사용한다.
+GUI와 saved-log CLI는 DB에서 읽고, 관리 GUI의 수정은 새 불변 리비전으로 저장한다.
 
 ```text
-YAML Source
+관리 GUI / 명시적 원본 가져오기
 ↓
-Schema Validation
+기존 모델·Builder·Resolver로 저장 전 검증
 ↓
-Delta Build
+SQLite 원본 새 리비전
 ↓
-Conflict Check
+기존 Builder / 정규화 / Resolver
 ↓
-Effective Snapshot
-↓
-SQLite
+검사 결과 + 사용 리비전 + 입력·선택 옵션 보존
 ```
 
 SQLite 파일:
 
 ```text
-generated/knowledge.db
+data/validator.sqlite3
 ```
 
-삭제해도 Source YAML에서 재생성 가능해야 한다.
+이 DB는 삭제 가능한 생성물이 아니다. 원본 전체 내보내기는 지식 데이터를 보존하며,
+검사 이력까지 백업하려면 SQLite backup API를 사용하는 전체 DB 백업을 사용한다.
+검증 후 복원은 자동 사전 백업과 새 head를 기록한다. 운영 절차는 [DB 보호](database_operations.md)를 따른다.
+generated/의 Snapshot은 계속 재생성 가능한 산출물이며 직접 편집하지 않는다.
 
 ---
 
 # 37. SQLite 권장 Table
 
-초기 설계:
+현재 전환 구현:
+
+```text
+repository_meta       DB schema version
+revision              불변 원본 버전, 부모 버전, 변경 사유, 시간
+source_blob           SHA-256으로 식별하는 원본 문서 내용
+revision_source       리비전별 논리 원본 경로와 내용 연결
+rule_index            Bundle/필드/정책/검토 상태 조회 인덱스
+validation_run        입력 원문·옵션·리비전·전체 결과
+database_migration    스키마 변경과 사전 백업 기록 (v2)
+entity_index          원본 리비전별 관리 검색 인덱스 (v3)
+```
+
+원본은 SQLite 내부 문서 내용으로 손실 없이 보존한다. rule_index는 동일 트랜잭션에서
+원본으로부터 생성하며 독립적으로 편집하지 않는다. 기존 엔진 어댑터가 임시 파일로
+투영하되 결과 출처는 sqlite://knowledge/revisions/<revision>/<source-path>로 고정한다.
+전체 필드/근거를 개별 관계형 테이블로 재설계하는 작업은 이번 전환의 선행 조건이 아니다.
+
+완성 계획 2단계는 DB 기반 Bundle 선택과 문서/실행 필드/비트/배열/규칙/Capability 관리 폼,
+저장 전 미리보기, 내용 해시별 검토 기록, 참조 검증과 새 리비전 되돌리기를 제공한다.
+배열/query 바인딩과 검토 기록은 management.json 논리 원본에 보존하고 인덱스와 함께 갱신한다.
+v2→v3는 사전 백업 후 기존 원본의 검색 인덱스만 추가하며 과거 검사/원본을 변경하지 않는다.
+규칙/Capability의 검토된 비-fixture 근거는 experimental에서 실행 가능하나 authoritative=false다.
+strict TEST/FIXTURE 경계와 필드 Builder provenance는 자동 변경하지 않는다.
+[구체적 관리 계약](knowledge_management.md)을 따른다.
+
+향후 필요에 따른 정규화 후보(아래는 현재 구현 테이블을 의미하지 않는다):
 
 ```text
 spec_family
@@ -2009,7 +2044,7 @@ Spec Builder 변경 시 예상치 못한 Rule 변화 검출 목적.
 - Knowledge Build: 수 초~수십 초 이내
 - Single DUT Resolve: 1초 이내
 - id-ctrl/id-ns comparison: 체감 즉시
-- SQLite는 전체 Knowledge를 빠르게 Query하기 위한 Cache 역할
+- SQLite는 버전이 있는 Knowledge 원본과 검사 이력을 저장한다. 파일 형식은 어댑터/교환용이다.
 
 성능보다 Determinism과 Traceability를 우선한다.
 
@@ -2516,3 +2551,315 @@ MFND 1.6 → 1.7
 ```
 
 이 추가되어도 핵심 코드 변경을 최소화하고, 대부분 **새로운 Delta / Rule / Profile 데이터 추가**만으로 대응할 수 있다.
+
+---
+
+# 72. NVMe 복수 문서와 Identify 후보 지식 구축
+
+이 절은 실제 NVMe 원문을 반영하는 단계의 설계 계약이다. 이전 절의 단일 NVMe 버전
+예시보다 이 절의 문서·Bundle 구분을 우선한다. 기존 Builder의 Source YAML 형식과
+검증 동작은 유지하고, 후보 Bundle 컴파일러를 별도 경로로 둔다.
+
+## 72.1 문서와 Bundle
+
+문서는 종류, revision, 원본 파일명, SHA-256으로 식별한다. 원본 PDF 위치는 실행 시
+`--documents-root`로 지정하며 개인 PC의 절대 경로를 지식 데이터에 저장하지 않는다.
+
+| Bundle ID | Base 문서 revision | NVM Command Set 문서 revision |
+| --- | --- | --- |
+| `nvme-2.0e-nvm-1.0e` | `2.0e` | `1.0e` |
+| `nvme-2.1-nvm-1.1` | `2.1` | `1.1` |
+
+문서 이력은 문서별로 관리한다. Bundle은 두 개의 정확한 문서 ID를 선택하는 데이터이며,
+제품 이름이나 버전 정렬로 선택하지 않는다. 이후 승인된 Base/Delta로 옮길 때에도
+각 문서의 변경 이력과 서로 다른 문서의 보완 관계를 보존한다.
+
+## 72.2 Identify 구조와 요구사항을 분리한다
+
+구조 후보는 필드 ID, 바이트 위치·길이, 비트 범위, 배열·하위 구조, Reserved·Vendor
+영역과 출처를 표현한다. CNS `00h`, `01h`, `05h`, `06h`, `08h`의 응답은 각각
+독립적인 구조로 식별하며, 필요한 CSI·Namespace 질의 조건을 함께 기록한다.
+명령 이름이 같아도 응답을 합치지 않는다.
+
+요구사항 후보는 대상 구조·필드, 조건, 예외, 의무 수준, 요구 내용, 다른 필드·기능·
+실행 상태에 대한 의존성과 출처를 기록한다. 표의 행뿐 아니라 설명·주석·참조된 절을
+분석한다. 명시적 요구사항과 단순한 연관성, 명령 동작 요구사항은 구분한다.
+Reserved라는 구조 정보만으로 expected=0을 만들지 않는다.
+
+모든 후보의 provenance는 정확한 문서와 revision, 절, 표/그림, PDF 페이지와 인쇄
+페이지를 추적할 수 있어야 한다. 원문에서 확인하지 못한 값이나 의미는 UNKNOWN으로
+남긴다. 추출 신뢰도 점수나 빌드 성공은 원문 검토·승인을 대체하지 않는다.
+
+## 72.3 에이전트와 검토 경계
+
+```text
+등록한 PDF + 명시적 Bundle
+        ↓
+요구사항 분석 에이전트 → 규칙·의존 관계 후보
+        ↔
+구조·매핑 담당 → 기존 CLI/헤더와 필요한 필드·버전 대조
+        ↓
+통합 담당의 교차 검토 + 자동 검증
+        ↓
+candidate Snapshot + 커버리지·미해결 보고서
+        ↓
+사람의 원문 검토·승인
+        ↓
+승인된 Knowledge → 기존 Builder → 향후 제품 Expected 계산
+```
+
+두 에이전트는 같은 문서 등록부를 사용한다. 요구사항 분석 중 구조 누락을 발견하면
+임의 필드를 만들지 않고 구조 담당에게 반환한다. 통합 담당은 문서 간 중복·보완·충돌과
+조건 누락을 확인한다. 에이전트가 작성한 내용은 교차 검토 후에도 candidate이다.
+confirmed 전환에는 별도의 사람 검토자와 검토 근거가 필요하다.
+
+## 72.4 데이터 경계와 빌드
+
+| 경로 | 역할 |
+| --- | --- |
+| `candidates/nvme/catalog.json` | 원문 등록부와 명시적 Bundle |
+| `candidates/nvme/structures.json` | 구조·하위 필드 후보와 커버리지 |
+| `candidates/nvme/requirements.json` | 요구사항·의존 관계 후보와 미해결 참조 |
+| `knowledge/` | 기존 승인 절차를 거치는 Source 지식 |
+| `generated/candidate/` | 후보 컴파일러가 생성하는 검토용 산출물 |
+
+후보는 별도 입력 계약으로 검증하며, 기존 Builder에 자동 유입하지 않는다.
+후보 컴파일러는 기존 검증 원칙과 결정적 직렬화·해시 도구를 재사용할 수 있지만
+기존 Delta 검증을 거쳤다는 의미를 임의로 부여하지 않는다. 모든 generated 파일은
+입력에서 다시 생성하며 수동 수정하지 않는다.
+
+`knowledge build --candidate`는 후보 입력 검증·원문 해시 확인·Bundle별 검토 산출물을
+담당한다. `spec bundle-diff`는 두 명시적 Bundle의 후보 구조와 요구사항을 비교한다.
+후보 Diff는 원문 해석의 승인이나 제품 영향 판정을 의미하지 않는다.
+
+## 72.5 보완 정의, 충돌, 미완료 상태
+
+두 문서가 같은 필드를 다룬다는 이유로 한 정의를 지우지 않는다. Base가 세부 의미를
+명령 세트 문서에 위임한 경우에는 원문 근거가 있는 보완 관계로 연결한다. 보완 정의를
+override로 취급하지 않으며, 출처 우선순위·파일 순서·마지막 기록으로 승자를 고르지
+않는다. 호환 여부를 판단할 수 없는 내용은 미해결로, 상충한 정의는 충돌로 보존한다.
+
+원문 항목마다 추출 완료, 미해결, 또는 범위 제외와 사유를 기록한다. 바이트 범위가
+모두 덮였다는 사실과 모든 비트·주석·상호 참조를 검토했다는 사실은 다르다.
+각 커버리지를 구분하고 누락된 요구사항을 “제약 없음”으로 처리하지 않는다.
+
+## 72.6 이번 단계의 검증과 완료 경계
+
+문서 식별·해시, Bundle 참조, 필드 중복·영역 겹침, 배열 경계, 하위 비트 범위,
+출처 누락, 요구사항 대상 참조와 결정성을 테스트한다. 합성 오류 테스트와 실제
+원문에서 확인한 변경 사례를 구분한다. 기존 Builder·CLI 회귀 검증을 유지한다.
+
+이 단계의 산출물은 두 Bundle의 후보 지식, 후보 버전 차이, 커버리지·미해결 목록과
+사람이 검토할 묶음이다. 원문 전체 검토가 끝나기 전에는 그 완료를 주장하지 않는다.
+Product Profile 선택, DUT Context Resolver, 실제 SSD 수집·PASS/FAIL 판정, Excel,
+SQLite와 자동 confirmed 승격은 이 단계에 포함하지 않는다.
+
+실행과 검토 방법은 [Identify 지식 구축 절차](identify_knowledge_workflow.md)를 따른다.
+
+---
+
+# 73. 요구사항 중심의 규칙 실행 파일럿
+
+## 73.1 재사용 경계와 우선순위
+
+nvme-cli/libnvme의 명령 실행·기본 구조 해석을 재사용한다. 실제 연동 단계에서
+릴리스/커밋을 고정하고 출력과 내부 필드 ID를 연결한다. 최신 헤더를 특정 규격
+Bundle의 규범적 의미로 간주하지 않는다. Base 2.0e + NVM 1.0e와 Base 2.1 +
+NVM 1.1은 별도 적용 범위이며 필요한 필드의 의미·비트·예외를 원문과 대조한다.
+전체 Identify 구조 재추출이나 전체 오프셋 승인은 규칙 파일럿의 선행 조건이 아니다.
+
+핵심 개발은 요구사항 → 조건·예외·의존성 → Capability → NVMe Field/Bit →
+실행 가능한 Expected 제약으로 연결하는 것이다. OCP/MFND 원문과 버전이 없으면
+실제 요구값을 추정하지 않고 미해결로 남긴다. 기존 구조 후보는 참조 자료다.
+
+## 73.2 조건부·관계형 Expected
+
+Effective Expected Profile은 고정 숫자 목록뿐 아니라 조건부 비트 요구와 필드 간
+관계를 보존한다. resolve(Context, Snapshots, Mappings)는 명시적 Bundle을 선택하고,
+evaluate(Expected Profile, Actual Facts)는 실제 관측값과 함께 남은 조건을 평가한다.
+Actual의 기능 비트는 내부 일관성 검사의 조건으로 사용할 수 있으나, 정책에서
+요구한 Capability 지원 자체의 검사를 우회하는 근거가 될 수 없다.
+
+조건이 거짓이면 N/A, 필요한 사실이 없으면 UNKNOWN이다. 입력 타입 오류와
+지원하지 않는 표현은 ERROR다. candidate/provisional과 MAY/SHOULD/동작 진술은
+authoritative PASS/FAIL의 근거로 자동 전환하지 않고 REVIEW로 보존한다.
+Reserved만으로 expected=0을 만들지 않는다. 모든 결과는 규칙·조건·관측값·근거와
+변경 이력을 추적할 수 있어야 한다.
+
+## 73.3 결합과 충돌
+
+동시에 적용되는 규칙은 함께 만족해야 한다. 고정값·범위·마스크의 불가능한 교집합은
+CONFLICT이며, 일반 관계식의 전역 만족 가능성까지 검사했다고 주장하지 않는다.
+명시적 단일 단계 override는 confirmed 근거·이유·대상 ID를 요구하고 원래 규칙도
+보존한다. Schema validation은 override할 수 없고 체인·순환은 지원하지 않는다.
+규격 계층·파일 순서·last-write-wins로 승자를 선택하지 않는다.
+
+## 73.4 구현 및 후속 범위
+
+현재 구현은 기존 Loader/Builder와 literal 충돌 검사를 재사용한 TEST/FIXTURE 전용
+실행 파일럿이다. fixture Context, bindings, 규칙과 Capability mapping을 받아
+Expected Profile, fixture 판정과 trace를 JSON으로 출력한다. 실제 후보를 자동
+승격하거나 실제 NVMe Bundle을 production 실행하지 않는다.
+
+Product Profile 자동 선택·FW 비교·실제 SSD 수집·Excel·SQLite는 후속 범위다.
+실행 계약·지원 제약·테스트와 후속 순서는 [규칙 실행 파일럿](rule_execution_pilot.md)을 따른다.
+
+---
+
+# 74. 도구 버전과 제품 규격을 분리한 Actual 정규화
+
+제품의 적용 Bundle, 수집 도구 버전, 장치가 보고한 버전은 독립적인 정보다.
+최신 CLI의 필드 이름이나 헤더 정의로 제품 Bundle·Reserved 여부·Expected를
+자동 변경하지 않는다. 최신 구현은 해석 도구이며 규격별 규범적 의미의 원본이 아니다.
+
+저장된 Identify raw와 수집 metadata를 함께 보존하고 선택한 Bundle 매핑으로
+필요한 필드를 읽는다. raw 길이와 CNS/CSI/NSID/controller 질의는 정확히 확인한다.
+모르는 영역은 unmapped로 보존하며 Reserved나 expected=0으로 추정하지 않는다.
+전체 필드 값을 전달하므로 최신 도구의 비트 마스크 때문에 값이 유실되어서는 안 된다.
+
+raw 없이 JSON을 사용할 때는 실제 도구 출력에 맞춘 명시적 경로 매핑을 요구한다.
+추가 필드는 보존하되 제품 요구사항으로 채택하지 않고, 누락은 UNKNOWN, 타입 오류는
+ERROR로 처리한다. raw 오류를 JSON으로 자동 우회하거나 누락을 0으로 채우지 않는다.
+Reserved 관련 판정은 해당 Bundle의 승인된 명시적 규칙이 담당한다.
+
+현재 오프라인 어댑터는 fixture/candidate 매핑을 읽고 관측값과 source hash를 남긴다.
+OBSERVED는 정상적인 디코딩 상태이며 SSD PASS가 아니다. candidate 해석은 REVIEW다.
+fixture Resolver 연결은 Source-built 필드 근거를 재사용하고 Bundle·장치·Namespace
+혼합과 정규화 오류를 거부한다. 실제 장치 실행·production 판정은 아직 활성화하지 않는다.
+
+상세 인터페이스와 실행 방법은 [Identify 정규화](actual_normalization.md)를 따른다.
+
+## 75. 로컬 GUI와 저장 로그의 최소 사용 흐름
+
+기존 Builder, Candidate Bundle compiler/diff, Rule Resolver/evaluate, provenance,
+Actual normalizer는 계속 재사용한다. GUI는 이 서비스들을 연결하는 application 계층이며
+별도 기대값 비교 엔진을 구현하지 않는다. 저장 id-ctrl 텍스트는 원문·줄·입력 hash를
+보존하고 명시적으로 선택한 Bundle의 후보 정의와 요구사항에 연결한다.
+candidate 연결은 REVIEW, 미확인 매핑은 UNKNOWN, 중복 입력은 ERROR,
+매핑 모호성과 후보 구조 충돌은 CONFLICT다. 이 경로에서 production PASS/FAIL을 만들지 않는다.
+VER와 도구 버전은 적용 Bundle을 자동 변경하는 근거가 아니다.
+첫 화면은 DUT 로그 검토이며 기존 엔진은 TEST/FIXTURE 실행 패널로 제공한다.
+승인된 실제 규칙과 ActualFact 연결은 후속 범위다. [GUI 사용 안내](local_gui.md)를 따른다.
+
+## 76. 사용자 허용에 따른 검토 전 실행과 정책 가정
+
+2026-10-11 사용자 요청으로 candidate의 실행 규칙 전환 및 정책 가정을 허용한다.
+이 절은 앞선 fixture 전용 실행 및 승인 전 실행 제외 범위를 experimental 경로에 한해 대체한다.
+실제 SSD 명령은 가장 후순위로 둔다. Base + NVM Bundle 선택과 Source/Builder 경계는 유지한다.
+
+strict 모드는 기존 계약을 유지한다. 명시적 experimental 모드에서는 candidate/provisional
+규칙·필드 근거를 그대로 보존하며 기존 Resolver/evaluate로 저장 DUT 로그를 평가한다.
+confirmed 검토 기록을 만들지 않고, 결과 kind는 experimental_validation_report,
+authoritative=false로 표시한다. PASS/FAIL의 의미는 등록된 실험 해석 및 가정에 대한 만족 여부다.
+정책 가정은 Source 데이터로 표현하며 실제 제품의 공식 정책으로 주장하지 않는다.
+현재 LAB_ASSUMED_DEVELOPMENT_PROFILE은 Format NVM·Firmware Download 지원을 요구한다.
+실제 OCP/MFND 원문이 없으면 이 이름의 공식 요구사항으로 등록하지 않는다.
+
+실험 충돌·누락·잘못된 입력도 CONFLICT/UNKNOWN/ERROR로 유지한다. MAY/SHOULD 자동 mandatory,
+Reserved 자동 zero, 암묵적 override는 계속 허용하지 않는다. 기존 confirmed 단일 단계 override
+계약은 유지한다. focused YAML projection은 전체 규격 추출 완료를 의미하지 않는다.
+GUI는 DUT 규칙별 결과·Expected·Actual/Context·출처·가정을 제공한다.
+구현 범위와 수정 가능한 Source는 [검토 전 규칙 실행](experimental_rules.md)을 따른다.
+
+## 77. 저장 로그부터 필드별 판정까지 하나의 사용 흐름
+
+기존 구현을 유지하고 일반 GUI를 로그 입력 → 공통 Actual → Bundle/Context/정책 적용 →
+기존 Resolver → 필드별 Expected/판정/근거의 단일 흐름으로 통합한다.
+75절의 GUI TEST/FIXTURE 실행 패널은 일반 화면에서 제거한다. 기존 CLI와 application
+서비스는 유지하며 합성 데이터를 실제 DUT 흐름에 넣지 않는다.
+
+텍스트 adapter는 후보 Bundle의 명시적 필드 연결을 이용해 공통 ActualFact를 보존한다.
+Builder에서 나온 FieldRegistration으로 layout_from_profile을 만들고 기존 normalize_json의
+타입·폭·누락 검사에 텍스트 해석 값을 전달한다. JSON은 내부 중간 표현이며 source_format은
+text, 입력 hash는 원본 텍스트 바이트의 hash다. 텍스트에서 raw 응답을 재구성하지 않는다.
+현재 candidate/provisional 정규화 값을 Resolver 입력으로 전달하는 것은 experimental 경로뿐이다.
+
+공통 Actual에는 매핑된 관측값을 보존하고, 실제 규칙의 등록 필드만 validation_facts로
+선택한다. 나머지 필드를 적합성이 판정된 것으로 표시하지 않는다. 한 필드의 여러 규칙을
+함께 만족해야 PASS이며 타입/폭 오류는 정규화 ERROR, 필요한 누락 입력은 UNKNOWN이다.
+필드 참조 관계에서 비교 입력으로 사용된 필드와 직접 제약을 판정한 필드를 구분한다.
+
+GUI의 Bundle·Atomic 적용 Context·임시 개발 정책/규격만 적용 선택은 현재 실행 입력에
+명시적으로 반영되고 결과에 저장된다. 파일 Source는 수정하지 않는다.
+표의 Actual·Expected·판정과 상세 trace는 동일한 DUT 실행 결과다.
+실제 SSD 명령 실행은 계속 최후순위이며 실험 결과의 authoritative=false 계약은 유지한다.
+
+## 78. 복수 저장 응답과 검사 scope (3단계)
+
+SavedCaptureSet은 원본 응답 바이트와 명령 종류, 형식, DUT·세션·Namespace, query와 도구 정보를
+각각 보존한다. 사용자 입력 수집 사실(metadata)과 Bundle 필드 해석(interpretation)은 분리한다.
+확인되지 않은 CNS/CSI/NSID는 UNKNOWN이다. raw 해석에는 명시적 CNS/CSI가 필요하다.
+최신 도구 버전이나 추가 필드는 검사 Bundle을 자동 변경하지 않는다.
+
+같은 DUT와 수집 세션을 명시한 응답만 함께 연결한다. Controller는 해당 그룹의 Namespace별
+scope에 공유하고, NSID 미확인 Namespace는 응답별로 분리한다. 각 scope에서 기존 Builder,
+layout_from_profile, normalize_raw/normalize_json, resolve/evaluate를 사용한다.
+FieldRef의 기존 키는 유지하고 서로 다른 Namespace를 별도로 평가하여 값 덮어쓰기를 피한다.
+중복/충돌은 원문과 입력 목록을 보존하고 자동 선택하지 않는다. 추가/미정의 필드는 관찰 자료다.
+
+원본 envelope와 결과는 validation_run에 보존한다. v3 스키마를 바꾸지 않고 버전 있는 input_kind로
+기존 단일 검사와 복수 입력 재실행을 구분한다. 당시 리비전/Bundle/Context/정책을 사용하며
+전체 백업과 복원도 기존 서비스를 재사용한다. [입력 계약](saved_capture_inspections.md)을 따른다.
+실제 id-ns 규칙과 형식 확인은 미완성이고 합성 fixture 검증과 구분한다.
+
+## 79. 제품 Profile과 명시적 선택 (4단계)
+
+SQLite Source의 선택적 knowledge/products.json은 ProductProfile, ProductPolicy, ProductContext를
+등록한다. 기존 v3 entity_index에 투영하여 조회하며 원본/인덱스 이중 수정은 하지 않는다.
+각 Profile은 하나의 Bundle과 정책 ID 목록, Context ID, 선택 조건, 명시적 FW 비교와 provenance를
+참조한다. 실제 제품 자료가 없으면 빈 목록이며 제품값을 추정하지 않는다.
+
+명시적 선택을 검사 옵션에 보존한다. API의 Bundle 불일치는 오류다. 후보 제안은 scope별로
+관찰 identity/query와 사용자 입력을 비교하고 자동 선택하지 않는다. 후보 없음은 UNKNOWN,
+복수 후보는 AMBIGUOUS, 누락 조건과 미등록 FW 비교는 UNKNOWN이다. FW 비교는 exact,
+명시적 numeric_components, 등록 ordered_labels만 지원하며 사전순/prefix 처리를 추정하지 않는다.
+
+제품 정책은 기존 RuntimeRule/Capability 매핑과 Builder, resolve/evaluate를 사용한다.
+Profile 적용 여부를 Context gate로 보존하여 false=N/A, missing=UNKNOWN으로 평가한다.
+필수 지원 요구를 Actual 지원 비트로 제외하지 않으며 충돌/승인된 override의 기존 계약을 유지한다.
+Profile에서는 LAB 정책/Context를 묵시적으로 상속하지 않는다. 명시적으로 등록한 Context와
+사용자 입력만 적용하며 실제 관찰 Namespace는 scope별로 연결한다.
+
+검사 당시 Profile/정책/Context, Source hash·리비전, 선택 trace, 관찰값·사용자 입력·선언값·가정·
+정책 요구·최종 Context를 분리하여 보존한다. 예전 Profile을 현재 값으로 바꿔 재실행하지 않는다.
+confirmed에는 검토자와 검토 근거가 필요하며 실험 결과는 authoritative=false다.
+[상세 계약](product_profiles.md)을 따른다. 실제 제품 정책/FW 자료와 후속 규격 확대는 별도 미완성이다.
+
+## 80. 원문 대조 candidate 요구사항 확대 (5단계)
+
+[실행 범위와 미해결 표](nvme_requirement_coverage.md)는 두 Bundle의 우선 요구사항을 기록한다.
+전 구조 재추출 대신 필요한 CNS00/CNS01 필드와 배열 슬롯을 원문과 대조한다. 후보 규칙의
+조건·예외·의무 수준·의존 입력·원문 페이지를 SQLite Source 리비전에 함께 보존한다.
+명시적 PDF hash 검증 등록은 사전 전체 백업·CAS·수정 충돌 거절을 거쳐 기존 Builder,
+정규화, resolve/evaluate를 재사용한다. 기존 schema v3와 과거 검사 이력은 유지한다.
+
+조건 GE는 정수 literal과 정수 참조의 ≥ 비교만 지원한다. NLBAF 공통 prefix 배열 슬롯의
+적용을 표현하기 위한 최소 확장이며 일반 수식/동적 lookup은 실행하지 않는다.
+query/scope 적용 사실은 서비스가 만들며 사용자 입력이나 제품 Context로 덮어쓰지 않는다.
+지원 비트에 종속된 Actual 일관성 검사와 제품의 필수 지원 요구는 독립적으로 유지한다.
+Controller AWUPF 관계의 필수 문장은 추가 Atomic Context로 해제하지 않는다.
+
+MAY equality는 필수로 변환하지 않고 Reserved에서 zero 기대를 만들지 않는다.
+atomic zero-inheritance와 newer MAM 적용 조건을 보존한다. LBAF unique 형식/FLBAS,
+ANA 상태·동작 atomic 검사는 미구현/추가 정보/동작 검사로 선언한다. 현재 결과는 candidate
+실험 실행이며 모든 규격 승인·실제 SSD 적합성 완료를 의미하지 않는다.
+
+## 81. 추가 규격 요구와 제품 정책 연결 (6단계)
+
+SQLite의 supplemental ledger는 원문 document/version/hash, 제품 범위, requirement ID,
+Capability와 NVMe Field/Bit의 근거, 직접 제약, 조건과 미검증 동작을 보존한다.
+OCP2.6 candidate subset을 두 Bundle의 ProductPolicy와 CapabilityMapping에 연결하고
+실제 제품 Profile 생성·적용 추정은 하지 않는다. MFND는 현 단계에서 제외한다.
+선택한 Profile의 조건과 명시적 OCP 대상/버전 Context gate를 기존 Resolver로 평가한다.
+Actual 지원 비트가 false라도 추가 정책의 필수 지원 요구를 제외하지 않는다.
+
+적용 literal 제약의 불가능한 교집합은 CONFLICT이며 각 참여 출처를 보존한다.
+일반 관계식의 완전한 충돌 증명은 지원하지 않는다. Override는 기존 confirmed 근거·대상·
+이유·동일 instance·단일 단계 계약을 유지한다. 원래/대체 결과·검토 record와 registry hash를
+supplemental_trace에 보존하고 당시 리비전으로 재실행한다. Capability check override 자체는
+지원하지 않는다. 실제 OCP 동작 예외 문구를 임의의 필드 override 허가로 해석하지 않는다.
+
+등록은 원문 hash·참조·현재 편집 충돌·CAS·사전 전체 백업을 거친 새 리비전이다.
+스키마 v3, 기존 Builder·정규화·Resolver와 과거 검사를 유지한다. 확인되지 않은 실제
+제품 정책값은 등록 대기이며 합성 데이터 검증을 실제 적합성으로 표시하지 않는다.
+[6단계 계약](supplemental_requirements.md)을 따른다.

@@ -246,6 +246,14 @@ def _validate_literal_conflicts(rules, fields, schema_constraints=()):
                 raise KnowledgeError("EXPLICIT_CONFLICT", f"{field_id}: {', '.join(sorted(rule.rule_id for rule in checked))}")
 
 
+def literal_constraints_compatible(rules, field):
+    """Reuse the Builder's literal intersection check on already validated rules.
+
+    This does not prove satisfiability of relational or conditional expressions.
+    """
+    return _literal_compatible(rules, field)
+
+
 def _literal_compatible(rules, field):
     lower, upper, choices, mask, value = None, None, None, 0, 0
     checks = [rule.check for rule in rules]

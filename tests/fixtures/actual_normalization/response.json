@@ -1,0 +1,14 @@
+{
+  "test_size": 100,
+  "test_capacity": 80,
+  "test_used": 40,
+  "test_formats": [
+    {
+      "size": 12
+    },
+    {
+      "size": 0
+    }
+  ],
+  "test_newer_only_feature": 999
+}

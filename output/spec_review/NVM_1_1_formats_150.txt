@@ -1,0 +1,41 @@
+NVM Express® NVM Command Set Specification, Revision 1.1
+150
+to be defined), identifies the number of LBA Formats that have the same capabilities used to format and 
+create a namespace (i.e., the green LBA Formats). The Identify command provides the ability to access 
+these same capabilities in a namespace data structure by specifying an NSID of FFFFFFFFh.
+The NULBAF field, a 1-based number (i.e., none may be defined), identifies the number of LBA Formats 
+that have unique attributes (i.e., that may not be the same capabilities as other LBA Formats) used to format 
+and create a namespace (i.e., the orange LBA Formats). A host should use the Identify command with a 
+CNS value of 09h to access the capabilities of a specific LBA Format for the NVM Command Set Identify 
+Namespace data structure. A host should use the Identify command with a CNS value of 0Ah to access the 
+capabilities of a specific LBA Format for an I/O Command Set specific Identify Namespace data structure 
+for the NVM Command Set.
+Figure 176 shows the association of CNS values of the Identify command that provides the ability to access 
+these same capabilities to specific LBA Format entries referenced by the NLBAF field and NULBF field.
+The maximum number of LBA formats allowed to be supported is:
+• 16 if the LBA Format Extension Enable (LBAFEE) field is cleared to 0h in the Host Behavior Support 
+feature (refer to the Host Behavior Support section in the NVM Express Base Specification); or
+• 64 if the LBAFEE field is set to 1h in the Host Behavior Support feature (refer to the Host Behavior 
+Support section in the NVM Express Base Specification).
+The total number of LBA formats supported is the sum of the values represented by the NLBAF field and 
+the NULBAF field. A Format Index is valid if the value is less than the sum of the values represented by the 
+NLBAF field and the NULBAF field. An LBA Format that is supported, but not currently available is indicated 
+by clearing the LBA Data Size field to 0h for that LBA Format.
+Figure 175: LBA Format List Structure
+LBA Format 0 Support
+LBA Format 1 Support
+...
+LBA Format NLBAF - 1 Support
+Supported format 
+capabilities the same
+Number of LBA Formats
+(refer to NLBAF)
+LBA Format NLBAF Support
+LBA Format NLBAF+1 Support
+...
+LBA Format NLBAF+NULBAF-1 Support
+Supported format 
+capabilities unique
+Number of Non-Common 
+LBA Formats
+(refer to NULBAF )

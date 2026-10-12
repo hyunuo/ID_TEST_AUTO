@@ -1,0 +1,883 @@
+
+===== PHYSICAL PDF PAGE 10 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+10
+2 NVM Command Set Model
+The NVM Express Base Specification defines a property level interface for host software to communicate 
+with a non-volatile memory subsystem (NVM subsystem). This specification defines additional functionality 
+for the NVM Command Set.
+2.1 Theory of operation
+An NVM subsystem is comprised of some number of controllers, where each controller may access some 
+number of namespaces. For the NVM Command Set, each namespace is comprised of logical blocks. A 
+logical block is the smallest unit of data that may be read or written from the controller. The logical block 
+data size, reported in bytes, is always a power of two. Logical block data sizes may be 512 bytes, 1 KiB, 
+2 KiB, 4 KiB, 8 KiB, etc. NVM Command Set commands are used to access and modify logical block 
+contents within a namespace.
+Namespaces
+A namespace is a collection of NVM and is as defined in the NVM Express Base Specification.
+The Identify Namespace data structure (refer to Figure 97) contains related fields reporting the Namespace 
+Size, Capacity and Utilization:
+• The Namespace Size (NSZE) field defines the total size of the namespace in logical blocks (LBA 0 
+through n-1). 
+• The Namespace Capacity (NCAP) field defines the maximum number of logical blocks that may be 
+allocated at any point in time.
+• The Namespace Utilization (NUSE) field defines the number of logical blocks currently allocated in 
+the namespace.
+The following relationship holds: Namespace Size >= Namespace Capacity >= Namespace Utilization.
+If the THINP bit in the NSFEAT field of the Identify Namespace data structure is set to ‘1’, the controller:
+• may report a value in the Namespace Capacity field that is smaller than the value in the Namespace 
+Size field; and
+• shall track the number of allocated blocks in the Namespace Utilization field.
+If the THINP bit is cleared to ‘0’, the controller:
+• shall report a value in the Namespace Capacity field that is equal to the Namespace Size; and
+• may report a value in the Namespace Utilization field that is always equal to the value in the 
+Namespace Capacity field.
+A logical block shall be marked as allocated when it is written with:
+• a User Data Out Command (refer to section 1.4.2.6);
+• a Write Uncorrectable command (refer to section 3.2.7); or
+• a Write Zeroes command (refer to section 3.2.8) that does not deallocate the logical block.
+A logical block may be marked as allocated as the result of:
+• a User Data Out Command not addressing the logical block (e.g., NPWG field may indicate 
+sequential logical blocks placed and tracked together on the media (refer to section 5.8.2.1);
+• a Write Zeroes command (refer to section 3.2.8) not addressing the logical block;
+• a sanitize operation (refer to section 5.6); or
+• a Format NVM command (refer to section 4.1.2).
+Commands and operations that may result in a logical block being deallocated include: 
+===== PHYSICAL PDF PAGE 11 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+11
+• a Dataset Management command (refer to section 3.2.3);
+• a Write Zeroes command (refer to section 3.2.8) addressing the logical block;
+• a sanitize operation (refer to section 5.6); or
+• a Format NVM command (refer to section 4.1.2).
+Vendor specific means are able to allocate or deallocate logical blocks.
+If the controller supports Asymmetric Namespace Access Reporting (i.e., bit 3 set to ‘1’ in the CMIC field in 
+the Identify Controller data structure (refer to the NVM Express Base Specification)), then the NUSE field 
+(refer to Figure 97) and the NVMCAP field (refer to Figure 97) are cleared to 0h if the relationship between 
+the controller and the namespace is in the ANA Inaccessible state or the ANA Persistent Loss state (refer 
+to the Asymmetric Namespace Access Reporting section in the NVM Express Base Specification). The 
+Namespace Attribute Changed event is not generated for changes to these fields that result from ANA state 
+changes as described in the Asynchronous Event Request command section in the NVM Express Base 
+Specification. The host uses the Asymmetric Namespace Access Change Notices as an indication of these 
+changes.
+Command Ordering Requirements
+For all commands which are not part of a fused operation (refer to section 2.1.3), or for which the write size 
+is greater than AWUN (refer to section 2.1.4.1), each command is processed as an independent entity 
+without reference to other commands submitted to the same I/O Submission Queue or to commands 
+submitted to other I/O Submission Queues. Specifically, the controller is not responsible for checking the 
+LBA of a User Data In or User Data Out command to ensure any type of ordering between commands. For 
+example, if a Read is submitted for LBA x and there is a Write also submitted for LBA x, there is no 
+guarantee of the order of completion for those commands (the Read may finish first or the Write may finish 
+first). If there are ordering requirements between these commands, host software or the associated 
+application is required to enforce that ordering above the level of the controller.
+Fused Operation
+Fused operations are defined in the NVM Express Base Specification. The NVM Command Set adds the 
+following requirements for Fused operations. The command sequences that may be used in a fused 
+operation for the NVM Command Set are defined in Figure 3.
+Figure 3: Supported Fused Operations
+Command 1 Command 2 Fused Operation
+Compare Write Compare and Write
+2.1.3.1 Compare and Write
+The Compare and Write fused operation compares the contents of the logical block(s) specified in the 
+Compare command to the data stored at the indicated LBA range. If the compare operation is successful, 
+then the LBA range is updated with the data provided in the Write command. If the compare operation is 
+not successful, then the controller shall abort the Write command with a status code of Command Aborted 
+due to Failed Fused Command and the contents in the LBA range are not modified. If the write operation 
+is not successful, the Compare command completion status is unaffected.
+The LBA range, if used, shall be the same for the two commands. If the LBA ranges do not match, the the 
+controller should abort the commands with a status code of Invalid Field in Command.
+===== PHYSICAL PDF PAGE 56 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+56
+Figure 96: CNS Values
+CNS 
+Value O/M 1 Definition NSID 2
+CNTID 3
+CSI 4 Reference 
+Section
+Active Namespace Management
+00h M
+Identify Namespace data structure for the specified 
+NSID or the namespace capabilities for the NVM 
+Command Set.
+6
+Y N N 4.1.5.1
+01h M
+Identify Controller data structure for the controller 
+processing the command. 6 N N N 4.1.5.2
+05h M 5
+Identify I/O Command Set specific Namespace data 
+structure for the specified NSID for the I/O Command 
+Set specified in the CSI field. 6
+Y N Y 4.1.5.3
+06h M
+Identify I/O Command Set specific Controller data 
+structure for the controller processing the command. 6 N N Y 4.1.5.4
+11h O
+5 Identify Namespace data structure for the specified 
+allocated NSID. Y N N 4.1.5.5
+16h O
+A Namespace Granularity List (refer to Figure 103) is 
+returned to the host that contains up to sixteen 
+Namespace Granularity Entries.
+N N N 4.1.5.6
+1Bh O 5 I/O Command Set specific Identify Namespace data 
+structure for the specified allocated NSID. Y N Y 4.1.5.7
+Notes:
+1. O/M definition: O = Optional, M = Mandatory.
+2. The NSID field is used: Y = Yes, N = No.
+3. The CDW10.CNTID field is used: Y = Yes, N = No.
+4. The CDW11.CSI field is used: Y = Yes, N = No.
+5. Mandatory for controllers that support the Namespace Management capability (refer to the NVM Express Base 
+Specification).
+6. Selection of a UUID may be supported. Refer to the Universally Unique Identifiers (UUIDs) for Vendor Specific 
+Information section in the NVM Express Base Specification.
+4.1.5.1 NVM Command Set Identify Namespace Data Structure (CNS 00h)
+If the Namespace Identifier (NSID) field specifies an active NSID, then the NVM Command Set Identify 
+Namespace data structure (refer to Figure 97) is returned to the host for that specified namespace. If that 
+value in the NSID field is an inactive NSID, then the controller returns a zero filled data structure. If the 
+specified namespace is not associated with an I/O Command Set that supports this data structure, then the 
+controller shall abort a command with a status code of Invalid I/O Command Set.
+If the controller supports the Namespace Management capability (refer to the Namespace Management 
+section in the NVM Express Base Specification) and the NSID field is set to FFFFFFFFh, then the controller 
+returns an Identify Namespace data structure that specifies NVM Command Set capabilities that are 
+common across namespaces for the controller. If the controller does not support the Namespace 
+Management capability and the NSID field is set to FFFFFFFFh, then the controller shall abort the command 
+with a status code of Invalid Namespace or Format.
+===== PHYSICAL PDF PAGE 57 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+57
+Figure 97: Identify – Identify Namespace Data Structure, NVM Command Set 
+Bytes O/M 1 Description
+07:00 M
+Namespace Size (NSZE): This field indicates the total size of the namespace in logical 
+blocks. A namespace of size n consists of LBA 0 through LBA (n - 1). The number of 
+logical blocks is based on the formatted logical block size.
+Refer to section 2.1.1 for details on the usage of this field.
+15:08 M
+Namespace Capacity (NCAP): This field indicates the maximum number of logical 
+blocks that may be allocated in the namespace at any point in time. The number of logical 
+blocks is based on the formatted logical block size. Spare LBAs are not reported as part 
+of this field.
+Refer to section 2.1.1 for details on the usage of this field.
+23:16 M
+Namespace Utilization (NUSE): This field indicates the current number of logical blocks 
+allocated in the namespace. This field is less than or equal to the Namespace Capacity. 
+The number of logical blocks is based on the formatted logical block size.
+Refer to section 2.1.1 for details on the usage of this field.
+24 M
+Namespace Features (NSFEAT): This field defines features of the namespace.
+Bits 7:5 are reserved.
+Bit 4 (OPTPERF) if set to ‘1’ indicates that the fields NPWG, NPWA, NPDG, NPDA, and 
+NOWS are defined for this namespace and should be used by the host for I/O optimization 
+(refer to section 5.8.2). If cleared to ‘0’, then the controller does not support the fields 
+NPWG, NPWA, NPDG, NPDA, and NOWS for this namespace.
+Bit 3 (UIDREUSE) This bit is as defined in the UIDREUSE bit in the I/O Command Set 
+Independent Identify Namespace data structure (refer to the I/O Command Set 
+Independent Identify Namespace data structure section in the NVM Express Base 
+Specification).
+Bit 2 (DAE) if set to ‘1’ indicates that the controller supports the Deallocated or Unwritten 
+Logical Block error for this namespace. If cleared to ‘0’, then the controller does not 
+support the Deallocated or Unwritten Logical Block error for this namespace. Refer to 
+section 3.2.3.2.1. 
+Bit 1 (NSABP) if set to ‘1’ indicates that the fields NAWUN, NAWUPF, and NACWU are 
+defined for this namespace and should be used by the host for this namespace instead 
+of the AWUN, AWUPF, and ACWU fields in the Identify Controller data structure. If 
+cleared to ‘0’, then the controller does not support the fields NAWUN, NAWUPF, and 
+NACWU for this namespace. In this case, the host should use the AWUN, AWUPF, and 
+ACWU fields defined in the Identify Controller data structure in the NVM Express Base 
+Specification. Refer to section 2.1.4.
+Bit 0 (THINP) if set to ‘1’ indicates that the namespace supports thin provisioning. If 
+cleared to ‘0’ indicates that thin provisioning is not supported Refer to section 2.1.1 for 
+details on the usage of this bit.
+===== PHYSICAL PDF PAGE 58 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+58
+Figure 97: Identify – Identify Namespace Data Structure, NVM Command Set 
+Bytes O/M 1 Description
+25 M
+Number of LBA Formats (NLBAF): This field defines the number of supported LBA data 
+size and metadata size combinations supported by the namespace. LBA formats shall be 
+packed sequentially starting at the LBA Format 0 Support (LBAF0) field. This is a 0’s 
+based value. The maximum number of LBA formats that may be indicated as supported 
+is:
+a) 16 if the LBA Format Extension Enable (LBAFEE) field is cleared to 0h in the 
+Host Behavior Support feature (refer to the Host Behavior Support section in the 
+NVM Express Base Specification); or
+b) 64 if the LBAFEE field is set to 1h in the Host Behavior Support feature (refer to 
+the Host Behavior Support section in the NVM Express Base Specification).
+The supported LBA formats are indicated in bytes 128 to 383 in this data structure. The 
+LBA Format fields with an index beyond the value set in this field are invalid and not 
+supported. LBA Formats that are valid, but not currently available may be indicated by 
+setting the LBA Data Size for that LBA Format to 0h.
+The metadata may be either transferred as part of the logical block or may be transferred 
+as a separate contiguous buffer of data. The metadata shall not be split between the 
+logical block and a separate metadata buffer. Refer to section 2.1.6.
+It is recommended that software and controllers transition to an logical block size that is 
+4 KiB or larger for ECC efficiency at the controller. If providing metadata, it is 
+recommended that at least 8 bytes are provided per logical block to enable use with end￾to-end data protection, refer to section 5.8.3.
+26 M
+Formatted LBA Size (FLBAS): This field indicates the LBA data size and metadata size 
+combination that the namespace has been formatted with (refer to section 4.1.2). 
+Bits 7 is reserved.
+Bits 6:5 indicate the most significant 2 bits of the Format Index that was used to format 
+the namespace. If the NLBAF field is less than or equal to 16, then the host should ignore 
+these bits.
+Bit 4 if set to ‘1’ indicates that the metadata is transferred at the end of the logical block, 
+creating an extended logical block. Bit 4 if cleared to ‘0’ indicates that all of the metadata 
+for a command is transferred as a separate contiguous buffer of data. Bit 4 is not 
+applicable when there is no metadata.
+Bits 3:0 indicate the least significant 4 bits of the Format Index that was used to format 
+the namespace. 
+27 M
+Metadata Capabilities (MC): This field indicates the capabilities for metadata.
+Bits 7:2 are reserved.
+Bit 1 if set to ‘1’ indicates the namespace supports the metadata being transferred as part 
+of a separate buffer that is specified in the Metadata Pointer. Bit 1 if cleared to ‘0’ indicates 
+that the namespace does not support the metadata being transferred as part of a separate 
+buffer.
+Bit 0 if set to ‘1’ indicates that the namespace supports the metadata being transferred as 
+part of an extended data LBA. Bit 0 if cleared to ‘0’ indicates that the namespace does 
+not support the metadata being transferred as part of an extended data LBA.
+===== PHYSICAL PDF PAGE 59 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+59
+Figure 97: Identify – Identify Namespace Data Structure, NVM Command Set 
+Bytes O/M 1 Description
+28 M
+End-to-end Data Protection Capabilities (DPC): This field indicates the capabilities for 
+the end-to-end data protection feature. Multiple bits may be set in this field. Refer to 
+section 5.2.
+Bits Description
+7:5 Reserved
+4
+Protection Information In Last Bytes (PIILB): If set to ‘1’ indicates 
+that the namespace supports protection information transferred as the 
+last bytes of metadata. If cleared to ‘0’ indicates that the namespace 
+does not support protection information transferred as the last bytes 
+of metadata. 
+3
+Protection Information In First Bytes (PIIFB): If set to ‘1’ indicates 
+that the namespace supports protection information transferred as the 
+first bytes of metadata. If cleared to ‘0’ indicates that the namespace 
+does not support protection information transferred as the first bytes 
+of metadata. For implementations compliant with revision 1.0 or later
+of the NVM Command Set Specification, this bit shall be cleared to ‘0’.
+2
+Protection Information Type 3 Supported (PIT3S): If set to ‘1’ 
+indicates that the namespace supports Protection Information Type 3. 
+If cleared to ‘0’ indicates that the namespace does not support 
+Protection Information Type 3.
+1
+Protection Information Type 2 Supported (PIT2S): If set to ‘1’ 
+indicates that the namespace supports Protection Information Type 2. 
+If cleared to ‘0’ indicates that the namespace does not support 
+Protection Information Type 2.
+0
+Protection Information Type 1 Supported (PIT1S): If set to ‘1’ 
+indicates that the namespace supports Protection Information Type 1. 
+If cleared to ‘0’ indicates that the namespace does not support 
+Protection Information Type 1.
+29 M
+End-to-end Data Protection Type Settings (DPS): This field indicates the protection 
+information Type settings for the end-to-end data protection feature. Refer to section 5.2.
+Bits Description
+7:4 Reserved
+3
+Protection Information Position (PIP): This bit, if set to ‘1’, indicates that 
+the protection information, if enabled, is transferred as the first bytes of 
+metadata. This bit, if cleared to ‘0’, indicates that the protection information, 
+if enabled, is transferred as the last bytes of metadata. For implementations 
+compliant with version 1.0 or later of the NVM Command Set Specification,
+this bit shall be cleared to ‘0’.
+2:0
+Protection Information Type (PIT): This field indicates whether protection 
+information is enabled and the type of protection information enabled. The 
+values for this field have the following meanings:
+Value Definition
+000b Protection information is not enabled
+001b Protection information is enabled, Type 1
+010b Protection information is enabled, Type 2
+011b Protection information is enabled, Type 3
+100b to 111b Reserved
+30 O
+Namespace Multi-path I/O and Namespace Sharing Capabilities (NMIC): This field is 
+as defined in the I/O Command Set Independent Identify Namespace data structure (refer 
+to the I/O Command Set Independent Identify Namespace data structure section in the 
+NVM Express Base Specification).
+===== PHYSICAL PDF PAGE 60 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+60
+Figure 97: Identify – Identify Namespace Data Structure, NVM Command Set 
+Bytes O/M 1 Description
+31 O
+Reservation Capabilities (RESCAP): This field is as defined in the I/O Command Set 
+Independent Identify Namespace data structure (refer to the I/O Command Set 
+Independent Identify Namespace data structure section in the NVM Express Base 
+Specification).
+32 O
+Format Progress Indicator (FPI): This field is as defined in the I/O Command Set 
+Independent Identify Namespace data structure (refer to the I/O Command Set 
+Independent Identify Namespace data structure section in the NVM Express Base 
+Specification).
+33 O
+Deallocate Logical Block Features (DLFEAT): This field indicates information about 
+features that affect deallocating logical blocks for this namespace.
+Bits 7:5 are reserved.
+Bit 4 if set to ‘1’ indicates that the Guard field for deallocated logical blocks that contain 
+protection information is set to the CRC for the value read from the deallocated logical 
+block and its metadata (excluding protection information). If cleared to ‘0’ indicates that 
+each byte in the Guard field for the deallocated logical blocks that contain protection 
+information is set to FFh.
+Bit 3 if set to ‘1’ indicates that the controller supports the Deallocate bit in the Write Zeroes 
+command for this namespace. If cleared to ‘0’ indicates that the controller does not 
+support the Deallocate bit in the Write Zeroes command for this namespace. This bit shall 
+be set to the same value for all namespaces in the NVM subsystem.
+Bits 2:0 indicate deallocated logical block read behavior. For a logical block that is 
+deallocated, this field indicates the values read from that deallocated logical block and its 
+metadata (excluding protection information). The values for this field have the following 
+meanings:
+Value Definition
+000b The read behavior is not reported
+001b A deallocated logical block returns all bytes cleared to 0h
+010b A deallocated logical block returns all bytes set to FFh
+011b to 111b Reserved
+35:34 O
+Namespace Atomic Write Unit Normal (NAWUN): This field indicates the namespace 
+specific size of the write operation guaranteed to be written atomically to the NVM during 
+normal operation. If the NSABP bit is cleared to ‘0’, then this field is reserved.
+A value of 0h indicates that the size for this namespace is the same size as that reported 
+in the AWUN field of the Identify Controller data structure. All other values specify a size 
+in terms of logical blocks using the same encoding as the AWUN field (i.e., with the 
+exception of the value 0, this field is a 0’s based value). Refer to section 2.1.4.
+37:36 O
+Namespace Atomic Write Unit Power Fail (NAWUPF): This field indicates the 
+namespace specific size of the write operation guaranteed to be written atomically to the 
+NVM during a power fail or error condition. If the NSABP bit is cleared to ‘0’, then this field 
+is reserved.
+A value of 0h indicates that the size for this namespace is the same size as that reported 
+in the AWUPF field of the Identify Controller data structure. All other values specify a size 
+in terms of logical blocks using the same encoding as the AWUPF field (i.e., with the 
+exception of the value 0, this field is a 0’s based value). Refer to section 2.1.4.
+===== PHYSICAL PDF PAGE 61 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+61
+Figure 97: Identify – Identify Namespace Data Structure, NVM Command Set 
+Bytes O/M 1 Description
+39:38 O
+Namespace Atomic Compare & Write Unit (NACWU): This field indicates the 
+namespace specific size of the write operation guaranteed to be written atomically to the 
+NVM for a Compare and Write fused command. If the NSABP bit is cleared to ‘0’, then 
+this field is reserved.
+A value of 0h indicates that the size for this namespace is the same size as that reported 
+in the ACWU field of the Identify Controller data structure. All other values specify a size 
+in terms of logical blocks using the same encoding as the ACWU field (i.e., with the 
+exception of the value 0, this field is a 0’s based value). Refer to section 2.1.4.
+41:40 O
+Namespace Atomic Boundary Size Normal (NABSN): This field indicates the atomic 
+boundary size for this namespace for the NAWUN value. This field is specified in logical 
+blocks. Writes to this namespace that cross atomic boundaries are not guaranteed to be 
+atomic to the NVM with respect to other read or write commands.
+A value of 0h indicates that there are no atomic boundaries for normal write operations. 
+All other values specify a size in terms of logical blocks using the same encoding as the 
+AWUN field (i.e., with the exception of the value 0, this field is a 0’s based value). Refer 
+to section 2.1.4.
+Refer to section 5.8.2 for how this field is utilized.
+43:42 O
+Namespace Atomic Boundary Offset (NABO): This field indicates the LBA on this 
+namespace where the first atomic boundary starts.
+If the NABSN and NABSPF fields are cleared to 0h, then the NABO field shall be cleared 
+to 0h. NABO shall be less than or equal to NABSN and NABSPF. Refer to section 2.1.4.
+Refer to section 5.8.2 for how this field is utilized.
+45:44 O
+Namespace Atomic Boundary Size Power Fail (NABSPF): This field indicates the 
+atomic boundary size for this namespace specific to the Namespace Atomic Write Unit 
+Power Fail value. This field is specified in logical blocks. Writes to this namespace that 
+cross atomic boundaries are not guaranteed to be atomic with respect to other read or 
+write commands and there is no guarantee of data returned on subsequent reads of the 
+associated logical blocks.
+A value of 0h indicates that there are no atomic boundaries for power fail or error 
+conditions. All other values specify a size in terms of logical blocks using the same 
+encoding as the AWUPF field (i.e., with the exception of the value 0, this field is a 0’s 
+based value). Refer to section 2.1.4.
+47:46 O
+Namespace Optimal I/O Boundary (NOIOB): This field indicates the optimal I/O 
+boundary for this namespace. This field is specified in logical blocks. The host should 
+construct Read and Write commands that do not cross the I/O boundary to achieve 
+optimal performance. A value of 0h indicates that no optimal I/O boundary is reported.
+Refer to section 5.8.2 for how this field is utilized to improve performance and endurance.
+63:48 O
+NVM Capacity (NVMCAP): This field indicates the total size of the NVM allocated to this 
+namespace. The value is in bytes. This field shall be supported if the Namespace 
+Management capability (refer to section 5.3) is supported.
+Note: This field may not correspond to the logical block size multiplied by the Namespace 
+Size field. Due to thin provisioning or other settings (e.g., endurance), this field may be 
+larger or smaller than the product of the logical block size and the Namespace Size 
+reported.
+If the controller supports Asymmetric Namespace Access Reporting (refer to the CMIC 
+field), and the relationship between the controller and the namespace is in the ANA 
+Inaccessible state (refer to the ANA Inaccessible state section in the NVM Express Base 
+Specification) or the ANA Persistent Loss state (refer to the ANA Persistent Loss state
+section in the NVM Express Base Specification), then this field shall be cleared to 0h.
+===== PHYSICAL PDF PAGE 62 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+62
+Figure 97: Identify – Identify Namespace Data Structure, NVM Command Set 
+Bytes O/M 1 Description
+65:64 O
+Namespace Preferred Write Granularity (NPWG): This field indicates the smallest 
+recommended write granularity in logical blocks for this namespace. This is a 0’s based 
+value. If the OPTPERF bit is cleared to ‘0’, then this field is reserved.
+The size indicated should be less than or equal to the maximum number of logical blocks 
+that are able to be transferred based on the value of the Maximum Data Transfer Size 
+(MDTS) field defined in the Identify Controller data structure (refer to the NVM Express 
+Base Specification). The MDTS field is specified in units of minimum memory page size. 
+The value of this field may change if the namespace is reformatted. The size should be a 
+multiple of Namespace Preferred Write Alignment (NPWA).
+Refer to section 5.8.2 for how this field is utilized to improve performance and endurance.
+67:66 O
+Namespace Preferred Write Alignment (NPWA): This field indicates the recommended 
+write alignment in logical blocks for this namespace. This is a 0’s based value. If the 
+OPTPERF bit is cleared to ‘0’, then this field is reserved.
+The value of this field may change if the namespace is reformatted.
+Refer to section 5.8.2 for how this field is utilized to improve performance and endurance.
+69:68 O
+Namespace Preferred Deallocate Granularity (NPDG): This field indicates the 
+recommended granularity in logical blocks for the Dataset Management command with 
+the Attribute – Deallocate bit set to ‘1’ in Dword 11. This is a 0’s based value. If the 
+OPTPERF bit is cleared to ‘0’, then this field is reserved.
+The value of this field may change if the namespace is reformatted. The size should be a 
+multiple of Namespace Preferred Deallocate Alignment (NPDA).
+Refer to section 5.8.2 for how this field is utilized to improve performance and endurance.
+71:70 O
+Namespace Preferred Deallocate Alignment (NPDA): This field indicates the 
+recommended alignment in logical blocks for the Dataset Management command with the 
+Attribute – Deallocate bit set to ‘1’ in Dword 11. This is a 0’s based value. If the OPTPERF
+bit is cleared to ‘0’, then this field is reserved.
+The value of this field may change if the namespace is reformatted.
+Refer to section 5.8.2 for how this field is utilized to improve performance and endurance.
+73:72 O
+Namespace Optimal Write Size (NOWS): This field indicates the size in logical blocks 
+for optimal write performance for this namespace. This is a 0’s based value. If the 
+OPTPERF bit is cleared to ‘0’, then this field is reserved.
+The size indicated should be less than or equal to the maximum number of logical blocks 
+that are able to be transferred based on the value of the Maximum Data Transfer Size 
+(MDTS) field defined in the Identify Controller data structure (refer to the NVM Express 
+Base Specification). The MDTS field is specified in units of minimum memory page size.
+The value of this field may change if the namespace is reformatted. The value of this field 
+should be a multiple of Namespace Preferred Write Granularity (NPWG).
+If this namespace is associated with an NVM set, this field shall be set to the maximum 
+number of logical blocks that are able to be transferred based on the value of the Optimal 
+Write Size field setting defined in NVM Set Attributes Entry (refer to the Namespace 
+Identification Descriptor in the NVM Express Base Specification) for the NVM Set with 
+which this namespace is associated. If NOWS is not supported, the Optimal Write Size 
+field in NVM Sets Attributes Entry (refer to the Namespace Identification Descriptor in the 
+NVM Express Base Specification) for the NVM Set with which this namespace is 
+associated should be used by the host for I/O optimization.
+Refer to section 5.8.2 for how this field is utilized to improve performance and endurance.
+===== PHYSICAL PDF PAGE 63 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+63
+Figure 97: Identify – Identify Namespace Data Structure, NVM Command Set 
+Bytes O/M 1 Description
+75:74 O
+Maximum Single Source Range Length (MSSRL): This field indicates the maximum 
+number of logical blocks that may be specified in the Number of Logical Block field in each 
+valid Source Range Entries Descriptor of a Copy command (refer to section 3.2.2).
+If the controller supports the Copy command, then this field shall be set to a non-zero 
+value.
+79:76 O
+Maximum Copy Length (MCL): This field indicates the maximum number of logical 
+blocks that may be specified in a Copy command (i.e., the sum of the number of logical 
+blocks specified in all Source Range entries).
+If the controller supports the Copy command, then this field shall be set to a non-zero 
+value.
+80 O
+Maximum Source Range Count (MSRC): This field indicates the maximum number of 
+Source Range entries that may be used to specify source data in a Copy command. This 
+is a 0’s based value.
+91:81 Reserved
+95:92 O
+ANA Group Identifier (ANAGRPID): This field is as defined in the I/O Command Set 
+Independent Identify Namespace data structure (refer to the I/O Command Set 
+Independent Identify Namespace data structure section in the NVM Express Base 
+Specification).
+98:96 Reserved
+99 O
+Namespace Attributes (NSATTR): This field is as defined in the I/O Command Set 
+Independent Identify Namespace data structure (refer to the I/O Command Set 
+Independent Identify Namespace data structure section in the NVM Express Base 
+Specification).
+101:100 O
+NVM Set Identifier (NVMSETID): This field is as defined in the I/O Command Set 
+Independent Identify Namespace data structure (refer to the I/O Command Set 
+Independent Identify Namespace data structure section in the NVM Express Base 
+Specification).
+103:102 O
+Endurance Group Identifier (ENDGID): This field is as defined in the I/O Command Set 
+Independent Identify Namespace data structure (refer to the I/O Command Set 
+Independent Identify Namespace data structure section in the NVM Express Base 
+Specification).
+119:104 O
+Namespace Globally Unique Identifier (NGUID): This field contains a 128-bit value that 
+is globally unique and assigned to the namespace when the namespace is created. This 
+field remains fixed throughout the life of the namespace and is preserved across 
+namespace and controller operations (e.g., Controller Level Reset, namespace format, 
+etc.).
+This field uses the EUI-64 based 16-byte designator format. Bytes 114:112 contain the 
+24-bit Organizationally Unique Identifier (OUI) value assigned by the IEEE Registration 
+Authority. Bytes 119:115 contain an extension identifier assigned by the corresponding 
+organization. Bytes 111:104 contain the vendor specific extension identifier assigned by 
+the corresponding organization. Refer to the IEEE EUI-64 guidelines for more information. 
+This field is big endian (refer to the Namespace Globally Unique Identifier section in the 
+NVM Express Base Specification).
+The controller shall specify a globally unique namespace identifier in this field, the EUI64 
+field, or a Namespace UUID in the Namespace Identification Descriptor (refer to the 
+Namespace Identification Descriptor figure in the NVM Express Base Specification) when 
+the namespace is created. If the controller is not able to provide a globally unique identifier 
+in this field, then this field shall be cleared to 0h. Refer to the Unique Identifier section in 
+the NVM Express Base Specification.
+===== PHYSICAL PDF PAGE 64 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+64
+Figure 97: Identify – Identify Namespace Data Structure, NVM Command Set 
+Bytes O/M 1 Description
+127:120 O
+IEEE Extended Unique Identifier (EUI64): This field contains a 64-bit IEEE Extended 
+Unique Identifier (EUI-64) that is globally unique and assigned to the namespace when 
+the namespace is created. This field remains fixed throughout the life of the namespace 
+and is preserved across namespace and controller operations (e.g., Controller Level 
+Reset, namespace format, etc.). 
+The EUI-64 is a concatenation of a 24-bit or 36-bit Organizationally Unique Identifier (OUI 
+or OUI-36) value assigned by the IEEE Registration Authority and an extension identifier 
+assigned by the corresponding organization. Refer to the IEEE EUI-64 guidelines for more 
+information. This field is big endian (refer to the IEEE Extended Unique Identifier section
+in the NVM Express Base Specification).
+The controller shall specify a globally unique namespace identifier in this field, the NGUID 
+field, or a Namespace UUID in the Namespace Identification Descriptor (refer to the 
+Namespace Identification Descriptor figure in the NVM Express Base Specification) when 
+the namespace is created. If the controller is not able to provide a globally unique 64-bit 
+identifier in this field, then this field shall be cleared to 0h. Refer to the Unique Identifier 
+section in the NVM Express Base Specification.
+LBA Formats List
+131:128 M
+LBA Format 0 Support (LBAF0): This field indicates the LBA format 0 that is supported 
+by the controller. The LBA format field is defined in Figure 98.
+Additional information may be provided in the ELBAF0 field (refer to Figure 100).
+135:132 O
+LBA Format 1 Support (LBAF1): This field indicates the LBA format 1 that is supported 
+by the controller. The LBA format field is defined in Figure 98.
+Additional information may be provided in the ELBAF1 field (refer to Figure 100).
+…
+383:380 O
+LBA Format 63 Support (LBAF63): This field indicates the LBA format 63 that is 
+supported by the controller. The LBA format field is defined in Figure 98.
+Additional information may be provided in the ELBAF63 field (refer to Figure 100).
+4095:384 O Vendor Specific
+Notes:
+1. O/M definition: O = Optional, M = Mandatory.
+The LBA format data structure is described in Figure 98.
+Figure 98: LBA Format Data Structure, NVM Command Set Specific
+Bits Description
+31:26 Reserved
+25:24
+Relative Performance (RP): This field indicates the relative performance of the LBA format 
+indicated relative to other LBA formats supported by the controller. Depending on the size of the 
+LBA and associated metadata, there may be performance implications. The performance 
+analysis is based on better performance on a queue depth 32 with 4 KiB read workload. The 
+meanings of the values indicated are included in the following table.
+Value Definition
+00b Best performance
+01b Better performance
+10b Good performance
+11b Degraded performance
+===== PHYSICAL PDF PAGE 65 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+65
+Figure 98: LBA Format Data Structure, NVM Command Set Specific
+Bits Description
+23:16
+LBA Data Size (LBADS): This field indicates the LBA data size supported. The value is reported 
+in terms of a power of two (2^n). A non-zero value less than 9 (i.e., 512 bytes) is not supported. 
+If the value reported is 0h, then the LBA format is not currently available (refer to the Number of 
+LBA Formats field in Figure 97).
+15:00
+Metadata Size (MS): This field indicates the number of metadata bytes provided per LBA based 
+on the LBA Data Size indicated. If there is no metadata supported, then this field shall be cleared 
+to 0h.
+If metadata is supported, then the namespace may support the metadata being transferred as 
+part of an extended data LBA or as part of a separate contiguous buffer. If end-to-end data 
+protection is enabled, then the first eight bytes or last eight bytes of the metadata is the protection 
+information (refer to the DPS field in the Identify Namespace data structure).
+4.1.5.2 I/O Command Set specific fields within Identify Controller data structure (CNS 01h)
+The following table describes the NVM Command Set specific fields within the Identify Controller data 
+structure described in the NVM Express Base Specification.
+Figure 99: Identify – Identify Controller data structure, NVM Command Set Specific Fields
+Bytes O/M 1 Description
+527:526 M
+Atomic Write Unit Normal (AWUN): This field indicates the size of the write 
+operation guaranteed to be written atomically to the NVM across all namespaces 
+with any supported namespace format during normal operation. This field is 
+specified in logical blocks and is a 0’s based value. 
+If a specific namespace guarantees a larger size than is reported in this field, then 
+this namespace specific size is reported in the NAWUN field in the Identify 
+Namespace data structure. Refer to section 2.1.4.
+If a write command is submitted with size less than or equal to the AWUN value, 
+the host is guaranteed that the write command is atomic to the NVM with respect 
+to other read or write commands. If a write command is submitted with size greater 
+than the AWUN value, then there is no guarantee of command atomicity. AWUN 
+does not have any applicability to write errors caused by power failure (refer to 
+Atomic Write Unit Power Fail).
+A value of FFFFh indicates all commands are atomic as this is the largest 
+command size. It is recommended that implementations support a minimum of 
+128 KiB (appropriately scaled based on logical block size). 
+===== PHYSICAL PDF PAGE 66 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+66
+Figure 99: Identify – Identify Controller data structure, NVM Command Set Specific Fields
+Bytes O/M 1 Description
+529:528 M
+Atomic Write Unit Power Fail (AWUPF): This field indicates the size of the write 
+operation guaranteed to be written atomically to the NVM across all namespaces 
+with any supported namespace format during a power fail or error condition. 
+If a specific namespace guarantees a larger size than is reported in this field, then 
+this namespace specific size is reported in the NAWUPF field in the Identify 
+Namespace data structure. Refer to section 2.1.4.
+This field is specified in logical blocks and is a 0’s based value. The AWUPF value 
+shall be less than or equal to the AWUN value.
+If a write command is submitted with size less than or equal to the AWUPF value, 
+the host is guaranteed that the write is atomic to the NVM with respect to other 
+read or write commands. If a write command is submitted that is greater than this 
+size, there is no guarantee of command atomicity. If the write size is less than or 
+equal to the AWUPF value and the write command fails, then subsequent read 
+commands for the associated logical blocks shall return data from the previous 
+successful write command. If a write command is submitted with size greater than 
+the AWUPF value, then there is no guarantee of data returned on subsequent 
+reads of the associated logical blocks.
+533:532 O
+Atomic Compare & Write Unit (ACWU): This field indicates the size of the write 
+operation guaranteed to be written atomically to the NVM across all namespaces 
+with any supported namespace format for a Compare and Write fused operation. 
+If a specific namespace guarantees a larger size than is reported in this field, then 
+the Atomic Compare & Write Unit size for that namespace is reported in the 
+NACWU field in the Identify Namespace data structure. Refer to section 2.1.4. 
+This field shall be supported if the Compare and Write fused command is 
+supported. This field is specified in logical blocks and is a 0’s based value. If a 
+Compare and Write is submitted that requests a transfer size larger than this value, 
+then the controller may abort the command with a status code of Atomic Write Unit 
+Exceeded. If Compare and Write is not a supported fused command, then this field 
+shall be 0h.
+Notes:
+1. O/M definition: O = Optional, M = Mandatory
+4.1.5.3 I/O Command Set Specific Identify Namespace Data Structure (CNS 05h)
+Figure 100 defines the I/O Command Set specific Identify Namespace data structure for the NVM 
+Command Set.
+===== PHYSICAL PDF PAGE 67 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+67
+Figure 100: NVM Command Set I/O Command Set Specific Identify Namespace Data Structure (CSI 
+00h)
+Bytes O/M 1 Description
+7:0 O
+Logical Block Storage Tag Mask (LBSTM): Indicates the mask for the Storage Tag field for 
+the protection information (refer to section 5.2). The size of the mask contained in this field is 
+defined by the STS field (refer to Figure 101). If the size of the mask contained in this field is 
+less than 64 bits, then the mask is contained in the least-significant bits of this field. The host 
+should ignore bits in this field that are not part of the mask.
+If end-to-end protection is not enabled in the namespace, then this field should be ignored by 
+the host.
+If:
+a) end-to-end protection is enabled;
+b) 16b Guard Protection Information format is used; and
+c) the 16BPISTM bit is set to ‘1’ in the PIC field,
+then each bit in the mask in this field shall be set to ‘1’.
+8 O
+Protection Information Capabilities (PIC): This field indicates the capabilities for the 
+protection information formats.
+Bits Description
+7:3 Reserved
+2
+Storage Tag Check Read Support (STCRS): If set to ‘1’, then the controller 
+supports the Storage Tag Check Read (STCR) bit in the Copy command (refer to 
+Figure 30). If cleared to ‘0’, the controller does not support the Storage Tag Check 
+Read bit in the Copy command. If the 16b Guard Protection Information Storage 
+Tag Support (16BPISTS) bit is set to ‘1’, then this bit shall be set to ‘1’.
+1
+16b Guard Protection Information Storage Tag Mask (16BPISTM): If set to ‘1’, 
+then the LBSTM field shall have all bits set to ‘1’ for the 16b Guard Protection 
+Information. If cleared to ‘0’, then the Logical Block Storage Tag Mask field is 
+allowed to have any bits set to ‘1’ for the 16b Guard Protection Information.
+0
+16b Guard Protection Information Storage Tag Support (16BPISTS): If set to 
+‘1’, then the end-to-end protection 16b Guard Protection Information format (refer 
+to section 5.2.1.1) supports a non-zero value in the STS field. If cleared to ‘0’, then 
+the end-to-end protection 16b Guard Protection Information format support requires 
+that the STS field be cleared to 0h (i.e., the Storage Tag field is not supported).
+If the 32b Guard Protection Information or 64b Guard Protection Information is 
+supported in any LBA format (refer to Figure 101), then this bit shall be set to ‘1’.
+11:9 Reserved
+Extended LBA Formats List
+15:12 O
+Extended LBA Format 0 Support (ELBAF0): This field indicates additional LBA Format 0 
+information related to the LBA Format 0 Support (LBAF0) field in the Identify Namespace data 
+structure. The Extended LBA format field is defined in Figure 101.
+19:16 O
+Extended LBA Format 1 Support (ELBAF1): This field indicates additional LBA Format 1 
+information related to the LBA Format 1 Support (LBAF1) field in the Identify Namespace data 
+structure. The Extended LBA format field is defined in Figure 101.
+…
+267:264 O
+Extended LBA Format 63 Support (ELBAF63): This field indicates additional LBA Format 63 
+information related to the LBA Format 63 Support (LBAF63) field in the Identify Namespace 
+data structure. The Extended LBA format field is defined in Figure 101.
+4095:268 O Reserved
+Notes:
+1. O/M definition: O = Optional, M = Mandatory.
+The Extended LBA format data structure is described in Figure 101.
+===== PHYSICAL PDF PAGE 68 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+68
+Figure 101: Extended LBA Format Data Structure, NVM Command Set Specific
+Bits Description
+31:9 Reserved
+8:7
+Protection Information Format (PIF): This field indicates the protection information format 
+(refer to section 5.2.1) when end-to-end protection information is enabled on a namespace 
+formatted with this LBA format.
+If:
+• end-to-end protection information is not supported by this LBA format; or
+• end-to-end protection is disabled on a namespace formatted with this LBA format,
+then this field is undefined and should be ignored by the host.
+Value Definition
+00b 16b Guard Protection Information
+01b 32b Guard Protection Information
+10b 64b Guard Protection Information
+11b Reserved
+6:0
+Storage Tag Size (STS): Identifies the number of most significant bits of the protection 
+information Storage and Reference Space field that define the Storage Tag field (refer to 
+section 5.2.1.4). 
+This field does limit the minimum and maximum values allowed per protection information 
+formats (refer to section 5.2.1):
+Protection Information Format Minimum Value Maximum Value
+16b Guard Protection Information 0 32
+32b Guard Protection Information 16 64
+64b Guard Protection Information 0 48
+If this field is cleared to 0h, then no bits of the Storage and Reference Space field are applied 
+to the Storage Tag field and therefore the Storage Tag field is not defined.
+For the 16b Guard Protection, if this field is set to 32, then no bits of the Storage and 
+Reference Space field are applied to the Reference Tag field and therefore the Reference 
+Tag field is not defined.
+For the 64b Guard Protection, if this field is set to 48, then no bits of the Storage and 
+Reference Space field are applied to the Reference Tag field and therefore the Reference 
+Tag field is not defined.
+4.1.5.4 I/O Command Set Specific Identify Controller Data Structure (CNS 06h, CSI 00h)
+Figure 102 defines the I/O Command Set Specific Identify Controller data structure for the NVM Command 
+Set.
+===== PHYSICAL PDF PAGE 69 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+69
+Figure 102: I/O Command Set Specific Identity Controller Data Structure for the NVM Command Set
+Bytes O/M 1 Description
+00 O
+Verify Size Limit (VSL): If bit 7 in the Optional NVM Command Support (ONCS) field is set 
+to ‘1’ then:
+a) a non-zero value in this field indicates the recommended maximum data size for a 
+Verify command (refer to section 3.2.5); and
+b) a value of 0h in this field indicates that no recommended maximum data size for a 
+Verify command is reported.
+If bit 7 in the ONCS field is cleared to ‘0’ then:
+a) a non-zero value in this field indicates that the controller supports the Verify 
+command with the maximum data size limit indicated by this field (refer to section 
+3.2.5); and
+b) a value of 0h in this field indicates that the controller does not support the Verify 
+command.
+The non-zero value is in units of the minimum memory page size (CAP.MPSMIN) and is 
+reported as a power of two (2^n). This field includes the length of metadata, if metadata is 
+interleaved with the logical block data.
+01 O
+Write Zeroes Size Limit (WZSL): If bit 3 in the Optional NVM Command Support (ONCS) 
+field is set to ‘1’ then:
+a) a non-zero value in this field indicates the recommended maximum data size for a 
+Write Zeroes command (refer to section 3.2.8); and
+b) a value of 0h in this field indicates that no recommended maximum data size for a 
+Write Zeroes command is reported.
+If bit 3 in the ONCS field is cleared to ‘0’ then:
+a) a non-zero value in this field indicates that the controller supports the Write Zeroes 
+command with the maximum data size limit indicated by this field (refer to section 
+3.2.8); and
+b) a value of 0h in this field indicates that the controller does not support the Write 
+Zeroes command.
+The non-zero value is in units of the minimum memory page size (CAP.MPSMIN) and is 
+reported as a power of two (2^n). This field includes the length of metadata, if metadata is 
+interleaved with the logical block data.
+02 O
+Write Uncorrectable Size Limit (WUSL): If bit 1 in the Optional NVM Command Support 
+(ONCS) field is set to ‘1’ then:
+a) a non-zero value in this field indicates the recommended maximum data size for a 
+Write Uncorrectable command (refer to section 3.2.7); and
+b) a value of 0h in this field indicates that no recommended maximum data size for a 
+Write Uncorrectable command is reported.
+If bit 1 in the ONCS field is cleared to ‘0’ then:
+a) a non-zero value in this field indicates that the controller supports the Write 
+Uncorrectable command with the maximum data size limit indicated by this field 
+(refer to section 3.2.7); and
+b) a value of 0h in this field indicates that the controller does not support the Write 
+Uncorrectable command.
+The non-zero value is in units of the minimum memory page size (CAP.MPSMIN) and is 
+reported as a power of two (2^n). This field includes the length of metadata, if metadata is 
+interleaved with the logical block data.
+===== PHYSICAL PDF PAGE 70 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+70
+03 O
+Dataset Management Ranges Limit (DMRL): If bit 2 in the Optional NVM Command 
+Support (ONCS) field is set to ‘1’ then:
+a) a non-zero value in this field indicates the recommended maximum number of 
+logical block ranges for a Dataset Management command (refer to section 3.2.3); 
+and
+b) a value of 0h in this field indicates that no recommended maximum number of 
+logical block ranges for a Dataset Management command is reported. 
+If bit 2 in the ONCS field is cleared to ‘0’, then:
+a) a non-zero value in this field indicates that the controller supports the Dataset 
+Management command with the maximum number of logical block ranges limit 
+indicated by this field (refer to section 3.2.3); and
+b) a value of 0h in this field indicates that the controller does not support the Dataset 
+Management command.
+07:04 O
+Dataset Management Range Size Limit (DMRSL): If bit 2 in the Optional NVM Command 
+Support (ONCS) field is set to ‘1’ then:
+a) a non-zero value in this field indicates the recommended maximum number of 
+logical blocks in a single range for a Dataset Management command (refer to 
+section 3.2.3); and
+b) a value of 0h in this field indicates that no recommended maximum number of 
+logical blocks in a single range for a Dataset Management command is reported. 
+If bit 2 in the ONCS field is cleared to ‘0’, then:
+a) a non-zero value in this field indicates that the controller supports the Dataset 
+Management command with the maximum number of logical blocks in a single 
+range limit indicated by this field (refer to section 3.2.3); and
+b) a value of 0h in this field indicates that the controller does not support the Dataset 
+Management command.
+15:08 O
+Dataset Management Size Limit (DMSL): If bit 2 in the Optional NVM Command Support 
+(ONCS) field is set to ‘1’ then:
+a) a non-zero value in this field indicates the recommended maximum total number of 
+logical blocks for a Dataset Management command (refer to section 3.2.3).
+b) a value of 0h in this field indicates that no recommended maximum total number of 
+logical blocks for a Dataset Management command is reported. 
+If bit 2 in the ONCS field is cleared to ‘0’, then:
+a) a non-zero value in this field indicates that the controller supports the Dataset 
+Management command with the maximum total number of logical blocks limit 
+indicated by this field (refer to section 3.2.3); and
+b) a value of 0h in this field indicates that the controller does not support the Dataset 
+Management command.
+4095:16 M Reserved
+Notes:
+1. O/M definition: O = Optional, M = Mandatory.
+4.1.5.5 Identify Namespace data structure for an Allocated Namespace ID (CNS 11h)
+An Identify Namespace data structure (refer to Figure 97) is returned to the host for the specified
+namespace if the value in the Namespace Identifier (NSID) field is an allocated NSID. If the value in the 
+NSID field specifies an unallocated NSID, then the controller returns a zero filled data structure. 
+If the value in the NSID field specifies an invalid NSID, then the controller shall abort the command with a 
+status code of Invalid Namespace or Format. If the NSID field is set to FFFFFFFFh, then the controller 
+should abort the command with a status code of Invalid Namespace or Format.

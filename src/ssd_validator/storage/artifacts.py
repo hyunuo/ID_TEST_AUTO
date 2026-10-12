@@ -15,7 +15,7 @@ from .serialization import canonical_bytes
 INDEX = "artifact_index.json"
 
 
-def _check_destination(destination: Path) -> list[Path]:
+def _check_destination(destination: Path, artifact_kind: str = "knowledge_build") -> list[Path]:
     if destination.is_symlink():
         raise KnowledgeError("UNSAFE_OUTPUT", "Output must not be a symlink")
     if not destination.exists():
@@ -31,7 +31,7 @@ def _check_destination(destination: Path) -> list[Path]:
         return markers
     try:
         index = json.loads((destination / INDEX).read_text())
-        if index["artifact_kind"] != "knowledge_build" or set(index["files"]) | {INDEX} != actual:
+        if index["artifact_kind"] != artifact_kind or set(index["files"]) | {INDEX} != actual:
             raise ValueError("Unmanaged files or invalid artifact index")
         for name, digest in index["files"].items():
             if sha256(files[name].read_bytes()).hexdigest() != digest:
@@ -51,18 +51,32 @@ def write_build(result, destination: Path, *, source_root: Path, generated_at: d
             raise KnowledgeError("ARTIFACT_PATH_COLLISION", name)
         portable_paths.add(name.casefold())
         payloads[name] = canonical_bytes(snapshot)
+    payloads["manifests/build.json"] = canonical_bytes(result.manifest)
+    write_artifacts(payloads, destination, source_root=source_root, generated_at=generated_at)
+
+
+def write_artifacts(payloads: dict[str, bytes], destination: Path, *, source_root: Path,
+                    artifact_kind: str = "knowledge_build", generated_at: datetime | None = None) -> None:
+    """Publish a validated artifact set using the same ownership and rollback contract."""
+    payloads = dict(payloads)
+    portable = set()
+    for name in payloads:
+        path = Path(name)
+        if (path.is_absolute() or ".." in path.parts or "\\" in name or ":" in name
+                or name.casefold() in portable or name in {INDEX, "manifests/execution.json"}):
+            raise KnowledgeError("ARTIFACT_PATH_COLLISION", name)
+        portable.add(name.casefold())
     original_destination = destination.absolute()
-    if original_destination.is_symlink():
+    if original_destination.is_symlink() or any(parent.is_symlink() for parent in original_destination.parents):
         raise KnowledgeError("UNSAFE_OUTPUT", "Output must not be a symlink")
     destination, source_root = destination.resolve(), source_root.resolve()
     if destination == source_root or destination in source_root.parents or source_root in destination.parents:
         raise KnowledgeError("SOURCE_OUTPUT_OVERLAP", "Output must be separate from source knowledge")
-    markers = _check_destination(destination)
+    markers = _check_destination(destination, artifact_kind)
     destination.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix=".knowledge-stage-", dir=destination.parent))
     backup = None
     try:
-        payloads["manifests/build.json"] = canonical_bytes(result.manifest)
         now = generated_at or datetime.now(timezone.utc)
         payloads["manifests/execution.json"] = canonical_bytes({
             "generated_at": now.isoformat(), "toolchain": runtime_toolchain(),
@@ -76,7 +90,7 @@ def write_build(result, destination: Path, *, source_root: Path, generated_at: d
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(contents)
         (stage / INDEX).write_bytes(canonical_bytes({
-            "artifact_kind": "knowledge_build",
+            "artifact_kind": artifact_kind,
             "files": {name: sha256(contents).hexdigest() for name, contents in sorted(payloads.items())},
         }))
         if destination.exists():

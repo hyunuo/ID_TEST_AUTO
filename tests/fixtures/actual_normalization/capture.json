@@ -1,0 +1,13 @@
+{
+  "capture_id": "TEST.newer-tool.ns",
+  "tool_name": "TEST.nvme-cli",
+  "tool_version": "TEST.newer-decoder",
+  "tool_commit": "TEST_SYNTHETIC_COMMIT",
+  "device_id": "TEST.DUT",
+  "query": {
+    "cns": 0,
+    "csi": 0,
+    "nsid": 1
+  },
+  "advertised_nvme_version": "TEST.advertised-version"
+}

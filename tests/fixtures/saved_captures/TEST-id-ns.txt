@@ -1,0 +1,7 @@
+NVME Identify Namespace:
+nsze:100
+ncap:90
+nuse:80
+lbaf 0 : ms:0 lbads:9 rp:0
+lbaf 1 : ms:0 lbads:12 rp:1
+future_field:77

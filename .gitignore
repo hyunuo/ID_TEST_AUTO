@@ -26,6 +26,11 @@ dist/
 !/results/**/
 !/results/**/.gitkeep
 
+# Local authoritative database: back up/export explicitly; never commit DUT logs.
+/data/*.sqlite3*
+/data/**/*.sqlite3*
+/output/ui/**
+
 # Local editor and OS files
 .idea/
 .vscode/

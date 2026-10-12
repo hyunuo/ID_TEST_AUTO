@@ -1,0 +1,291 @@
+{
+  "context": {
+    "bundle_id": "TEST.bundle-v1",
+    "facts": {
+      "atomic_parameters_supported": true
+    }
+  },
+  "bundle": {
+    "bundle_id": "TEST.bundle-v1",
+    "base_revision": "TEST_BASE.fixture-v1",
+    "nvm_revision": "TEST_NVM.fixture-v1",
+    "snapshot_keys": [
+      "TEST:fixture-v1"
+    ]
+  },
+  "bindings": [
+    {
+      "field_id": "TEST.FLAGS",
+      "cns": 1,
+      "csi": 0
+    },
+    {
+      "field_id": "TEST.SIZE",
+      "cns": 0,
+      "csi": 0
+    },
+    {
+      "field_id": "TEST.CAPACITY",
+      "cns": 0,
+      "csi": 0
+    },
+    {
+      "field_id": "TEST.USED",
+      "cns": 0,
+      "csi": 0
+    },
+    {
+      "field_id": "TEST.LBADS",
+      "cns": 0,
+      "csi": 0,
+      "array_count": 2
+    },
+    {
+      "field_id": "TEST.ATOMIC_NORMAL",
+      "cns": 1,
+      "csi": 0
+    },
+    {
+      "field_id": "TEST.ATOMIC_FAILURE",
+      "cns": 1,
+      "csi": 0
+    }
+  ],
+  "rules": [
+    {
+      "rule_id": "TEST.CAPACITY_ORDER",
+      "target": {
+        "field_id": "TEST.CAPACITY"
+      },
+      "check": {
+        "type": "FIELD_COMPARE",
+        "operator": "<=",
+        "other": {
+          "field_id": "TEST.SIZE"
+        }
+      },
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RULES_NOT_SPEC_KNOWLEDGE",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      }
+    },
+    {
+      "rule_id": "TEST.USAGE_ORDER",
+      "target": {
+        "field_id": "TEST.USED"
+      },
+      "check": {
+        "type": "FIELD_COMPARE",
+        "operator": "<=",
+        "other": {
+          "field_id": "TEST.CAPACITY"
+        }
+      },
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RULES_NOT_SPEC_KNOWLEDGE",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      }
+    },
+    {
+      "rule_id": "TEST.THINP_ZERO",
+      "target": {
+        "field_id": "TEST.CAPACITY"
+      },
+      "check": {
+        "type": "FIELD_COMPARE",
+        "operator": "=",
+        "other": {
+          "field_id": "TEST.SIZE"
+        }
+      },
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RULES_NOT_SPEC_KNOWLEDGE",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      },
+      "condition": {
+        "op": "BIT_CLEAR",
+        "ref": {
+          "source": "actual",
+          "field": {
+            "field_id": "TEST.FLAGS"
+          }
+        },
+        "bit": 0
+      }
+    },
+    {
+      "rule_id": "TEST.CAPABILITY_REQUIRED",
+      "target": {
+        "field_id": "TEST.FLAGS"
+      },
+      "check": {
+        "type": "CAPABILITY",
+        "capability_id": "TEST.REQUIRED_FEATURE",
+        "support": "supported"
+      },
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RULES_NOT_SPEC_KNOWLEDGE",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      }
+    },
+    {
+      "rule_id": "TEST.ATOMIC_BOUND",
+      "target": {
+        "field_id": "TEST.ATOMIC_FAILURE"
+      },
+      "check": {
+        "type": "FIELD_COMPARE",
+        "operator": "<=",
+        "other": {
+          "field_id": "TEST.ATOMIC_NORMAL"
+        }
+      },
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RULES_NOT_SPEC_KNOWLEDGE",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      },
+      "condition": {
+        "op": "EQ",
+        "ref": {
+          "source": "context",
+          "path": "atomic_parameters_supported"
+        },
+        "value": true
+      }
+    },
+    {
+      "rule_id": "TEST.LBADS_BOUND",
+      "target": {
+        "field_id": "TEST.LBADS",
+        "index": 0
+      },
+      "check": {
+        "type": "RANGE",
+        "min": 9,
+        "max": 255
+      },
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RULES_NOT_SPEC_KNOWLEDGE",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      },
+      "condition": {
+        "op": "NOT",
+        "children": [
+          {
+            "op": "EQ",
+            "ref": {
+              "source": "actual",
+              "field": {
+                "field_id": "TEST.LBADS",
+                "index": 0
+              }
+            },
+            "value": 0
+          }
+        ]
+      }
+    }
+  ],
+  "capabilities": [
+    {
+      "capability_id": "TEST.REQUIRED_FEATURE",
+      "target": {
+        "field_id": "TEST.FLAGS",
+        "bit": 0
+      },
+      "supported": 1,
+      "unsupported": 0,
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_CAPABILITY_MAPPING",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      }
+    }
+  ],
+  "actual_facts": [
+    {
+      "field": {
+        "field_id": "TEST.FLAGS"
+      },
+      "value": 1
+    },
+    {
+      "field": {
+        "field_id": "TEST.SIZE"
+      },
+      "value": 100
+    },
+    {
+      "field": {
+        "field_id": "TEST.CAPACITY"
+      },
+      "value": 80
+    },
+    {
+      "field": {
+        "field_id": "TEST.USED"
+      },
+      "value": 40
+    },
+    {
+      "field": {
+        "field_id": "TEST.ATOMIC_NORMAL"
+      },
+      "value": 10
+    },
+    {
+      "field": {
+        "field_id": "TEST.ATOMIC_FAILURE"
+      },
+      "value": 5
+    },
+    {
+      "field": {
+        "field_id": "TEST.LBADS",
+        "index": 0
+      },
+      "value": 12
+    },
+    {
+      "field": {
+        "field_id": "TEST.LBADS",
+        "index": 1
+      },
+      "value": 0
+    }
+  ]
+}

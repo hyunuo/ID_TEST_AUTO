@@ -1,0 +1,65 @@
+NVM Express® Base Specification, Revision 2.1
+307
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+253 M M M
+NVM Subsystem Report (NVMSR): This field reports information associated with the 
+NVM subsystem. If the controller is compliant with the NVM Express Management 
+Interface Specification, then at least one bit in this field is set to ‘1’. If the NVM subsystem 
+does not support the NVM Express Management Interface Specification, then this field 
+shall be cleared to 0h. Refer to the NVM Express Management Interface Specification.
+Bits Description
+7:2 Reserved
+1
+NVMe Enclosure (NVMEE): If this bit is set to ‘1’, then the NVM subsystem is 
+part of an NVMe Enclosure. If this bit is cleared to ‘0’, then the NVM subsystem 
+is not part of an NVMe Enclosure. 
+0
+NVMe Storage Device (NVMESD): If this bit is set to ‘1’, then the NVM 
+subsystem is part of an NVMe Storage Device. If this bit is cleared to ‘0’, then 
+the NVM subsystem is not part of an NVMe Storage Device.
+254 M M M
+VPD Write Cycle Information (VWCI): This field indicates information about the 
+remaining number of times that VPD contents are able to be updated using the VPD Write 
+command. Refer to the NVM Express Management Interface Specification for details on 
+VPD contents and the VPD Write command.
+Bits Description
+7
+VPD Write Cycles Remaining Valid (VWCRV): If this bit is set to ‘1’, then the 
+VPD Write Cycles Remaining field is valid. If this bit is cleared to ‘0’, then the 
+VPD Write Cycles Remaining field is invalid and cleared to ‘0’.
+6:0
+VPD Write Cycles Remaining (VWCR): If the VPD Write Cycle Remaining 
+Valid bit is set to ‘1’, then this field contains a value indicating the remaining 
+number of times that VPD contents are able to be updated in units of 256 bytes 
+using the VPD Write command. For example, a 1 KiB FRU Information Device 
+that can be updated 8 times would indicate a value of 32 in this field. If this 
+field is set to 7Fh, then the remaining number of times that VPD contents are 
+able to be updated using the VPD Write command is greater than or equal to 
+7Fh.
+If the VPD Write Cycle Remaining Valid bit is cleared to ‘0’, then this field is 
+not valid and shall be cleared to a value of 0h.
+255 M M M
+Management Endpoint Capabilities (MEC): This field indicates the support for
+Management Endpoints in the NVM subsystem. Refer to the NVM Express Management 
+Interface Specification for details.
+Bits Description
+7:2 Reserved
+1
+PCIe Port Management Endpoint (PCIEME): If the NVM subsystem contains 
+one or more Management Endpoints on one or more PCIe ports, then this bit 
+shall be set to ‘1’; otherwise, this bit shall be cleared to ‘0’.
+0
+2-Wire Port Management Endpoint (TWPME): If the NVM subsystem 
+contains one or more Management Endpoints on the 2-Wire port, then this bit 
+shall be set to ‘1’; otherwise, this bit shall be cleared to ‘0’.
+This bit was formerly named SMBus/I2C Port Management Endpoint
+(SMBUSME).
+Admin Command Set Attributes & Optional Controller Capabilities
+257:256 M M R
+Optional Admin Command Support (OACS): This field indicates the optional Admin 
+commands and features supported by the controller. Refer to section 3.1.3.
+Bits Description
+15:12 Reserved

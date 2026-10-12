@@ -6,11 +6,12 @@ is the architecture and design source of truth.
 ## Source of Truth
 
 Human-managed source:
-- knowledge/
-- spec base/delta
-- product profiles
-- policies
-- mappings
+- data/validator.sqlite3: versioned spec base/delta, rules, policies, mappings and candidate sources
+- knowledge/ and candidates/: legacy seed/import/export materials; not the live GUI/CLI source after migration
+- tests/fixtures/: file-based synthetic test sources
+
+SQLite is authoritative local data, not a disposable cache. Keep immutable revisions and
+validation history. Do not overwrite edits from a stale revision. Preserve export/backup support.
 
 Generated artifacts:
 - generated/

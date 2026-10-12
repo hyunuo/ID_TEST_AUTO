@@ -1,0 +1,68 @@
+{
+  "kind": "candidate_catalog",
+  "format_version": 1,
+  "documents": [
+    {
+      "document_id": "BASE_2_0E",
+      "component": "NVME_BASE",
+      "revision": "2.0e",
+      "filename": "NVM-Express-Base-Specification-2.0e-2024.07.29-Ratified.pdf",
+      "sha256": "4dca66fe0b19caf1c0295e2a30ceaaaf82580ee6a7c7d5661f5c88592f55e253",
+      "pages": 467,
+      "inherits": null
+    },
+    {
+      "document_id": "BASE_2_1",
+      "component": "NVME_BASE",
+      "revision": "2.1",
+      "filename": "NVM-Express-Base-Specification-Revision-2.1-2024.08.05-Ratified.pdf",
+      "sha256": "4e31f826dd7ceaee311f93b74eef5c05ac32afe4ef45436534dfcfd6a40dc746",
+      "pages": 707,
+      "inherits": "BASE_2_0E"
+    },
+    {
+      "document_id": "NVM_1_0E",
+      "component": "NVME_NVM",
+      "revision": "1.0e",
+      "filename": "NVM-Express-NVM-Command-Set-Specification-1.0e-2024.07.29-Ratified.pdf",
+      "sha256": "14d78aa6bb0e41c008b8bb946a7da7c53d8b2735e8febb5bd2e863bc7fb8e044",
+      "pages": 107,
+      "inherits": null
+    },
+    {
+      "document_id": "NVM_1_1",
+      "component": "NVME_NVM",
+      "revision": "1.1",
+      "filename": "NVM-Express-NVM-Command-Set-Specification-Revision-1.1-2024.08.05-Ratified.pdf",
+      "sha256": "95782c03141ba277d76edfe187e32fc6911a086721c5a86f088827366bc562db",
+      "pages": 156,
+      "inherits": "NVM_1_0E"
+    }
+  ],
+  "bundles": [
+    {
+      "bundle_id": "nvme-2.0e-nvm-1.0e",
+      "base_document": "BASE_2_0E",
+      "nvm_document": "NVM_1_0E",
+      "structure_ids": [
+        "NVME.CNS00",
+        "NVME.CNS01",
+        "NVME.CNS05",
+        "NVME.CNS06",
+        "NVME.CNS08"
+      ]
+    },
+    {
+      "bundle_id": "nvme-2.1-nvm-1.1",
+      "base_document": "BASE_2_1",
+      "nvm_document": "NVM_1_1",
+      "structure_ids": [
+        "NVME.CNS00",
+        "NVME.CNS01",
+        "NVME.CNS05",
+        "NVME.CNS06",
+        "NVME.CNS08"
+      ]
+    }
+  ]
+}

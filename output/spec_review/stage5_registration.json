@@ -1,0 +1,20 @@
+{
+  "revision": 2,
+  "changed": true,
+  "pre_change_backup": "C:\\Users\\hwkim\\Desktop\\NTI\\ID_TEST_AUTO\\data\\backups\\pre-stage5-r1-6a4acf46f897479cb5de79b7621fe8d3.sqlite3",
+  "status": "candidate",
+  "bundles": [
+    {
+      "bundle_id": "nvme-2.0e-nvm-1.0e",
+      "new_rule_instances": 150,
+      "corrected_rule_instances": 1,
+      "focused_fields": 17
+    },
+    {
+      "bundle_id": "nvme-2.1-nvm-1.1",
+      "new_rule_instances": 151,
+      "corrected_rule_instances": 1,
+      "focused_fields": 18
+    }
+  ]
+}

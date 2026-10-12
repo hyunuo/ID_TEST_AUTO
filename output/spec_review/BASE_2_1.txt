@@ -1,0 +1,975 @@
+
+===== PHYSICAL PDF PAGE 331 =====
+NVM Express® Base Specification, Revision 2.1
+309
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+259 M M M
+3
+Asynchronous Event Request Limit (AERL): This field is used to convey the maximum 
+number of concurrently outstanding Asynchronous Event Request commands supported 
+by the controller (refer to section 5.1.2). This is a 0’s based value. It is recommended that 
+implementations support a minimum of four Asynchronous Event Request commands 
+outstanding simultaneously.
+260 M M R
+Firmware Updates (FRMW): This field indicates capabilities regarding firmware updates. 
+Refer to section 3.11 for more information on the firmware update process.
+Bits Description
+7:6 Reserved
+5
+Support Multiple Update Detection (SMUD): If this bit is set to ‘1’, then the 
+controller is able to detect overlapping firmware/boot partition image update 
+command sequences (refer to section 3.11 and section 8.1.3.2). If this bit is 
+cleared to ‘0’, then the controller is not able to detect overlapping firmware/boot 
+partition image update command sequences.
+4
+Firmware Activation Without Reset (FAWR): If this bit is set to ‘1’, then the 
+controller supports firmware activation without a reset. If this bit is cleared to 
+‘0’, then the controller requires a reset for firmware to be activated.
+3:1
+Number Of Firmware Slots (NOFS): This field indicates the number of 
+firmware slots supported by the domain that contains this controller. This field 
+shall specify a value from one to seven, indicating that at least one firmware 
+slot is supported and up to seven maximum. This corresponds to firmware slots 
+1 through 7
+0
+First Firmware Slot Read Only (FFSRO): If this bit is set to ‘1’, then the first 
+firmware slot (i.e., slot 1) is read only. If this bit is cleared to ‘0’, then the first 
+firmware slot (i.e., slot 1) is read/write. Implementations may choose to have a 
+baseline read only firmware image.
+===== PHYSICAL PDF PAGE 332 =====
+NVM Express® Base Specification, Revision 2.1
+310
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+261 M M M
+Log Page Attributes (LPA): This field indicates optional attributes for log pages that are 
+accessed via the Get Log Page command.
+Bits Description
+7 Reserved
+6
+Data Area 4 Support (DA4S): If this bit is set to ‘1’, then the controller 
+supports Data Area 4 for the Telemetry Host-Initiated and Telemetry 
+Controller-Initiated log. If this bit is cleared to ’0’, then the controller does not 
+support Data Area 4 for the Telemetry Host-Initiated and Telemetry 
+Controller-Initiated log pages.
+5
+Miscellaneous Log Page Support (MLPS): If this bit is set to ‘1’, then the 
+controller supports:
+• the Supported Log Pages log page (Log Page Identifier 0h);
+• returning the scope of each command in the Commands Supported 
+and Effects log page (Log Page Identifier 05h);
+• the Feature Identifiers Supported and Effects log page (Log Page 
+Identifier 12h); and
+• the NVMe-MI Commands Supported and Effects log page (Log 
+Page Identifier 13h).
+If this bit is cleared to ‘0’, then the controller:
+• does not support returning the scope of each command in the 
+Commands Supported and Effects log page;
+• may support the Supported Log Pages log page;
+• may support the Feature Identifiers Supported and Effects log 
+page; and
+• may support the NVMe-MI Commands Supported and Effects log 
+page.
+4
+Persistent Event Support (PES): If this bit is set to ‘1’, then the controller 
+supports the Persistent Event log. If this bit is cleared to ‘0’, then the 
+controller does not support the Persistent Event log page.
+3
+Telemetry Support (TS): If this bit is set to ‘1’, then the controller supports 
+the Telemetry Host-Initiated and Telemetry Controller-Initiated log pages and 
+sending Telemetry Log Notices. If this bit is cleared to ’0’, then the controller 
+does not support the Telemetry Host-Initiated and Telemetry Controller￾Initiated log pages and Telemetry Log Notice events.
+2
+Log Page Extended Data Support (LPEDS): If this bit is set to ‘1’, then the 
+controller supports extended data for the Get Log Page command (including 
+extended Number of Dwords and Log Page Offset fields). If this bit is cleared 
+to ‘0’, then the controller does not support extended data for the Get Log 
+Page command.
+1
+Commands Supported and Effects Support (CSES): If this bit is set to ‘1’, 
+then the controller supports the Commands Supported and Effects log page. 
+If this bit is cleared to ‘0’, then the controller does not support the Commands 
+Supported and Effects log page.
+0
+SMART Support (SMARTS): If this bit is set to ‘1’, then the controller 
+supports the SMART / Health Information log page on a per namespace 
+basis. If this bit is cleared to ‘0’, then the controller does not support the 
+SMART / Health Information log page on a per namespace basis.
+262 M M M
+Error Log Page Entries (ELPE): This field indicates the maximum number of Error 
+Information Log Entries that are stored by the controller. This field is a 0’s based value.
+===== PHYSICAL PDF PAGE 333 =====
+NVM Express® Base Specification, Revision 2.1
+311
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+263 M M R
+Number of Power States Support (NPSS): This field indicates the number of NVM 
+Express power states supported by the controller. This is a 0’s based value. Refer to 
+section 8.1.17.
+Power states are numbered sequentially starting at power state 0. A controller shall 
+support at least one power state (i.e., power state 0) and may support up to 31 additional 
+power states (i.e., up to 32 total).
+264 M M R
+Admin Vendor Specific Command Configuration (AVSCC): This field indicates the 
+configuration settings for vendor specific Admin command handling. Refer to section 
+8.1.26.
+Bits Description
+7:1 Reserved
+0
+Vendor Specific Command Format (VSCF): If this bit is set to ‘1’, then all 
+vendor specific Admin commands use the format defined in Figure 93. If this 
+bit is cleared to ‘0’, then the format of all vendor specific Admin commands
+is vendor specific.
+265 O O R
+Autonomous Power State Transition Attributes (APSTA): This field indicates the 
+attributes of the autonomous power state transition feature. Refer to section 8.1.17.2.
+Bits Description
+7:1 Reserved
+0
+Autonomous Power Transition Support (APTS): If this bit is set to ‘1’, then 
+the controller supports autonomous power state transitions. If this bit is
+cleared to ‘0’, then the controller does not support autonomous power state 
+transitions.
+267:266 M M R
+Warning Composite Temperature Threshold (WCTEMP): This field indicates the 
+minimum Composite Temperature field value (reported in the SMART / Health 
+Information log page in Figure 206) that indicates an overheating condition during which 
+controller operation continues. Immediate remediation is recommended (e.g., additional 
+cooling or workload reduction). The platform should strive to maintain a composite 
+temperature less than this value.
+A value of 0h in this field indicates that no warning temperature threshold value is reported 
+by the controller. Implementations compliant with NVM Express Base Specification,
+Revision 1.2 or later shall report a non-zero value in this field.
+It is recommended that implementations report a value of 0157h in this field.
+269:268 M M R
+Critical Composite Temperature Threshold (CCTEMP): This field indicates the 
+minimum Composite Temperature field value (reported in the SMART / Health 
+Information log page in Figure 206) that indicates a critical overheating condition (e.g., 
+may prevent continued normal operation, possibility of data loss, automatic device 
+shutdown, extreme performance throttling, or permanent damage).
+A value of 0h in this field indicates that no critical temperature threshold value is reported 
+by the controller. Implementations compliant with NVM Express Base Specification,
+Revision 1.2 or later shall report a non-zero value in this field.
+271:270 O O R
+Maximum Time for Firmware Activation (MTFA): This field indicates the maximum time 
+the controller temporarily stops processing commands to activate the firmware image. 
+This field shall be valid if the controller supports firmware activation without a reset. This 
+field is specified in 100 millisecond units. A value of 0h indicates that the maximum time 
+is undefined.
+For the amount of time to process a Firmware Commit command that specifies a value 
+of 011b in the Commit Action field (i.e., firmware activation without reset), refer to the 
+Maximum Processing Time for Firmware Activation Without Reset field.
+===== PHYSICAL PDF PAGE 334 =====
+NVM Express® Base Specification, Revision 2.1
+312
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+275:272 O O R
+Host Memory Buffer Preferred Size (HMPRE): This field indicates the preferred size 
+that the host is requested to allocate for the Host Memory Buffer feature in 4 KiB units. 
+This value shall be greater than or equal to the Host Memory Buffer Minimum Size. If this 
+field is non-zero, then the Host Memory Buffer feature is supported. If this field is cleared 
+to 0h, then the Host Memory Buffer feature is not supported.
+If the Host Managed Live Migration Support (HMLMS) bit is set to ‘1’ in one or more 
+controllers in the NVM subsystem; then this field shall be cleared to 0h.
+279:276 O O R
+Host Memory Buffer Minimum Size (HMMIN): This field indicates the minimum size 
+that the host is requested to allocate for the Host Memory Buffer feature in 4 KiB units. If 
+this field is cleared to 0h, then the host is requested to allocate any amount of host 
+memory possible up to the HMPRE value. 
+295:280 O O R
+Total NVM Capacity (TNVMCAP): This field indicates the total NVM capacity that is 
+accessible by the controller. The value is in bytes. This field shall be supported if the 
+Namespace Management capability (refer to section 8.1.15) is supported or if the 
+Capacity Management capability (refer to section 8.1.4) is supported.
+Refer to section 3.8.
+311:296 O O R
+Unallocated NVM Capacity (UNVMCAP): This field indicates the unallocated NVM 
+capacity that is accessible by the controller. The value is in bytes. This field shall be 
+supported if the Namespace Management capability (refer to section 8.1.15) is supported
+or if the Capacity Management capability (refer to section 8.1.4) is supported.
+Refer to section 3.8.
+315:312 O O R
+Replay Protected Memory Block Support (RPMBS): This field indicates if the controller 
+supports one or more Replay Protected Memory Blocks (RPMBs) and the capabilities. 
+Refer to section 8.1.21.
+Bits Description
+31:24
+Access Size (ASZE): If the Number of RPMB Units field is non-zero, then 
+this field indicates the maximum number of 512B units of data that may be 
+read or written per RPMB access by Security Send or Security Receive 
+commands for the controller. This is a 0’s based value. A value of 0h 
+indicates support for one unit of 512B of data.
+If the Number of RPMB Units field is 0h, then this field should be ignored
+by the host.
+23:16
+Total Size (TSZE): If the Number of RPMB Units field is non-zero, then this 
+field indicates the number of 128 KiB units of data in each RPMB supported 
+in the controller. This is a 0’s based value. A value of 0h indicates support 
+for one unit of 128 KiB of data.
+If the Number of RPMB Units field is 0h, then this field should be ignored
+by the host.
+15:06 Reserved
+05:03
+Authentication Method (AUTHM): This field indicates the authentication 
+method used to access all RPMBs in the controller. The values for this field 
+are:
+Value Definition
+000b HMAC SHA-256 (refer to RFC 6234)
+001b to 111b Reserved
+02:00
+Number of RPMB Units (NRPMBU): This field indicates the number of 
+RPMB targets the controller supports. All RPMB targets supported shall 
+have the same capabilities as defined in the RPMBS field. A value of 0h 
+indicates the controller does not support Replay Protected Memory Blocks. 
+If this value is non-zero, then the controller shall support the Security Send 
+and Security Receive commands. 
+===== PHYSICAL PDF PAGE 335 =====
+NVM Express® Base Specification, Revision 2.1
+313
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+317:316 O O R
+Extended Device Self-test Time (EDSTT): If the Device Self-test command is 
+supported, then this field indicates the nominal amount of time in one minute units that 
+the controller takes to complete an extended device self-test operation when in power 
+state 0. If the Device Self-test command is not supported, then this field is reserved.
+318 O O R
+Device Self-test Options (DSTO): This field indicates the optional Device Self-test 
+command or operation behaviors supported by the controller or NVM subsystem.
+Bits Description
+7:2 Reserved
+1
+Host-Initiated Refresh Support (HIRS): If this bit is set to ‘1’, then the 
+controller supports the Host-Initiated Refresh capability (refer to section 
+8.1.11). If cleared to ‘0’, then the controller does not support the Host￾Initiated Refresh capability.
+This bit shall be cleared to ‘0’ if the controller does not support the Device 
+Self-test command (i.e., the Device Self-test Supported (DSTS) bit in the 
+OACS field is cleared to ‘0’).
+If the controller does not support the Device Self-test command (i.e., the 
+DSTS bit in the OACS field is cleared to ‘0’), then This bit shall be cleared to 
+‘0.
+0
+Single Device Self-test Operation (SDSO): If this bit is set to ‘1’, then the 
+NVM subsystem supports only one device self-test operation in progress at 
+a time. If this bit is cleared to ‘0’, then the NVM subsystem supports one 
+device self-test operation per controller at a time.
+319 M M R
+Firmware Update Granularity (FWUG): This field indicates the granularity and 
+alignment requirement of the firmware image being updated by the Firmware Image 
+Download command (refer to section 5.1.9). If the values specified in the NUMD field or 
+the OFST field in the Firmware Image Download command do not conform to this 
+granularity and alignment requirement, then the firmware update may abort with a status
+code of Invalid Field in Command. For the broadest interoperability with host software, it 
+is recommended that the controller set this value to the lowest value possible.
+The value is reported in 4 KiB units (e.g., 1h corresponds to 4 KiB, 2h corresponds to 
+8 KiB). A value of 0h indicates that no information on granularity is provided. A value of 
+FFh indicates there is no restriction (i.e., any granularity and alignment in dwords is 
+allowed).
+321:320 M M O
+Keep Alive Support (KAS): This field indicates the granularity of the KATO field in 100 
+millisecond units (refer to section 5.1.25.1.8). If this field is cleared to 0h, then the Keep 
+Alive Timer feature is not supported. The Keep Alive Timer feature is used by the Keep 
+Alive capability as described in section 3.9.
+323:322 O O R
+Host Controlled Thermal Management Attributes (HCTMA): This field indicates the 
+attributes of the host controlled thermal management feature. Refer to section 8.1.17.5.
+Bits Description
+15:1 Reserved
+0
+Host Controlled Thermal Management Support (HCTMS): Iif this bit is set 
+to ‘1’, then the controller supports host controlled thermal management. If 
+this bit is cleared to ‘0’, then the controller does not support host controlled 
+thermal management. If this bit is set to ‘1’, then the controller shall support 
+the Set Features command and Get Features command with the Feature 
+Identifier field set to 10h.
+325:324 O O R
+Minimum Thermal Management Temperature (MNTMT): This field indicates the 
+minimum temperature, in Kelvins, that the host may request in the Thermal Management 
+Temperature 1 field and Thermal Management Temperature 2 field of a Set Features 
+command with the Feature Identifier field set to 10h. A value of 0h indicates that the 
+controller does not report this field or the host controlled thermal management feature 
+(refer to section 8.1.17.5) is not supported.
+===== PHYSICAL PDF PAGE 336 =====
+NVM Express® Base Specification, Revision 2.1
+314
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+327:326 O O R
+Maximum Thermal Management Temperature (MXTMT): This field indicates the 
+maximum temperature, in Kelvins, that the host may request in the Thermal Management 
+Temperature 1 field and Thermal Management Temperature 2 field of the Set Features 
+command with the Feature Identifier set to 10h. A value of 0h indicates that the controller 
+does not report this field or the host controlled thermal management feature is not 
+supported.
+331:328 O O R
+Sanitize Capabilities (SANICAP): This field indicates attributes for sanitize operations. 
+If the Sanitize command is supported, then this field shall be non-zero. If the Sanitize 
+command is not supported, then this field shall be cleared to 0h. Refer to section 8.1.24.
+Bits Description
+31:30
+No-Deallocate Modifies Media After Sanitize (NODMMAS): This field 
+indicates if media is additionally modified by the controller as part of 
+sanitize processing that had been started by a Sanitize command with the 
+No-Deallocate After Sanitize bit set to ‘1’.
+Value Definition
+00b
+Additional media modification as part of sanitize 
+processing is not defined. Only controllers compliant with 
+NVM Express Base Specification, Revision 1.3 and 
+earlier, or controllers that do not support the Sanitize 
+command are allowed to return this value.
+01b Media shall not be additionally modified by the controller 
+as part of sanitize processing.
+10b
+Media shall be additionally modified by the controller as 
+part of sanitize processing that had been started by a 
+Sanitize command with the No-Deallocate After Sanitize 
+bit set to ‘1’.
+11b Reserved
+29
+No-Deallocate Inhibited (NDI): If this bit is set to ‘1’ and the No￾Deallocate Response Mode bit (refer to Figure 408) is set to ‘1’, then the 
+controller deallocates all media allocated for user data before the 
+Restricted Processing:Idle transition occurs or the Unrestricted 
+Processing:Idle transition occurs (refer to section 8.1.24.3), even if the No￾Deallocate After Sanitize bit is set to ‘1’ in a Sanitize command.
+If:
+a) this bit is set to ‘1’;
+b) the No-Deallocate After Sanitize bit is set to ‘1’ in a Sanitize 
+command, and:
+1) the No-Deallocate Response Mode bit is cleared to ‘0’; or
+2) the Sanitize Config Feature (refer to section 5.1.25.1.15) is 
+not supported,
+then the controller aborts the Sanitize command with a status code of 
+Invalid Field in Command.
+If the No-Deallocate After Sanitize bit is cleared to ‘0’ in a Sanitize 
+command, then the value of this bit has no effect on the processing of that 
+Sanitize command or on the sanitize operation that is started by that 
+Sanitize command.
+If this bit is cleared to ‘0’, then the controller supports the No-Deallocate 
+After Sanitize bit in a Sanitize command.
+28:04 Reserved
+===== PHYSICAL PDF PAGE 337 =====
+NVM Express® Base Specification, Revision 2.1
+315
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+03
+Verification Support (VERS): If this bit is set to ‘1’, then the controller 
+supports the Media Verification state and the Post-Verification 
+Deallocation state. If this bit is cleared to ‘0’, then the controller does not 
+support the Media Verification state and does not support the Post￾Verification Deallocation state.
+If the BES bit is cleared to ‘0’ and the CES bit is cleared to ‘0’, then this bit 
+shall be cleared to ‘0’.
+02
+Overwrite Support (OWS): If this bit is set to ‘1’, then the controller 
+supports the Overwrite sanitize operation. If this bit is cleared to ‘0’, then 
+the controller does not support the Overwrite sanitize operation.
+01
+Block Erase Support (BES): If this bit is set to ‘1’, then the controller 
+supports the Block Erase sanitize operation. If this bit is cleared to ‘0’, then 
+the controller does not support the Block Erase sanitize operation.
+00
+Crypto Erase Support (CES): If this bit is set to ‘1’, then the controller 
+supports the Crypto Erase sanitize operation. If this bit is cleared to ‘0’, 
+then the controller does not support the Crypto Erase sanitize operation.
+335:332 O O R
+Host Memory Buffer Minimum Descriptor Entry Size (HMMINDS): This field indicates 
+the minimum usable size of a Host Memory Buffer Descriptor Entry in 4 KiB units. If this 
+field is cleared to 0h, then the controller does not indicate any limitations on the Host 
+Memory Buffer Descriptor Entry size.
+337:336 O O R
+Host Memory Maximum Descriptors Entries (HMMAXD): This field indicates the 
+number of usable Host Memory Buffer Descriptor Entries. If this field is cleared to 0h, 
+then the controller does not indicate a maximum number of Host Memory Buffer 
+Descriptor Entries.
+339:338 O O R
+NVM Set Identifier Maximum (NSETIDMAX): This field defines the maximum value of 
+a valid NVM Set Identifier for any controller in the NVM subsystem. The number of NVM 
+Sets supported by the NVM subsystem is less than or equal to NSETIDMAX.
+341:340 O O R
+Endurance Group Identifier Maximum (ENDGIDMAX): This field defines the maximum 
+value of a valid Endurance Group Identifier for any controller in the NVM subsystem. The 
+number of Endurance Groups supported by the NVM subsystem is less than or equal to 
+ENDGIDMAX.
+342 O O R
+ANA Transition Time (ANATT): This field indicates the maximum amount of time, in 
+seconds, for a transition between ANA states or the maximum amount of time, in 
+seconds, that the controller reports the ANA change state. If the controller supports 
+Asymmetric Namespace Access Reporting (refer to the CMIC field in Figure 312), then 
+this field shall be set to a non-zero value. If the controller does not support Asymmetric 
+Namespace Access Reporting, then this field shall be cleared to 0h. Refer to section 
+8.1.2.4.
+===== PHYSICAL PDF PAGE 338 =====
+NVM Express® Base Specification, Revision 2.1
+316
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+343 O O R
+Asymmetric Namespace Access Capabilities (ANACAP): This field indicates the 
+capabilities associated with Asymmetric Namespace Access Reporting (refer to section 
+8.1.1).
+Bits Description
+7
+ANA Group ID Support (ANAGIDS): Iif this bit is set to ‘1’, then the 
+controller supports a non-zero value in the ANAGRPID field of the 
+Namespace Management command. If this bit is cleared to ‘0’, then the 
+controller does not support a non-zero value in the ANAGRPID field of the 
+Namespace Management command. If the Namespace Management 
+command is not supported, then this bit shall be cleared to ‘0’.
+6
+ANA Group ID Locked When Attached Support (ANAGIDLWAS): Iif this 
+bit is set to ‘1’, then the ANAGRPID field in the Identify Namespace data 
+structure (refer to the NVM Command Set Specification) does not change 
+while the namespace is attached to any controller. If this bit is cleared to ‘0’, 
+then the ANAGRPID field may change while the namespace is attached to 
+any controller. Refer to section 8.1.1.2.
+5 Reserved
+4
+Report ANA Change State (RANACS) : Iif this bit is set to ‘1’, then the 
+controller is able to report ANA Change state (refer to section 8.1.1.8). If this 
+bit is cleared to ‘0’, then the controller does not report ANA Change state.
+3
+Report ANA Persistent Loss State (RANAPLS): Iif this bit is set to ‘1’, then 
+the controller is able to report ANA Persistent Loss state (refer to section 
+8.1.1.7). If this bit is cleared to ‘0’, then the controller does not report ANA 
+Persistent Loss state.
+2
+Report ANA Inaccessible State (RANAIS): Iif this bit is set to ‘1’, then the 
+controller is able to report ANA Inaccessible state (refer to section 8.1.1.6). 
+If this bit is cleared to ‘0’, then the controller does not report ANA Inaccessible 
+state.
+1
+Report ANA Non-Optimized State (RANANOS): Iif this bit is set to ‘1’, then 
+the controller is able to report ANA Non-Optimized state (refer to section 
+8.1.1.5). If this bit is cleared to ‘0’, then the controller does not report ANA 
+Non-Optimized state.
+0
+Report ANA Optimized State (RANAOS): Iif this bit is set to ‘1’, then the 
+controller is able to report ANA Inaccessible state (refer to section 8.1.1.4). 
+If this bit is cleared to ‘0’, then the controller does not report ANA Inaccessible 
+state.
+347:344 O O R
+ANA Group Identifier Maximum (ANAGRPMAX): This field indicates the maximum 
+value of a valid ANA Group Identifier for any controller in the NVM subsystem. If the 
+controller supports Asymmetric Namespace Access Reporting (refer to the CMIC field in 
+Figure 312), then this field shall be set to a non-zero value. If the controller does not 
+support Asymmetric Namespace Access Reporting, then this field shall be cleared to 0h.
+351:348 O O R
+Number of ANA Group Identifiers (NANAGRPID): This field indicates the number of 
+ANA groups supported by the controller. If the controller supports Asymmetric 
+Namespace Access Reporting (refer to the CMIC field in Figure 312), then this field shall 
+be set to a non-zero value that is less than or equal to the ANAGRPMAX value. If the 
+controller does not support Asymmetric Namespace Access Reporting, then this field 
+shall be cleared to 0h.
+355:352 O O R
+Persistent Event Log Size (PELS): This field indicates the maximum reportable size for 
+the Persistent Event Log (Refer to section 5.1.12.1.14) in 64 KiB units. If the Persistent 
+Event Log is not supported, then this field is reserved.
+357:356 O O O
+Domain Identifier (DID): This field indicates the identifier of the domain (refer to section
+3.2.5.3) that contains this controller. If the MDS bit is set to ‘1’, then this field shall be set 
+to a non-zero value. If the NVM subsystem does not support multiple domains (i.e., the 
+NVM subsystem consists of a single domain), then this field shall be cleared to 0h.
+===== PHYSICAL PDF PAGE 339 =====
+NVM Express® Base Specification, Revision 2.1
+317
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+358 O P P
+Key Per I/O Capabilities (KPIOC): This field indicates the attributes for the Key Per I/O 
+capability (refer to section 8.1.11).
+Bits Description
+7:2 Reserved
+1
+Key Per I/O Scope (KPIOSC): If this bit is set to ‘1’, then the Key Per I/O 
+capability applies to all namespaces in the NVM subsystem when the Key Per 
+I/O capability is enabled. If this bit is cleared to ‘0’, then the Key Per I/O 
+capability does not apply to all namespaces in the NVM subsystem and is 
+allowed to be independently enabled and disabled uniquely on each 
+namespace within the NVM subsystem. If the KPIOS bit is cleared to ‘0’, then 
+this bit should be ignored by the host.
+0
+Key Per I/O Supported (KPIOS): If this bit is set to ‘1’, then the controller 
+supports the Key Per I/O capability. If this bit is cleared to ‘0’, then the 
+controller does not support the Key Per I/O capability.
+359 Reserved
+361:360 O O R
+Maximum Processing Time for Firmware Activation Without Reset (MPTFAWR):
+This field shall indicate the estimated maximum time in 100 ms units required by the 
+controller to process a Firmware Commit command that specifies a value of 011b in the 
+Commit Action field (i.e., firmware activation without reset).
+This field applies to Firmware Commit commands received on an NVM Express controller 
+Admin Submission Queue or received out-of-band on a Management Endpoint (refer to 
+the NVM Express Management Interface Specification).
+If firmware activation without reset is not supported, then this field shall be cleared to 0h.
+A value of 0h indicates that no time is indicated. This field shall not be cleared to 0h on 
+implementations that support firmware activation without reset and that are compliant with 
+revision 2.1 or later of this specification.
+367:362 Reserved
+383:368 O R R
+Max Endurance Group Capacity (MEGCAP): This field indicates the maximum capacity 
+of a single Endurance Group. If this field is cleared to 0h, then the NVM subsystem does 
+not report a maximum Endurance Group Capacity value.
+384 O O O
+Temperature Threshold Hysteresis Attributes (TMPTHHA): This field indicates 
+attributes related to temperature threshold hysteresis. Refer to section 5.1.25.1.3.1.
+Bits Description
+7:3 Reserved
+2:0
+Temperature Threshold Maximum Hysteresis (TMPTHMH): This field 
+indicates the maximum temperature hysteresis value in Kelvins that is 
+supported by the controller. This is the absolute value of the difference.
+If the controller does not support this attribute, this field shall be cleared to 000b.
+385 Reserved
+387:386 M M M
+Command Quiesce Time (CQT): This field indicates the expected worst-case time in 1 
+millisecond units for the controller to quiesce all outstanding commands (i.e., the 
+controller shall satisfy all Immediate Abort requirements for those commands (refer to 
+section 5.1.1.1)) after a Keep Alive Timeout (refer to section 3.9) or other communication 
+loss (refer to section 9.6). If this field is cleared to 0h, then a command quiesce time is 
+not reported. If the controller does not require any time to quiesce, the controller should 
+set this field to 1h (i.e., 1 millisecond).
+511:388 Reserved
+===== PHYSICAL PDF PAGE 340 =====
+NVM Express® Base Specification, Revision 2.1
+318
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+NVM Command Set Attributes
+512 M M R
+Submission Queue Entry Size (SQES): This field defines the required and maximum 
+I/O Submission Queue entry size.
+Bits Description
+7:4
+Maximum I/O Submission Queue Entry Size (MAXSQES): This field 
+identifies the maximum I/O Submission Queue entry size when using the NVM 
+Command Set. This value is greater than or equal to the required SQ entry size 
+(i.e., the MIOSQES field). The value is in bytes and is reported as a power of 
+two (2^n). The recommended value is 6, corresponding to a standard SQ entry 
+size of 64 bytes. Controllers that implement proprietary extensions may support 
+a larger value.
+3:0
+Minimum I/O Submission Queue Entry Size (MINSQES): This field identifies 
+the required (i.e., minimum) I/O Submission Queue entry size. This is the 
+minimum entry size that may be used. The value is in bytes and is reported as 
+a power of two (2^n). The required value shall be 6, corresponding to 64.
+513 M M R
+Completion Queue Entry Size (CQES): This field defines the required and maximum 
+I/O Completion Queue entry size.
+Bits Description
+7:4
+Maximum I/O Completion Queue Entry Size (MAXCQES): This field 
+identifies the maximum I/O Completion Queue entry size. This value is greater 
+than or equal to the required CQ entry size (i.e., the MIOCQES field). The 
+value is in bytes and is reported as a power of two (2^n). The recommended 
+value is 4, corresponding to a standard CQ entry size of 16 bytes. Controllers 
+that implement proprietary extensions may support a larger value.
+3:0
+Minimum I/O Completion Queue Entry Size (MINCQES): This field 
+identifies the required (i.e., minimum) I/O Completion Queue entry size. This 
+is the minimum entry size that may be used. The value is in bytes and is 
+reported as a power of two (2^n). The required value shall be 4, corresponding 
+to 16.
+515:514 M M M
+Maximum Outstanding Commands (MAXCMD): Indicates the maximum number of 
+commands that the controller processes at one time for a particular queue (which may be 
+larger than the size of the corresponding Submission Queue). The host may use this 
+value to size Completion Queues and optimize the number of commands submitted at 
+one time to a particular I/O Queue. This field is mandatory for NVMe over Fabrics 
+implementations and optional for NVMe over PCIe implementations. If the field is not 
+used, it shall be cleared to 0h.
+519:516 M M R
+Number of Namespaces (NN): This field indicates the maximum value of a valid NSID 
+for the NVM subsystem. Refer to the MNAN field for the number of supported 
+namespaces in the NVM subsystem.
+===== PHYSICAL PDF PAGE 341 =====
+NVM Express® Base Specification, Revision 2.1
+319
+521:520 M M R
+Optional NVM Command Support (ONCS): This field indicates the optional I/O 
+commands and features supported by the controller. Refer to section 3.1.3.
+If a controller supports more than one I/O Command Set, then the bits in the field 
+associated with command support reflect the aggregate support across all of the I/O 
+Command Sets supported or I/O Command Sets inherited from I/O Command Sets (e.g., 
+Zoned Namespace Command Set). The Commands Supported and Effects log page 
+(refer to section 5.1.12.1.6) may be used to determine the support of commands for a 
+specific I/O Command Set.
+Bits Description
+15:13 Reserved
+12
+Namespace Zeroes Support (NSZS): If this bit is set to ‘1’, then the 
+controller supports the Namespace Zeroes (NSZ) bit in the NVM Command 
+Set Write Zeroes command. If this bit is cleared to ‘0’, then the controller 
+does not support the Namespace Zeroes (NSZ) bit in the Write Zeroes 
+command. If the Write Zeroes command is not supported, then this bit shall 
+be cleared to ‘0’
+11
+Maximum Write Zeroes with Deallocate (MAXWZD): If this bit is set to ‘1’, 
+then the maximum data size for the NVM Command Set Write Zeroes 
+command depends on the value of the Deallocate bit in the Write Zeroes 
+command and the value in the WZDSL field in the I/O Command Set specific 
+Identify Controller data structure for the NVM Command Set (refer to the I/O 
+Command Set specific Identify Controller Data Structure (CNS 06h, CSI 
+00h) section in the NVM Command Set Specification). If this bit is cleared to 
+‘0’, then this bit has no effect. If the Write Zeroes command is not supported 
+or the WZSL field in that data structure is cleared to 0h, then this bit shall be 
+cleared to ‘0’.
+10
+NVM All Fast Copy (NVMAFC): If this bit is set to ‘1’, then within this NVM 
+subsystem, all copy operations performed by the controller are fast copy 
+operations (refer to the Fast copy operations section of the NVM Command 
+Set Specification).
+If this bit is cleared to ’0’, then within this NVM subsystem, some copy 
+operations performed by the controller may not be fast copy operations.
+9
+NVM Copy Single Atomicity (NVMCSA): If this bit is set to ‘1’, then the 
+write portion of any NVM Command Set Copy command is performed as a 
+single write command to which the atomicity requirements described in the 
+Atomic operation section of the NVM Command Set Specification apply. If 
+this bit is cleared to ‘0’, then the atomicity behavior of the write portion of 
+Copy commands is specified by the Copy atomicity section of the NVM 
+Command Set Specification.
+This bit should be set to ‘1’ if the controller supports the NVM Command Set 
+Copy command. The Copy atomicity section of the NVM Command Set 
+Specification specifies additional conditions under which this bit shall be set 
+to ‘1’.
+This bit is ignored by the host if the controller does not support the NVM 
+Command Set Copy command.
+8
+Copy Support (NVMCPYS): If this bit is set to ‘1’, then the controller 
+supports the NVM Command Set Copy command. If this bit is cleared to ‘0’, 
+then the controller does not support the NVM Command Set Copy 
+command.
+7
+Verify Support (NVMVFYS): If this bit is set to ‘1’, then the controller 
+supports the NVM Command Set Verify command and the Verify Size Limit 
+(VSL) field indicates the recommended maximum data size for Verify 
+commands. If this bit is cleared to ‘0’, then controller support of the NVM 
+Command Set Verify command is indicated by a non-zero data size limit in 
+the VSL field.
+6
+Timestamp Support (TSS): If this bit is set to ‘1’, then the controller 
+supports the Timestamp feature. If this bit is cleared to ‘0’, then the controller 
+does not support the Timestamp feature. Refer to section 5.1.25.1.7.
+===== PHYSICAL PDF PAGE 342 =====
+NVM Express® Base Specification, Revision 2.1
+320
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+5
+Reservations Support (RESERVS): If this bit is set to ‘1’, then the controller 
+supports reservations. If this bit is cleared to ‘0’, then the controller does not 
+support reservations. If the controller supports reservations, then the 
+following commands associated with reservations shall be supported: 
+Reservation Report, Reservation Register, Reservation Acquire, and 
+Reservation Release. Refer to section 8.1.22 for additional requirements.
+4
+Save and Select Feature Support (SSFS): If this bit is set to ‘1’, then the 
+controller supports the Save field set to a non-zero value in the Set Features 
+command and the Select field set to a non-zero value in the Get Features 
+command. If this bit is cleared to ‘0’, then the controller does not support the 
+Save field set to a non-zero value in the Set Features command and does 
+not support the Select field set to a non-zero value in the Get Features 
+command.
+3
+Write Zeroes Support Variants (NVMWZSV): If this bit is set to ‘1’, then 
+the controller supports the NVM Command Set Write Zeroes command and 
+the Write Zeroes Size Limit (WZSL) field indicates the recommended 
+maximum data size for Write Zeroes commands. If this bit is cleared to ‘0’, 
+then controller support of the NVM Command Set Write Zeroes command 
+is indicated by a non-zero data size limit in the WZSL field.
+2
+Dataset Management Support Variants (NVMDSMSV): If this bit is set to 
+‘1’, then the controller supports the NVM Command Set Dataset 
+Management command and limits, if any, on controller support of the 
+Dataset Management command are indicated by non-zero values in the 
+Dataset Management Ranges Limit (DMRL) field, the Dataset Management 
+Size Limit (DMSL) field and the Dataset Management Range Size Limit 
+(DMRSL) field. If this bit is cleared to ‘0’, then controller support of the NVM 
+Command Set Dataset Management command is indicated by a non-zero 
+data size limit in the DMRL, DMSL, and DMRSL fields.
+1
+Write Uncorrectable Support Variants (NVMWUSV): If this bit is set to ‘1’, 
+then the controller supports the NVM Command Set Write Uncorrectable 
+command and the Write Uncorrectable Size Limit (WUSL) field indicates the 
+recommended maximum data size for Write Uncorrectable commands. If 
+this bit is cleared to ‘0’, then controller support of the NVM Command Set 
+Write Uncorrectable command is indicated by a non-zero data size limit in 
+the WUSL field.
+0
+Compare Command Support (NVMCMPS): If this bit is set to ‘1’, then the 
+controller supports the NVM Command Set Compare command. If this bit is 
+cleared to ‘0’, then the controller does not support the NVM Command Set 
+Compare command.
+NOTE: This field applies to all I/O Command Sets. The original name has been retained 
+for historical continuity.
+523:522 M M R
+Fused Operation Support (FUSES): This field indicates the fused operations that the 
+controller supports. Refer to section 3.4.2.
+Bits Description
+7:1 Reserved
+0
+Fused Compare and Write Supported (FCWS): If this bit is set to ‘1’, then 
+the controller supports the NVM Command Set Compare and Write fused 
+operation. If this bit is cleared to ‘0’, then the controller does not support the 
+NVM Command Set Compare and Write fused operation. Compare shall be 
+the first command in the sequence.
+===== PHYSICAL PDF PAGE 343 =====
+NVM Express® Base Specification, Revision 2.1
+321
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+524 M M R
+Format NVM Attributes (FNA): This field indicates attributes for the Format NVM 
+command.
+Bits Description
+7:4 Reserved
+3
+Format NVM Broadcast Support (FNVMBS): This bit indicates whether the 
+Format NVM command supports an NSID value set to FFFFFFFFh. If this bit 
+is set to ‘1’, then the Format NVM command does not support an NSID value 
+set to FFFFFFFFh. If this bit is cleared to ‘0’, then the Format NVM command 
+supports an NSID value set to FFFFFFFFh.
+2
+Cryptographic Erase Supported (CRYES): This bit indicates whether 
+cryptographic erase is supported as part of the secure erase functionality. If 
+this bit is set to ‘1’, then cryptographic erase is supported. If this bit is cleared 
+to ‘0’, then cryptographic erase is not supported.
+1
+Secure Erase Namespace Scope (SENS): This bit indicates whether 
+secure erase functionality applies to all namespaces in the NVM subsystem 
+or is specific to a particular namespace. If this bit is set to ’1’, then any secure 
+erase performed as part of a format operation results in a secure erase of all 
+namespaces in the NVM subsystem. If this bit is cleared to ‘0’, then any 
+secure erase performed as part of a format results in a secure erase of the 
+particular specified namespace. If the FNVMBS bit is set to ‘1’, then this bit 
+shall be cleared to ‘0’.
+0
+Format Namespace Scope (FNS): This bit indicates whether the format 
+operation (excluding secure erase) applies to all namespaces in the NVM 
+subsystem or is specific to a particular namespace. If this bit is set to ‘1’, then 
+all namespaces in the NVM subsystem shall be configured with the same 
+attributes and a format (excluding secure erase) of any namespace results 
+in a format of all namespaces in the NVM subsystem. If this bit is cleared to 
+‘0’, then the controller supports format on a per namespace basis. If the 
+FNVMBS bit is set to ‘1’, then this bit shall be cleared to ‘0’.
+===== PHYSICAL PDF PAGE 344 =====
+NVM Express® Base Specification, Revision 2.1
+322
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+525 M M R
+Volatile Write Cache (VWC): This field indicates attributes related to the presence of a 
+volatile write cache in the controller.
+Bits Description
+07:03 Reserved
+02:01
+Flush Behavior (FB): This field indicates Flush command behavior (refer 
+to section 7.2) if the NSID value is set to FFFFFFFFh as follows:
+Value Definition
+00b
+Support for the NSID field set to FFFFFFFFh is not indicated. 
+Only controllers compliant with NVM Express Base 
+Specification revision 1.3 and earlier shall be allowed to return 
+this value.
+01b Reserved
+10b
+The Flush command does not support the NSID field set to 
+FFFFFFFFh. The controller shall fail a Flush command with the 
+NSID set to FFFFFFFFh with a status code of Invalid 
+Namespace or Format.
+11b The Flush command supports the NSID field set to 
+FFFFFFFFh.
+00
+Volatile Write Cache Present (VWCP): If this bit is set to ‘1’, then a volatile 
+write cache is present in the controller. If this bit is cleared to ‘0’, then a
+volatile write cache is not present in the controller.
+If a volatile write cache is present, then the host controls whether the volatile 
+write cache is enabled with a Set Features command specifying the Volatile 
+Write Cache feature identifier (refer to section 5.1.25.1.4). The Flush 
+command (refer to section 7.2) is used to request that the contents of a 
+volatile write cache be made non-volatile.
+527:526 M R R
+Atomic Write Unit Normal (AWUN): This field is specific to namespaces that are 
+associated with command sets that specify logical blocks (i.e., Command Set Identifier 
+0h or 2h), and shall be cleared to 0h for namespaces that are not associated with 
+command sets that specify logical blocks. Refer to the applicable I/O Command Set 
+specification (e.g., the Atomic Operation section of the NVM Command Set Specification).
+529:528 M M R
+Atomic Write Unit Power Fail (AWUPF): This field is specific to namespaces that are 
+associated with command sets that specify logical blocks (i.e., Command Set Identifier 
+0h or 2h), and shall be cleared to 0h for namespaces that are not associated with 
+command sets that specify logical blocks. Refer to the applicable I/O Command Set 
+specification (e.g., the Atomic Operation section of the NVM Command Set Specification).
+530 M M R
+I/O Command Set Vendor Specific Command Configuration (ICSVSCC): This field 
+indicates the configuration settings for vendor specific I/O command handling. Refer to 
+section 8.1.26.
+Bits Description
+7:1 Reserved
+0
+Same NVM Vendor Specific Command Format (SNVSCF): If this bit is set 
+to ‘1’, then all vendor specific I/O commands use the format defined in Figure 
+93. If this bit is cleared to ‘0’, then the format of all vendor specific I/O 
+commands is vendor specific.
+===== PHYSICAL PDF PAGE 345 =====
+NVM Express® Base Specification, Revision 2.1
+323
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+531 M M R
+Namespace Write Protection Capabilities (NWPC): This field indicates the optional 
+namespace write protection capabilities supported by the controller. Refer to section 
+8.1.16.
+Bits Description
+7:3 Reserved
+2
+Permanent Write Protect Support (PWPS): If this bit is set to ‘1’, then the 
+controller supports the Permanent Write Protect state. If this bit is cleared to 
+‘0’, then the controller does not support the Permanent Write Protect state. 
+If this bit is set to ‘1’, then the controller shall support the Write Protection 
+Control field (refer to section 8.1.16.1).
+If the NWPWPS bit is cleared to ‘0’, then this bit shall be cleared to ‘0’.
+1
+Write Protect Until Power Cycle Support (WPUPCS): If this bit is set to 
+‘1’, then the controller supports the Write Protect Until Power Cycle state. If 
+this bit is cleared to ‘0’, then the controller does not support Write Protect 
+Until Power Cycle state. If this bit is set to ‘1’, then the controller shall support 
+the Write Protection Control field (refer to section 8.1.16.1).
+If the NWPWPS bit is cleared to ‘0’, then this bit shall be cleared to ‘0’.
+0
+No Write Protect and Write Protect Support (NWPWPS) : If this bit is set 
+to ‘1’, then the controller shall support the No Write Protect and Write Protect 
+namespace write protection states and may support the Write Protect Until 
+Power Cycle state and Permanent Write Protect namespace write protection 
+states (refer to section 8.1.16). If this bit is cleared to ‘0’, then the controller 
+does not support Namespace Write Protection.
+533:532 O R R
+Atomic Compare & Write Unit (ACWU): This field is specific to namespaces that are 
+associated with command sets that specify logical blocks (i.e., Command Set Identifier 
+0h or 2h), and shall be cleared to 0h for namespaces that are not associated with 
+command sets that specify logical blocks. Refer to the applicable I/O Command Set 
+specification (e.g., the Atomic Operation section of the NVM Command Set Specification).
+535:534 M R R
+Copy Descriptor Formats Supported (CDFS):
+Bits Description
+15:5 Reserved
+4
+Copy Descriptor Format 4 Support (CDF4S): If this bit is set to ‘1’, then the 
+controller supports Copy Descriptor Format 4h. If this bit is cleared to ‘0’, then 
+the controller does not support Copy Descriptor Format 4h.
+3
+Copy Descriptor Format 3 Support (CDF3S): If this bit is set to ‘1’, then the 
+controller supports Copy Descriptor Format 3h. If this bit is cleared to ‘0’, then 
+the controller does not support Copy Descriptor Format 3h.
+2
+Copy Descriptor Format 2 Support (CDF2S): If this bit is set to ‘1’, then the 
+controller supports Copy Descriptor Format 2h. If this bit is cleared to ‘0’, then 
+the controller does not support Copy Descriptor Format 2h.
+1
+Copy Descriptor Format 1 Support (CDF1S): If this bit is set to ‘1’, then the 
+controller supports Copy Descriptor Format 1h. If this bit is cleared to ‘0’, then 
+the controller does not support Copy Descriptor Format 1h.
+0
+Copy Descriptor Format 0 Support (CDF0S): If this bit is set to ‘1’, then the 
+controller supports Copy Descriptor Format 0h. If this bit is cleared to ‘0’, then 
+the controller does not support Copy Descriptor Format 0h.
+===== PHYSICAL PDF PAGE 346 =====
+NVM Express® Base Specification, Revision 2.1
+324
+Figure 312: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+539:536 O O M
+SGL Support (SGLS): This field indicates if SGLs are supported and the particular SGL 
+types supported. Refer to section 4.3.2.
+Bits Description
+31:22 Reserved
+21
+Transport SGL Data Block Descriptor Support (TSDBDS): If this bit 
+is set to ‘1’, then the controller supports the Transport SGL Data Block 
+descriptor. If this bit is cleared to ‘0’, then the controller does not support 
+the Transport SGL Data Block descriptor.
+20
+SGL Address Offset Supported (SAOS): If this bit is set to ‘1’, then 
+the controller supports the Address field in SGL Data Block, SGL 
+Segment, and SGL Last Segment descriptor types specifying an offset. 
+If this bit is cleared to ‘0’, then the Address field specifying an offset is 
+not supported.
+19
+MPTR SGL Descriptor Support (MSDS): If this bit is set to ‘1’, then 
+use of a Metadata Pointer (MPTR) that contains an address of an SGL 
+segment containing exactly one SGL Descriptor that is qword aligned is 
+supported. If this bit is cleared to ‘0’, then use of a MPTR containing an 
+SGL Descriptor is not supported.
+18
+Length Larger than Data Transfer Support (LLDTS): If this bit is set 
+to ‘1’, then the controller supports commands that contain a data or 
+metadata SGL of a length larger than the amount of data to be 
+transferred. If this bit is cleared to ‘0’, then the SGL length shall be equal 
+to the amount of data to be transferred.
+17
+Metadata Buffer Alignment (MBA): This bit indicates metadata buffer 
+alignment requirements when CDW0.PSDT is set to 01b (refer to Figure 
+91). If set to ‘1’, then use of a byte aligned contiguous physical buffer of 
+metadata (the Metadata Pointer field in Figure 92) is supported. If 
+cleared to ‘0’, then use of a byte aligned contiguous physical buffer of 
+metadata is not supported. 
+16
+SGL Bit Bucket Descriptor Supported (SBBDS): If this bit is set to 
+‘1’, then the SGL Bit Bucket descriptor is supported. If this bit is cleared 
+to ‘0’, then the SGL Bit Bucket descriptor is not supported.
+15:08
+SGL Descriptor Threshold (SDT): This field indicates the 
+recommended maximum number of SGL descriptors in a command 
+(refer to section 4.3.2). If this field is cleared to 0h, then no 
+recommended maximum number of SGL descriptors is reported.
+07:03 Reserved
+02
+Keyed SGL Data Block Descriptor Support (KSDBDS): If this bit is 
+set to ‘1’, then the controller supports the Keyed SGL Data Block 
+descriptor. If this bit is cleared to ‘0’, then the controller does not support 
+the Keyed SGL Data Block descriptor.
+01:00
+SGL Support (SGLS): This field is used to determine the SGL support. 
+Valid values are shown in the table below.
+Value Definition
+00b SGLs are not supported.
+01b SGLs are supported. There is no alignment nor 
+granularity requirement for Data Blocks.
+10b
+SGLs are supported. There is a dword alignment and 
+granularity requirement for Data Blocks (refer to section 
+4.3.2).
+11b Reserved

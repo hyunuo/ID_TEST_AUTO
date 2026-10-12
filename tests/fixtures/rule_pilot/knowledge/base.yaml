@@ -1,0 +1,22 @@
+# All identities, offsets and values are invented TEST/FIXTURE data.
+kind: base
+spec_family: TEST
+version: fixture-v1
+data_kind: fixture
+provenance:
+  source_type: fixture
+  source_document: TEST_RULE_PILOT
+  source_version: fixture-v1
+  source_section: SYNTHETIC_FIELD_REGISTRY
+  status: confirmed
+  verified_by: TEST_FIXTURE_REVIEWER
+  verified_date: 2026-10-11
+fields:
+  - {field_id: TEST.FLAGS, name: TEST_FLAGS, command: fixture-id-ctrl, offset: 0, length: 1, endian: little, value_type: bitmask, bits: [{bit: 0, state: defined}, {bit: 1, state: reserved}]}
+  - {field_id: TEST.SIZE, name: TEST_SIZE, command: fixture-id-ns, offset: 0, length: 2, endian: little, value_type: integer}
+  - {field_id: TEST.CAPACITY, name: TEST_CAPACITY, command: fixture-id-ns, offset: 2, length: 2, endian: little, value_type: integer}
+  - {field_id: TEST.USED, name: TEST_USED, command: fixture-id-ns, offset: 4, length: 2, endian: little, value_type: integer}
+  - {field_id: TEST.LBADS, name: TEST_LBADS, command: fixture-id-ns, offset: 6, length: 1, endian: little, value_type: integer}
+  - {field_id: TEST.ATOMIC_NORMAL, name: TEST_ATOMIC_NORMAL, command: fixture-id-ctrl, offset: 1, length: 2, endian: little, value_type: integer}
+  - {field_id: TEST.ATOMIC_FAILURE, name: TEST_ATOMIC_FAILURE, command: fixture-id-ctrl, offset: 3, length: 2, endian: little, value_type: integer}
+rules: []

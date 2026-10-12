@@ -1,0 +1,5 @@
+# Synthetic TEST/FIXTURE only; no NVMe/OCP/MFND policy is asserted here.
+kind: catalog
+sources:
+  - {source_type: fixture, source_document: TEST_RULE_PILOT, source_version: fixture-v1}
+features: []

@@ -1,0 +1,219 @@
+
+===== PHYSICAL PDF PAGE 12 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+12
+Note: To ensure the Compare and Write is an atomic operation in a multi-host environment, host software 
+should ensure that the size of a Compare and Write fused operation is no larger than the ACWU/NACWU 
+(refer to section 2.1.4) and that Atomic Boundaries are respected (refer to section 2.1.4.3). Controllers may 
+abort a Compare and Write fused operation that is larger than ACWU/NACWU or that crosses an Atomic 
+Boundary with a status code of Atomic Write Unit Exceeded.
+Atomic Operation
+Figure 4 is an overview of the parameters that define the controller’s support for atomic operations. These 
+parameters may affect command behavior and execution order based on write size (on a per controller or 
+a per namespace basis).
+Figure 4: Atomicity Parameters
+Parameter Name Value1
+Controller
+Atomic Parameters
+(refer to Figure 99)
+Atomic Write Unit Normal (AWUN)
+Atomic Write Unit Power Fail (AWUPF) ≤ AWUN
+Atomic Compare and Write Unit (ACWU)
+Namespace
+Atomic Parameters
+(refer to the Identify Namespace data 
+structure in Figure 97)
+Namespace Atomic Write Unit Normal (NAWUN) ≥ AWUN
+Namespace Atomic Write Unit Power Fail (NAWUPF) ≥ AWUPF
+≤ NAWUN
+Namespace Atomic Compare and Write Unit (NACWU) ≥ ACWU
+Namespace
+Atomic Boundary Parameters
+(refer to the Identify Namespace data 
+structure in Figure 97)
+Namespace Atomic Boundary Size Normal (NABSN) ≥ NAWUN
+Namespace Atomic Boundary Offset (NABO) ≤ NABSN
+≤ NABSPF
+Namespace Atomic Boundary Size Power Fail (NABSPF) ≥ NAWUPF
+Notes:
+1. When the parameter is supported, the value shall meet the listed condition(s).
+The NVM subsystem reports in the Identify Controller data structure the size in logical blocks of the write 
+operation guaranteed to be written atomically under various conditions, including normal operation, power 
+fail, and in a Compare & Write fused operation. The values reported in the Identify Controller data structure 
+are valid across all namespaces with any supported namespace format, forming a baseline value that is 
+guaranteed not to change.
+An NVM subsystem may report per namespace values for these fields that are specific to the namespace 
+format and are indicated in the Identify Namespace data structure (refer to Figure 97). If an NVM subsystem 
+reports a per namespace value, then that value shall be greater than or equal to the corresponding baseline 
+value indicated in the Identify Controller data structure (refer to Figure 99).
+The values are reported in the fields (Namespace) Atomic Write Unit Normal, (Namespace) Atomic Write 
+Unit Power Fail, and (Namespace) Atomic Compare & Write Unit in the Identify Controller data structure or 
+the Identify Namespace data structure depending on whether the values are the baseline or namespace 
+specific.
+A controller may support Atomic Boundaries that shall not be crossed by an atomic operation. The 
+Namespace Atomic Boundary Parameters (NABSN, NABO, and NABSPF) define these boundaries for a 
+namespace. A namespace supports Atomic Boundaries if NABSN or NABSPF is set to a non-zero value. 
+A namespace that does not support Atomic Boundaries shall clear the NABSN and NABSPF fields to 0h. 
+===== PHYSICAL PDF PAGE 13 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+13
+Namespace Atomicity Parameter and Namespace Atomic Boundary Parameter values may be format 
+specific and may change if the namespace format is modified.
+In the case of a shared namespace, operations performed by an individual controller are atomic to the 
+shared namespace at the write atomicity level reported in the corresponding Identify Controller or Identify 
+Namespace data structures of the controller to which the command was submitted. 
+2.1.4.1 AWUN/NAWUN
+AWUN/NAWUN control the atomicity of command execution in relation to other commands. They impose 
+inter-command serialization of writing of blocks of data to the NVM and prevent blocks of data ending up 
+on the NVM containing partial data from one new command and partial data from one or more other new 
+commands.
+If a write command is submitted with size less than or equal to the AWUN/NAWUN value and the write 
+command does not cross an atomic boundary (refer to section 2.1.4.3), then the host is guaranteed that 
+the write command is atomic to the NVM with respect to other read or write commands. If a write command 
+is submitted with size greater than the AWUN/NAWUN value or crosses an atomic boundary, then there is 
+no guarantee of command atomicity. AWUN/NAWUN does not have any applicability to write errors caused 
+by power failure or other error conditions (refer to section 2.1.4.2). 
+The host may indicate that AWUN and NAWUN are not necessary by configuring the Write Atomicity Normal 
+feature (refer to section 4.1.3.4), which may result in higher performance in some implementations.
+2.1.4.1.1 AWUN/NAWUN Example (Informative)
+In this example, AWUN/NAWUN has a value of 2KiB (equivalent to four 512-byte logical blocks) and the 
+namespace atomic boundary sizes (NABSN and NABSPF) are 0h. The host issues two write commands, 
+each with a length of 2KiB (i.e., four logical blocks). Command A writes LBAs 0-3 and command B writes 
+LBAs 1-4.
+Since the size of both command A and command B is less than or equal to the value of AWUN/NAWUN, 
+the controller serializes these two write commands so that the resulting data in LBAs 0-4 reflects command 
+A followed by command B, or command B followed by command A, but not an intermediate state where 
+some of the logical blocks are written with data from command A and others are written with data from 
+command B. Figure 5 shows valid results of the data in LBAs 0-4 and examples of invalid results (of which 
+there are more possible combinations).
+Figure 5: AWUN/NAWUN Example Results
+LBA 0 1 2 3 4 5 6 7
+Valid Result A A A A B
+Valid Result A B B B B
+Invalid Result A A B B B
+Invalid Result A B A A B
+If the size of write commands A and B is larger than the AWUN/NAWUN value, then there is no guarantee 
+of ordering. After execution of command A and command B, there may be an arbitrary mix of data from 
+command A and command B in the LBA range specified. 
+===== PHYSICAL PDF PAGE 14 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+14
+2.1.4.2 AWUPF/NAWUPF
+AWUPF and NAWUPF indicate the behavior of the controller if a power fail or other error condition interrupts 
+a write operation causing a torn write. A torn write is a write operation where only some of the logical blocks 
+that are supposed to be written contiguously are actually stored on the NVM, leaving the target logical 
+blocks in an indeterminate state in which some logical blocks contain original data and some logical blocks 
+contain new data from the write operation.
+If a write command is submitted with size less than or equal to the AWUPF/NAWUPF value and the write 
+command does not cross an atomic boundary (refer to section 2.1.4.3), the controller guarantees that if the 
+command fails due to a power failure or other error condition, then subsequent read commands for the 
+logical blocks associated with the write command shall return one of the following:
+• All old data (i.e., original data on the NVM in the LBA range addressed by the interrupted write); or
+• All new data (i.e., all data to be written to the NVM by the interrupted write).
+If a write command is submitted with size greater than the AWUPF/NAWUPF value or crosses an atomic 
+boundary, then there is no guarantee of the data returned on subsequent reads of the associated logical 
+blocks.
+2.1.4.2.1 AWUPF/NAWUPF Example (Informative)
+In this example, AWUPF/NAWUPF has a value of 1KiB (equivalent to two 512-byte logical blocks), 
+AWUN/NAWUN has a value of 2KiB (equivalent to four 512-byte logical blocks) and the namespace atomic 
+boundary sizes (NABSN and NABSPF) are 0h. Command A writes LBAs 0 to 1. Figure 6 shows the initial 
+state of the NVM.
+Figure 6: AWUPF/NAWUPF Example Initial State of NVM
+LBA 0 1 2 3 4 5 6 7
+C B B B B
+Command A begins executing but is interrupted by a power failure during the writing of the logical block at 
+LBA 1. Figure 7 describes valid and invalid results.
+Figure 7: AWUPF/NAWUPF Example Final State of NVM
+LBA 0 1 2 3 4 5 6 7
+Valid Result A A B B B
+Valid Result C B B B B
+Invalid Result A B B B B
+Invalid Result C A B B B
+Invalid Result D D B B B
+If the size of write command A is larger than the AWUPF/NAWUPF value, then there is no guarantee of the 
+state of the data contained in the specified LBA range after the power fail or error condition.
+2.1.4.2.2 Non-volatile requirements
+After a write command has completed without error, reads for that location which are subsequently 
+submitted and return data, shall return the data that was written by that write command and not an older 
+version of the data from previous write commands with the following exception:
+If all of the following conditions are met:
+===== PHYSICAL PDF PAGE 15 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+15
+a) the controller supports a volatile write cache; 
+b) the volatile write cache is enabled; 
+c) the FUA bit for the write is not set;
+d) no flush commands, associated with the same namespace as the write, successfully completed 
+before the controller reports shutdown complete (CSTS.SHST set to 10b); and 
+e) main power loss occurs on a controller without completing the normal or abrupt shutdown 
+procedure outlined in the Memory-based Transport Controller Shutdown or Message-based 
+Transport Controller Shutdown sections in the NVM Express Base Specification,
+then subsequent reads for locations written to the volatile write cache that were not written to non-volatile 
+storage medium may return older data.
+2.1.4.3 Atomic Boundaries
+Atomic Boundaries control how the atomicity guarantees defined in section 2.1.4 are enforced by the 
+controller, with the added constraint of the alignment of the LBA range specified in the command. Atomic 
+Boundaries are defined on a per namespace basis only. The namespace supports Atomic Boundaries if 
+NABSN or NABSPF are set to non-zero values.
+To ensure backwards compatibility, the values reported for AWUN, AWUPF, and ACWU shall be set such 
+that they are supported even if a write crosses an atomic boundary. If a controller does not guarantee 
+atomicity across atomic boundaries, the controller shall set AWUN, AWUPF, and ACWU to 0h (1 LBA).
+The boundary size shall be greater than or equal to the corresponding atomic write size (i.e., 
+NABSN/NABSPF shall be greater than or equal to NAWUN/NAWUPF, respectively). NABO shall be less 
+than or equal to NABSN and NABSPF.
+For Boundary Offset (NABO) and Boundary Size (NABSN or NABSPF), the LBA range in a command is 
+within a Namespace Atomic Boundary if none of the logical block addresses in the range cross: Boundary 
+Offset + (y * Boundary Size); for any integer y ≥ 0.
+If a write command crosses the atomic boundary specified by the NABSN value, then the atomicity based 
+on the NAWUN parameters is not guaranteed. If a write command crosses the atomic boundary specified 
+by the NABSPF value, then the atomicity based on the NAWUPF parameters is not guaranteed. 
+Figure 8 shows an example of the behavior of Atomic Boundaries. Writes to an individual blue or yellow 
+section do not cross an atomic boundary.
+===== PHYSICAL PDF PAGE 16 =====
+NVM Express® NVM Command Set Specification, Revision 1.0e
+16
+Figure 8: Atomic Boundaries Example
+End-to-end Protection Information
+The NVM Command Set commands (refer to section 3.2) that include data transfer may utilize end-to-end 
+data protection. Within these commands, the Protection Information Action, Protection Information Check, 
+and Storage Tag Check fields are specified as defined in Figure 9 and Figure 10.
+Figure 9: Protection Information Field Definition
+Bits Description
+03
+Protection Information Action (PRACT): This bit specifies the action to take for the protection 
+information. If the namespace is not formatted to use end-to-end protection information, then this 
+bit shall be ignored by the controller. Refer to section 5.2.
+PRACT 
+Value
+Metadata Size
+Description 8B Protection 
+Information 
+Format
+16B Protection 
+Information 
+Format
+1b 8B 16B The protection information is 
+stripped (read) or inserted (write).
+1b > 8B > 16B
+The protection information is 
+passed (read) or replaces the 
+protection information in the 
+metadata (write).
+0b Any Any The protection information is 
+passed (read and write).
+02:00
+Protection Information Check (PRCHK): The protection information check field specifies the 
+fields that shall be checked as part of end-to-end data protection processing. If the namespace is 
+not formatted to use end-to-end protection information, then this field shall be ignored by the 
+controller. Refer to section 5.2.
+Bits Definition
+02 Guard Check: If set to ‘1’ enables protection information checking of the 
+Guard field. If cleared to ‘0’, the Guard field is not checked.
+01
+Application Tag Check: If set to ‘1’ enables protection information 
+checking of the Application Tag field. If cleared to ‘0’, the Application Tag 
+field is not checked.
+00
+Reference Tag Check: If set to ‘1’ enables protection information 
+checking of the Logical Block Reference Tag field. If cleared to ‘0’, the 
+Logical Block Reference Tag field is not checked.

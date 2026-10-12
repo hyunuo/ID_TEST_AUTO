@@ -1,0 +1,43 @@
+NVM Express® NVM Command Set Specification, Revision 1.1
+149
+least significant bits of the LBA sized to the number of bits in the Logical Block 
+Reference Tag when Type 1 protection is used.
+▪ If the namespace is formatted for Type 2 protection, the value of the computed 
+reference tag for the first logical block of the command is the value contained in 
+the Initial Logical Block Reference Tag (ILBRT) or Expected Initial Logical Block 
+Reference Tag (EILBRT) field in the command, and the computed reference tag is 
+incremented for each subsequent logical block.
+o If the Reference Tag Check bit of the PRCHK field is set to ‘1’ and the namespace is 
+formatted for Type 3 protection, then the controller:
+▪ should not compare the protection Information Reference Tag field to the 
+computed reference tag; and
+▪ may ignore the ILBRT and EILBRT fields. If a command is aborted as a result of 
+the Reference Tag Check bit of the PRCHK field being set to ‘1’, then that 
+command shall be aborted with a status code of Invalid Protection Information.
+o Incrementing a computed reference tag with all bits set to ‘1’ produces a value with all bits 
+cleared to ‘0’ (i.e., the computed reference tag rolls over to 0h).
+Protection checking may be disabled as a side effect of the value of the protection information Application 
+Tag and Logical Block Reference Tag, if defined, regardless of the state of the PRCHK field in the 
+command. If the namespace is formatted for Type 1 or Type 2 protection, then all protection information 
+checks are disabled regardless of the state of the PRCHK field when the protection information Application 
+Tag has a value of FFFFh.
+If the namespace is formatted for Type 3 protection, then all protection information checks are disabled 
+regardless of the state of the PRCHK field when the protection information Application Tag and Logical 
+Block Reference Tag, if defined, have all bits set to ‘1’.
+Inserted protection information consists of the computed CRC for the protection information format (refer to 
+section 5.3.1) in the Guard field, the LBAT field value in the Application Tag field, the LBST field value in 
+the Storage Tag field, if defined, and the computed reference tag in the Logical Block Reference Tag.
+5.4 Key Per I/O
+The Key Per I/O capability operates as defined by the NVM Express Base Specification with the exceptions 
+specified by this section. The Trusted Computing Group Security Subsystem Key Per I/O specification 
+makes use of this NVM Express capability.
+Any I/O command specifying the key tag (i.e., CETYPE value of KPIOTAG) that does not have:
+a) the SLBA field in that command aligned on a logical block boundary specified by the KPIODAAG 
+field in the Identify Namespace data structure (refer to Figure 114); and
+b) the range of LBAs accessed by that command specify a granularity specified by the KPIODAAG 
+field,
+then the controller shall abort that command with a status code of Invalid Field in Command.
+5.5 LBA Format List Structure
+To create or format a namespace, a host specifies an LBA Format (i.e., the Format Index) referencing the
+LBA Format list in the NVM Command Set Identify Namespace data structure. The LBA Format list has a 
+structure as is illustrated in Figure 175. The NLBAF field, a 0-based number (i.e., at least one is required 

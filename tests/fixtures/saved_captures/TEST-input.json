@@ -1,0 +1,24 @@
+{
+  "format": "ssd-validator-captures-v1",
+  "captures": [
+    {
+      "capture_id": "TEST_CTRL",
+      "filename": "TEST-id-ctrl.txt",
+      "command": "id-ctrl",
+      "source_format": "text",
+      "content_base64": "TlZNRSBJZGVudGlmeSBDb250cm9sbGVyOgpzbjpURVNUX09OTFlfTk9UX1JFQUxfRFVUCnNxZXM6MHg2NgpjcWVzOjB4NDQKbnBzczo0CmF3dW46MAphd3VwZjowCm9hY3M6Ngo=",
+      "dut_id": "TEST_DUT",
+      "session_id": "TEST_SESSION"
+    },
+    {
+      "capture_id": "TEST_NS",
+      "filename": "TEST-id-ns.txt",
+      "command": "id-ns",
+      "source_format": "text",
+      "content_base64": "TlZNRSBJZGVudGlmeSBOYW1lc3BhY2U6Cm5zemU6MTAwCm5jYXA6OTAKbnVzZTo4MApsYmFmIDAgOiBtczowIGxiYWRzOjkgcnA6MApsYmFmIDEgOiBtczowIGxiYWRzOjEyIHJwOjEKZnV0dXJlX2ZpZWxkOjc3Cg==",
+      "dut_id": "TEST_DUT",
+      "session_id": "TEST_SESSION",
+      "nsid": 1
+    }
+  ]
+}

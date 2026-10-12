@@ -1,0 +1,15 @@
+kind: catalog
+sources:
+- source_type: spec
+  source_document: NVME_BUNDLE_2.0e_1.0e
+  source_version: 2.0e+1.0e
+- source_type: spec
+  source_document: BASE_2_0E
+  source_version: 2.0e
+- source_type: spec
+  source_document: NVM_1_0E
+  source_version: 1.0e
+- source_type: policy
+  source_document: LAB_ASSUMED_DEVELOPMENT_PROFILE
+  source_version: v1
+features: []

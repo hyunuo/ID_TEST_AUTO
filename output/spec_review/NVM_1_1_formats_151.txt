@@ -1,0 +1,51 @@
+NVM Express® NVM Command Set Specification, Revision 1.1
+151
+Figure 176: LBA Format List Entries Applicability to Identify Command CNS Value
+CNS 
+Value
+Returned data is associated with LBA 
+Format entries referenced by only the 
+NLBAF field
+Returned data is associated with LBA Format 
+entries referenced by both the NLBAF field and 
+NULBAF field
+00h Yes No
+05h Yes No
+08h Yes No
+09h No Yes
+0Ah No Yes
+5.6 LBA Migration Queue
+As defined by the NVM Express Base Specification, a User Data Migration Queue allows a controller to 
+post entries that identify user data modifications due to the processing of commands by the controller 
+associated to the User Data Migration Queue. For the NVM Command Set:
+• user data is logical blocks and posted entries indicate:
+o data in the logical blocks has changed (e.g., modified by a Write command);
+o data in the logical blocks may have changed (e.g., a Write command was processed that 
+targeted the logical blocks but there was no change to the data in those logical blocks);
+o are deallocated (i.e., the logical block transitioned from being allocated to deallocated); or
+o may have been deallocated (i.e., the command requested to deallocate logical blocks that 
+were already deallocated);
+and
+• the User Data Migration Queue is referred to as the LBA Migration Queue.
+If logging has been started in an LBA Migration Queue due to a Track Send command (refer to the NVM 
+Express Base Specification), the first entry posted indicates that the logging has started. Subsequent 
+entries are able to indicate if an entry is:
+• the last entry due to the controller associated with the LBA Migration Queue being suspended as 
+a result of a Migration Send command (refer to the NVM Express Base Specification);
+• the last entry due to logging being stopped as a result of the controller processing a command that 
+is defined to stop logging (e.g., the Track Send command (refer to the NVM Express Base 
+Specification)); 
+• the controller detecting that the LBA Migration Queue has become full; or
+• the first entry due to the controller associated with the LBA Migration Queue being resumed while 
+suspended as a result of a Migration Send command.
+LBA Migration Queue Entries
+The LBA Migration Queue Format (LBAMQF) field in the I/O Command Set specific Identify Controller data 
+structure (refer to Figure 120) defines the supported format for entries in an LBA Migration Queue. Figure 
+177 defines the supported format.
+A controller may aggregate the results of multiple commands processed by a controller into a single entry. 
+For example:
+• If the controller processes three sequential Write commands, then the controller may post a single 
+entry that incorporates all of the logical blocks written.
+• If the controller processes the sequential commands that modify the same LBA range, then the 
+controller may post a single entry for the LBA range with the result from the last command of that 
+set of sequential commands.

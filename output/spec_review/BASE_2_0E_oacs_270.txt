@@ -1,0 +1,56 @@
+NVM Express® Base Specification, Revision 2.0e
+270
+Figure 280: Identify – Identify Controller Data Structure, I/O Command Set Independent
+Bytes I/O1
+Admin1
+Disc1 Description
+Admin Command Set Attributes & Optional Controller Capabilities
+257:256 M M R
+Optional Admin Command Support (OACS): This field indicates the 
+optional Admin commands and features supported by the controller. Refer 
+to section 3.1.3.
+Bits 15:11 are reserved.
+Bit 10 if set to ‘1’, then the controller supports the Command and Feature 
+Lockdown capability (refer to section 8.4). If cleared to ‘0’, then the 
+controller does not support the Command and Feature Lockdown
+capability. This value shall be the same for all controllers in the NVM 
+subsystem.
+Bit 9 if set to ‘1’, then the controller supports the Get LBA Status capability 
+(refer to the NVM Command Set Specification). If cleared to ‘0’, then the 
+controller does not support the Get LBA Status capability.
+Bit 8 if set to '1', then the controller supports the Doorbell Buffer Config 
+command. If cleared to '0', then the controller does not support the 
+Doorbell Buffer Config command. 
+Bit 7 if set to ‘1’, then the controller supports the Virtualization 
+Management command. If cleared to ‘0’, then the controller does not 
+support the Virtualization Management command.
+Bit 6 if set to ‘1’, then the controller supports the NVMe-MI Send command
+and NVMe-MI Receive command. If cleared to ‘0’, then the controller does 
+not support the NVMe-MI Send command and NVMe-MI Receive 
+command.
+Bit 5 if set to ‘1’, then the controller supports Directives. If cleared to ‘0’, 
+then the controller does not support Directives. A controller that supports 
+Directives shall support the Directive Send and Directive Receive 
+commands. Refer to section 8.7.
+Bit 4 if set to ‘1’, then the controller supports the Device Self-test 
+command. If cleared to ‘0’, then the controller does not support the Device 
+Self-test command.
+Bit 3 if set to ‘1’, then the controller supports the Namespace Management 
+capability (refer to section 8.11). If cleared to ‘0’, then the controller does 
+not support the Namespace Management capability.
+Bit 2 if set to ‘1’, then the controller supports the Firmware Commit 
+command and Firmware Image Download command. If cleared to ‘0’, then 
+the controller does not support the Firmware Commit command and 
+Firmware Image Download command.
+Bit 1 if set to ‘1’, then the controller supports the Format NVM command. 
+If cleared to ‘0’, then the controller does not support the Format NVM 
+command.
+Bit 0 if set to ‘1’, then the controller supports the Security Send command
+and Security Receive command. If cleared to ‘0’, then the controller does 
+not support the Security Send command and Security Receive command.
+258 M M R
+Abort Command Limit (ACL): This field is used to convey the maximum 
+number of concurrently executing Abort commands supported by the 
+controller (refer to section 5.1). This is a 0’s based value. It is 
+recommended that implementations support concurrent execution of a 
+minimum of four Abort commands.

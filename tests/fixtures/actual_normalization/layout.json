@@ -1,0 +1,131 @@
+{
+  "kind": "identify_normalization_layout",
+  "data_kind": "fixture",
+  "bundle_id": "TEST.bundle-v1",
+  "base_revision": "TEST_BASE.fixture-v1",
+  "nvm_revision": "TEST_NVM.fixture-v1",
+  "query": {
+    "cns": 0,
+    "csi": 0,
+    "nsid": 1
+  },
+  "response_size": 4096,
+  "fields": [
+    {
+      "field": {
+        "field_id": "TEST.SIZE"
+      },
+      "offset": 0,
+      "length": 2,
+      "json_path": [
+        "test_size"
+      ],
+      "value_type": "integer",
+      "endian": "little",
+      "semantic_state": "defined",
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RAW_LAYOUT",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      }
+    },
+    {
+      "field": {
+        "field_id": "TEST.CAPACITY"
+      },
+      "offset": 2,
+      "length": 2,
+      "json_path": [
+        "test_capacity"
+      ],
+      "value_type": "integer",
+      "endian": "little",
+      "semantic_state": "defined",
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RAW_LAYOUT",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      }
+    },
+    {
+      "field": {
+        "field_id": "TEST.USED"
+      },
+      "offset": 4,
+      "length": 2,
+      "json_path": [
+        "test_used"
+      ],
+      "value_type": "integer",
+      "endian": "little",
+      "semantic_state": "defined",
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RAW_LAYOUT",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      }
+    },
+    {
+      "field": {
+        "field_id": "TEST.LBADS",
+        "index": 0
+      },
+      "offset": 6,
+      "length": 1,
+      "json_path": [
+        "test_formats",
+        0,
+        "size"
+      ],
+      "value_type": "integer",
+      "endian": "little",
+      "semantic_state": "defined",
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RAW_LAYOUT",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      }
+    },
+    {
+      "field": {
+        "field_id": "TEST.LBADS",
+        "index": 1
+      },
+      "offset": 7,
+      "length": 1,
+      "json_path": [
+        "test_formats",
+        1,
+        "size"
+      ],
+      "value_type": "integer",
+      "endian": "little",
+      "semantic_state": "defined",
+      "provenance": {
+        "source_type": "fixture",
+        "source_document": "TEST_RULE_PILOT",
+        "source_version": "fixture-v1",
+        "source_section": "SYNTHETIC_RAW_LAYOUT",
+        "status": "confirmed",
+        "verified_by": "TEST_FIXTURE_REVIEWER",
+        "verified_date": "2026-10-11"
+      }
+    }
+  ]
+}
