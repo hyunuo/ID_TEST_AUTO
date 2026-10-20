@@ -1,0 +1,14 @@
+{
+  "controller": {
+    "sqes": 85,
+    "cqes": 51,
+    "hmpre": 10,
+    "hmmin": 20,
+    "awun": 4,
+    "awupf": 8
+  },
+  "namespace": {
+    "ncap": 7501476529,
+    "nuse": 7501476530
+  }
+}

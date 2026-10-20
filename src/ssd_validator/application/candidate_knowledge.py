@@ -42,7 +42,8 @@ def _read(path, model):
     try:
         raw = path.read_bytes()
         data = json.loads(raw.decode("utf-8"), object_pairs_hook=_object)
-        return model.model_validate(data), sha256(raw).hexdigest()
+        # Content hash ignores line endings and formatting; the byte hash only honours older pins.
+        return model.model_validate(data), sha256(canonical_bytes(data)).hexdigest(), sha256(raw).hexdigest()
     except (UnicodeError, json.JSONDecodeError, ValidationError) as error:
         message = validation_message(error) if isinstance(error, ValidationError) else str(error)
         raise KnowledgeError("CANDIDATE_FORMAT", message, source=path.name) from error
@@ -66,9 +67,9 @@ def load_candidates(source: Path, documents_root: Path | None = None):
     source = source.resolve()
     if "generated" in source.parts:
         raise KnowledgeError("GENERATED_IS_NOT_SOURCE", str(source))
-    catalog, c_hash = _read(source / "catalog.json", CandidateCatalog)
-    structures, s_hash = _read(source / "structures.json", StructureCandidates)
-    requirements, r_hash = _read(source / "requirements.json", RequirementCandidates)
+    catalog, c_hash, c_bytes = _read(source / "catalog.json", CandidateCatalog)
+    structures, s_hash, s_bytes = _read(source / "structures.json", StructureCandidates)
+    requirements, r_hash, r_bytes = _read(source / "requirements.json", RequirementCandidates)
     documents = {d.document_id: d for d in catalog.documents}
     pins = {d.document_id: d.sha256 for d in catalog.documents}
     if structures.document_hashes != pins or requirements.document_hashes != pins:
@@ -136,7 +137,8 @@ def load_candidates(source: Path, documents_root: Path | None = None):
             if sha256(path.read_bytes()).hexdigest() != doc.sha256:
                 raise KnowledgeError("DOCUMENT_HASH", doc.document_id)
     sources = {"catalog.json": c_hash, "structures.json": s_hash, "requirements.json": r_hash}
-    return catalog, by_structure, requirements, sources, templates
+    byte_sources = {"catalog.json": c_bytes, "structures.json": s_bytes, "requirements.json": r_bytes}
+    return catalog, by_structure, requirements, sources, byte_sources, templates
 
 
 def _segments(fragments):
@@ -211,11 +213,12 @@ def _bundle(bundle, structures, requirements, templates):
 
 
 def compile_candidates(source: Path, documents_root: Path | None = None):
-    catalog, structures, requirements, sources, templates = load_candidates(source, documents_root)
+    catalog, structures, requirements, sources, byte_sources, templates = load_candidates(source, documents_root)
     bundles = {b.bundle_id: _bundle(b, structures, requirements, templates) for b in sorted(catalog.bundles, key=lambda b: b.bundle_id)}
     manifest = {"format_version": 1, "candidate_compiler_version": COMPILER_VERSION,
                 "review_status": "candidate", "authoritative": False,
                 "git_commit": git_commit(source), "knowledge_hash": sha256(canonical_bytes(sources)).hexdigest(),
+                "byte_knowledge_hash": sha256(canonical_bytes(byte_sources)).hexdigest(),
                 "sources": sources, "documents": [d.model_dump(mode="json") for d in catalog.documents],
                 "documents_verified": documents_root is not None, "bundles": sorted(bundles)}
     return catalog, bundles, manifest, requirements

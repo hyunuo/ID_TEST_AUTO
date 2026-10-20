@@ -3,7 +3,7 @@ import json
 import hashlib
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-PDF=ROOT.parent/'OCP2_6.pdf'
+PDF=ROOT/'spec'/'OCP2_6.pdf'
 HASH='44ccfd8c1b40eae70fa292a231379448182c5987456fe75e0d54fe6befd96872'
 DOC='OCP_DSSD_2_6'
 
@@ -64,5 +64,5 @@ def recipe():
 if __name__=='__main__':
     if hashlib.sha256(PDF.read_bytes()).hexdigest()!=HASH:raise ValueError('Original OCP PDF changed; re-review before extraction')
     output=ROOT/'candidates/ocp/requirements.json';output.parent.mkdir(exist_ok=True)
-    output.write_text(json.dumps(recipe(),ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    output.write_text(json.dumps(recipe(),ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     print('Candidate subset only:',output)

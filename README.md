@@ -48,7 +48,7 @@ JSON으로 저장할 수 있습니다. 로그를 넣으면 정규화·Builder·R
 실제 로그의 후보 지식 REVIEW/UNKNOWN, 검토 전 실험 판정, 합성 데이터의 판정을 구분합니다.
 상세 범위는 [GUI 사용 안내](docs/local_gui.md)를 참고하세요.
 
-`규칙·정책 관리`에서 Bundle별 규칙을 추가·수정·삭제하고 변경 사유와 새 리비전을 저장합니다.
+`관리` 탭의 `규칙·정책 편집`에서 Bundle별 규칙을 추가·수정·삭제하고 변경 사유와 새 리비전을 저장합니다.
 `검사 이력`에서 저장 결과 조회와 당시 입력·조건·규칙으로 재실행할 수 있습니다.
 첫 실행에 기존 자료를 `data/validator.sqlite3`로 가져옵니다. 이후 이 DB가 원본이며
 파일 변경을 자동 덮어쓰지 않습니다. 원본 내보내기와 DB 백업 방법은
@@ -90,8 +90,8 @@ Identify 후보 지식 구축 경로를 추가했습니다. `candidates/nvme/`�
 [후보 빌드·검토 절차](docs/identify_knowledge_workflow.md)를 참고하세요.
 
 ```powershell
-# 원문 네 PDF가 있는 폴더를 지정합니다.
-ssd-validator knowledge build --candidate --source candidates/nvme --documents-root .. --output generated/candidate
+# 원문은 spec/ 폴더에 둡니다(spec/manifest.json 참고).
+ssd-validator knowledge build --candidate --source candidates/nvme --documents-root spec --output generated/candidate
 ssd-validator spec bundle-diff --source candidates/nvme --from nvme-2.0e-nvm-1.0e --to nvme-2.1-nvm-1.1
 ```
 

@@ -6,3 +6,8 @@
 *.json text eol=lf
 *.lock text eol=lf
 .gitattributes text eol=lf
+# Spec originals keep their exact bytes; manifest hashes must stay stable.
+spec/*.pdf binary
+spec/*.md -text
+# Byte-exact test inputs; generators and tests compare raw bytes.
+tests/fixtures/**/*.txt text eol=lf

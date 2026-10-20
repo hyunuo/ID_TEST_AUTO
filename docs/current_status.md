@@ -3,6 +3,31 @@
 기준: 2026-10-12, 프로젝트 완성 계획 6단계.
 이 문서는 현재 구현 사실을 요약한다. 전체 목표 구조는 설계 문서를 따른다.
 
+## 통합·간소화 1차 (2026-10-20)
+
+남은 작업은 [향후 작업](next_steps.md)에 정리했다.
+
+- 후보 지식 해시를 파싱한 내용 기준으로 바꿔 새로 받은 사본(LF)에서도 재현된다.
+  이전 원시 바이트 고정값은 과거 DB 리비전 재실행을 위해 계속 인정한다.
+- 원문 5개 PDF와 Markdown 변환본을 `spec/`에 모았다. [원문·대조 안내](source_crosscheck.md)
+- Base 2.1 CNS 01h를 nvme-id-ctrl-ko 카탈로그와 원문 Markdown으로 대조해, 두 출처가 함께
+  확인한 비트 105개(누락 90, 잘못된 이름 15)를 `structures.json`에 반영했다. 필드 바이트 범위는
+  모두 일치했다. 나머지 차이는 `candidates/nvme/crosscheck/base21_cns01.json`에 검토 대상으로 남겼다.
+- 간소화 전후 판정 동일성 확인용 기준값: `tools/capture_baseline.py`,
+  `tests/golden/baseline/engine_baseline.json` (합성 TEST 입력 16개 시나리오).
+- 합성 TEST 장치(`tools/make_synthetic_dut.py`, `tests/fixtures/synthetic_dut/`)를 raw·nvme-cli
+  텍스트·JSON으로 같은 값에서 생성해 세 형식의 판정이 같아야 한다는 테스트를 추가했다. 실제 장치 로그가
+  아니며 실제 제품 판정의 정확성은 실제 로그로 따로 확인해야 한다.
+- 이 테스트로 찾아 고친 결함:
+  - 실행 규칙 묶음의 FUSES offset이 524(FNA/VWC 위치)로 손입력되어 raw 입력에서 잘못된 값으로
+    판정했다. 규격 위치 522로 고치고, 모든 실행 필드 offset을 후보 구조와 대조하는
+    `tests/unit/test_layout_consistency.py`를 추가했다.
+  - nvme-cli JSON의 LBAF `ds`(LBADS)가 매핑되지 않아 LBADS 규칙이 UNKNOWN이었다. nvme-cli JSON
+    이름 대응을 추가했다.
+  - 도구들이 Windows에서 CRLF로 파일을 써서 후보 해시가 환경마다 달라졌다. 출력 줄바꿈을 LF로 고정했다.
+- GUI: 검사 결과 요약 막대·확인 필요 규칙 표·비트 지도를 추가하고, 입력을 하나로 합치고 관리 기능을 `관리` 탭으로 옮겼다.
+  장치 보고 버전과 선택 규격 버전이 다르면 경고한다.
+
 ## 1단계 검증 결과
 
 - 전체 회귀: 374개 통과. 새 DB 보호/CLI 테스트 8개를 추가했고 기존 GUI API 테스트를 확장했다.

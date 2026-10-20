@@ -1,0 +1,49 @@
+{
+  "kind": "spec_source_manifest",
+  "format_version": 1,
+  "note": "Original PDFs are the evidence of record. Markdown conversions are review aids only; anchors cite PDF pages.",
+  "origin": {
+    "repository": "ID_harness",
+    "commit": "6b1ede396072c33893da8d0177614c82b6af5db5",
+    "commit_message": "pdf2md"
+  },
+  "documents": [
+    {
+      "document_id": "BASE_2_0E",
+      "pdf": "NVM-Express-Base-Specification-2.0e-2024.07.29-Ratified.pdf",
+      "pdf_sha256": "4dca66fe0b19caf1c0295e2a30ceaaaf82580ee6a7c7d5661f5c88592f55e253",
+      "markdown": null,
+      "markdown_sha256": null
+    },
+    {
+      "document_id": "NVM_1_0E",
+      "pdf": "NVM-Express-NVM-Command-Set-Specification-1.0e-2024.07.29-Ratified.pdf",
+      "pdf_sha256": "14d78aa6bb0e41c008b8bb946a7da7c53d8b2735e8febb5bd2e863bc7fb8e044",
+      "markdown": null,
+      "markdown_sha256": null
+    },
+    {
+      "document_id": "BASE_2_1",
+      "pdf": "NVM-Express-Base-Specification-Revision-2.1-2024.08.05-Ratified.pdf",
+      "pdf_sha256": "4e31f826dd7ceaee311f93b74eef5c05ac32afe4ef45436534dfcfd6a40dc746",
+      "markdown": "NVM-Express-Base-Specification-Revision-2.1-2024.08.05-Ratified.md",
+      "markdown_sha256": "eb0b032687e18a6fecd14159764ac603ddbd99d666cb21164c084aa3e5680fec"
+    },
+    {
+      "document_id": "NVM_1_1",
+      "pdf": "NVM-Express-NVM-Command-Set-Specification-Revision-1.1-2024.08.05-Ratified.pdf",
+      "pdf_sha256": "95782c03141ba277d76edfe187e32fc6911a086721c5a86f088827366bc562db",
+      "markdown": "NVM-Express-NVM-Command-Set-Specification-Revision-1.1-2024.08.05-Ratified.md",
+      "markdown_sha256": "efa43fd1a948f1e0e026385bd90a0def2eb0fdbd99b6fe9bc46fde434f7b474a"
+    },
+    {
+      "document_id": "OCP_DSSD_2_6",
+      "pdf": "OCP2_6.pdf",
+      "pdf_sha256": "44ccfd8c1b40eae70fa292a231379448182c5987456fe75e0d54fe6befd96872",
+      "markdown": "OCP2_6.md",
+      "markdown_sha256": "c470e3fa448564a7255bcf30eec4d7f1e7e928acf57045d113a5ba47865f5974",
+      "original_filename": "Datacenter NVMe® SSD Specification.pdf"
+    }
+  ],
+  "missing": []
+}

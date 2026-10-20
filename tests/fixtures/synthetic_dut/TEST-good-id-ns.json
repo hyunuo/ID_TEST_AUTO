@@ -1,0 +1,50 @@
+{
+  "nsze": 7501476528,
+  "ncap": 7501476528,
+  "nuse": 7501476528,
+  "nsfeat": 16,
+  "nlbaf": 1,
+  "flbas": 0,
+  "mc": 0,
+  "dpc": 0,
+  "dps": 0,
+  "nmic": 0,
+  "rescap": 0,
+  "fpi": 0,
+  "dlfeat": 9,
+  "nawun": 0,
+  "nawupf": 0,
+  "nacwu": 0,
+  "nabsn": 0,
+  "nabo": 0,
+  "nabspf": 0,
+  "noiob": 0,
+  "nvmcap": 3840755982336,
+  "npwg": 7,
+  "npwa": 7,
+  "npdg": 7,
+  "npda": 7,
+  "nows": 7,
+  "mssrl": 0,
+  "mcl": 0,
+  "msrc": 0,
+  "nulbaf": 0,
+  "anagrpid": 0,
+  "nsattr": 0,
+  "nvmsetid": 0,
+  "endgid": 0,
+  "nguid": "7e57000000000000000000000000abcd",
+  "eui64": 5123724185458296,
+  "lbafs": [
+    {
+      "ms": 0,
+      "ds": 9,
+      "rp": 1
+    },
+    {
+      "ms": 0,
+      "ds": 12,
+      "rp": 0
+    }
+  ]
+}

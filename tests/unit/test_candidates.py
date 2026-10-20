@@ -492,3 +492,14 @@ def test_candidate_delta_replay_rejects_stale_or_ambiguous_changes(case):
     with pytest.raises(KnowledgeError, match=expected):
         apply_candidate_changes(parent, changes)
     assert parent == {"TEST.FIELD": {"value": 1}}
+
+
+def test_knowledge_hash_ignores_line_endings_and_formatting(candidate_source):
+    source, *_ = candidate_source
+    original = compile_candidates(source)[2]
+    for path in source.glob("*.json"):
+        text = json.loads(path.read_text(encoding="utf-8"))
+        path.write_bytes(json.dumps(text, indent=4).replace("\n", "\r\n").encode("utf-8"))
+    rewritten = compile_candidates(source)[2]
+    assert rewritten["knowledge_hash"] == original["knowledge_hash"]
+    assert rewritten["byte_knowledge_hash"] != original["byte_knowledge_hash"]

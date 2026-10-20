@@ -1,0 +1,1661 @@
+{
+  "kind": "source_crosscheck",
+  "format_version": 1,
+  "document_id": "BASE_2_1",
+  "structure_id": "NVME.CNS01",
+  "review_status": "candidate",
+  "sources": {
+    "candidate": "candidates/nvme/structures.json (before apply)",
+    "catalog": {
+      "name": "nvme-id-ctrl-ko source/catalog.json",
+      "sha256": "1e214f29b4e305df7aafa92f750df3a59eb66b5a9f9ca0ccaaa2b48a1ea23638"
+    },
+    "markdown": {
+      "name": "spec/NVM-Express-Base-Specification-Revision-2.1-2024.08.05-Ratified.md",
+      "sha256": "eb0b032687e18a6fecd14159764ac603ddbd99d666cb21164c084aa3e5680fec"
+    }
+  },
+  "rule": "Bits are written only when the catalog and the Markdown witness agree; other rows await human review.",
+  "summary": {
+    "bit:AGREE:witnessed": 55,
+    "bit:CATALOG_ONLY:witnessed": 90,
+    "bit:MISMATCH:witnessed": 15,
+    "field:AGREE:unwitnessed": 1,
+    "field:AGREE:witnessed": 106,
+    "field:CANDIDATE_ONLY:unwitnessed": 2,
+    "field:CATALOG_ONLY:witnessed": 1
+  },
+  "applied": [
+    {
+      "field": "OAES",
+      "bits": "31",
+      "name": "Discovery Log Page Change Notification (DLPCN)",
+      "action": "add"
+    },
+    {
+      "field": "OAES",
+      "bits": "27",
+      "name": "Zone Descriptor Changed Notices (ZDCN)",
+      "action": "add"
+    },
+    {
+      "field": "OAES",
+      "bits": "19",
+      "name": "Allocated Namespace Attribute Notices (ANSAN)",
+      "action": "add"
+    },
+    {
+      "field": "OAES",
+      "bits": "14",
+      "name": "Endurance Group Event Aggregate Log Page Change Notices\n(EGEAN)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "15",
+      "name": "1\nRead Recovery Level 15 (RRL15)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "14",
+      "name": "Read Recovery Level 14 (RRL14)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "13",
+      "name": "Read Recovery Level 13 (RRL13)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "12",
+      "name": "Read Recovery Level 12 (RRL12)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "11",
+      "name": "Read Recovery Level 11 (RRL11)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "10",
+      "name": "Read Recovery Level 10 (RRL10)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "9",
+      "name": "Read Recovery Level 9 (RRL9)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "8",
+      "name": "Read Recovery Level 8 (RRL8)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "7",
+      "name": "Read Recovery Level 7 (RRL7)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "6",
+      "name": "Read Recovery Level 6 (RRL6)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "5",
+      "name": "Read Recovery Level 5 (RRL5)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "4",
+      "name": "1\nRead Recovery Level 4 (RRL4)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "3",
+      "name": "Read Recovery Level 3 (RRL3)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "2",
+      "name": "Read Recovery Level 2 (RRL2)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "1",
+      "name": "Read Recovery Level 1 (RRL1)",
+      "action": "add"
+    },
+    {
+      "field": "RRLS",
+      "bits": "0",
+      "name": "Read Recovery Level 0 (RRL0)",
+      "action": "add"
+    },
+    {
+      "field": "BPCAP",
+      "bits": "2",
+      "name": "Set Features Boot Partition Write Protection Support (SFBPWPS)",
+      "action": "add"
+    },
+    {
+      "field": "BPCAP",
+      "bits": "1:0",
+      "name": "RPMB Boot Partition Write Protection Support (RPMBBPWPS)",
+      "action": "rename",
+      "previous_name": "00b Base Specification, Revision 2.0 and earlier are allowed to"
+    },
+    {
+      "field": "PLSI",
+      "bits": "1",
+      "name": "PLS Forced Quiescence (PLSFQ)",
+      "action": "add"
+    },
+    {
+      "field": "PLSI",
+      "bits": "0",
+      "name": "PLS Emergency Power Fail (PLSEPF)",
+      "action": "add"
+    },
+    {
+      "field": "CRCAP",
+      "bits": "1",
+      "name": "Reachability Group ID Changeable (RGIDC)",
+      "action": "add"
+    },
+    {
+      "field": "CRCAP",
+      "bits": "0",
+      "name": "Reachability Reporting Supported (RRSUP)",
+      "action": "add"
+    },
+    {
+      "field": "NVMSR",
+      "bits": "1",
+      "name": "NVMe Enclosure (NVMEE)",
+      "action": "add"
+    },
+    {
+      "field": "NVMSR",
+      "bits": "0",
+      "name": "NVMe Storage Device (NVMESD)",
+      "action": "add"
+    },
+    {
+      "field": "VWCI",
+      "bits": "7",
+      "name": "VPD Write Cycles Remaining Valid (VWCRV)",
+      "action": "add"
+    },
+    {
+      "field": "VWCI",
+      "bits": "6:0",
+      "name": "VPD Write Cycles Remaining (VWCR)",
+      "action": "rename",
+      "previous_name": "field is set to 7Fh, then the remaining number of times that VPD contents are"
+    },
+    {
+      "field": "MEC",
+      "bits": "0",
+      "name": "2-Wire Port Management Endpoint (TWPME)",
+      "action": "add"
+    },
+    {
+      "field": "FRMW",
+      "bits": "5",
+      "name": "Support Multiple Update Detection (SMUD)",
+      "action": "add"
+    },
+    {
+      "field": "FRMW",
+      "bits": "4",
+      "name": "Firmware Activation Without Reset (FAWR)",
+      "action": "add"
+    },
+    {
+      "field": "FRMW",
+      "bits": "3:1",
+      "name": "Number Of Firmware Slots (NOFS)",
+      "action": "rename",
+      "previous_name": "shall specify a value from one to seven, indicating that at least one firmware"
+    },
+    {
+      "field": "FRMW",
+      "bits": "0",
+      "name": "First Firmware Slot Read Only (FFSRO)",
+      "action": "add"
+    },
+    {
+      "field": "LPA",
+      "bits": "6",
+      "name": "Data Area 4 Support (DA4S)",
+      "action": "add"
+    },
+    {
+      "field": "LPA",
+      "bits": "5",
+      "name": "Miscellaneous Log Page Support (MLPS)",
+      "action": "add"
+    },
+    {
+      "field": "LPA",
+      "bits": "4",
+      "name": "Persistent Event Support (PES)",
+      "action": "add"
+    },
+    {
+      "field": "LPA",
+      "bits": "3",
+      "name": "Telemetry Support (TS)",
+      "action": "add"
+    },
+    {
+      "field": "LPA",
+      "bits": "2",
+      "name": "Log Page Extended Data Support (LPEDS)",
+      "action": "add"
+    },
+    {
+      "field": "LPA",
+      "bits": "1",
+      "name": "Commands Supported and Effects Support (CSES)",
+      "action": "add"
+    },
+    {
+      "field": "LPA",
+      "bits": "0",
+      "name": "SMART Support (SMARTS)",
+      "action": "add"
+    },
+    {
+      "field": "AVSCC",
+      "bits": "0",
+      "name": "Vendor Specific Command Format (VSCF)",
+      "action": "add"
+    },
+    {
+      "field": "APSTA",
+      "bits": "0",
+      "name": "Autonomous Power Transition Support (APTS)",
+      "action": "add"
+    },
+    {
+      "field": "RPMBS",
+      "bits": "31:24",
+      "name": "Access Size (ASZE)",
+      "action": "rename",
+      "previous_name": "commands for the controller. This is a 0’s based value. A value of 0h"
+    },
+    {
+      "field": "RPMBS",
+      "bits": "23:16",
+      "name": "Total Size (TSZE)",
+      "action": "rename",
+      "previous_name": "for one unit of 128 KiB of data."
+    },
+    {
+      "field": "RPMBS",
+      "bits": "5:3",
+      "name": "Authentication Method (AUTHM)",
+      "action": "rename",
+      "previous_name": "Value Definition"
+    },
+    {
+      "field": "RPMBS",
+      "bits": "2:0",
+      "name": "Number of RPMB Units (NRPMBU)",
+      "action": "rename",
+      "previous_name": "indicates the controller does not support Replay Protected Memory Blocks."
+    },
+    {
+      "field": "DSTO",
+      "bits": "1",
+      "name": "Host-Initiated Refresh Support (HIRS)",
+      "action": "add"
+    },
+    {
+      "field": "DSTO",
+      "bits": "0",
+      "name": "Single Device Self-test Operation (SDSO)",
+      "action": "add"
+    },
+    {
+      "field": "HCTMA",
+      "bits": "0",
+      "name": "Host Controlled Thermal Management Support (HCTMS)",
+      "action": "add"
+    },
+    {
+      "field": "SANICAP",
+      "bits": "31:30",
+      "name": "No-Deallocate Modifies Media After Sanitize (NODMMAS)",
+      "action": "rename",
+      "previous_name": "earlier, or controllers that do not support the Sanitize"
+    },
+    {
+      "field": "SANICAP",
+      "bits": "29",
+      "name": "No-Deallocate Inhibited (NDI)",
+      "action": "add"
+    },
+    {
+      "field": "ANACAP",
+      "bits": "7",
+      "name": "ANA Group ID Support (ANAGIDS)",
+      "action": "add"
+    },
+    {
+      "field": "ANACAP",
+      "bits": "6",
+      "name": "ANA Group ID Locked When Attached Support (ANAGIDLWAS)",
+      "action": "add"
+    },
+    {
+      "field": "ANACAP",
+      "bits": "4",
+      "name": "Report ANA Change State (RANACS)",
+      "action": "add"
+    },
+    {
+      "field": "ANACAP",
+      "bits": "3",
+      "name": "Report ANA Persistent Loss State (RANAPLS)",
+      "action": "add"
+    },
+    {
+      "field": "ANACAP",
+      "bits": "2",
+      "name": "Report ANA Inaccessible State (RANAIS)",
+      "action": "add"
+    },
+    {
+      "field": "ANACAP",
+      "bits": "1",
+      "name": "Report ANA Non-Optimized State (RANANOS)",
+      "action": "add"
+    },
+    {
+      "field": "ANACAP",
+      "bits": "0",
+      "name": "Report ANA Optimized State (RANAOS)",
+      "action": "add"
+    },
+    {
+      "field": "KPIOC",
+      "bits": "1",
+      "name": "Key Per I/O Scope (KPIOSC)",
+      "action": "add"
+    },
+    {
+      "field": "KPIOC",
+      "bits": "0",
+      "name": "Key Per I/O Supported (KPIOS)",
+      "action": "add"
+    },
+    {
+      "field": "TMPTHHA",
+      "bits": "2:0",
+      "name": "Temperature Threshold Maximum Hysteresis (TMPTHMH)",
+      "action": "rename",
+      "previous_name": "supported by the controller. This is the absolute value of the difference."
+    },
+    {
+      "field": "SQES",
+      "bits": "7:4",
+      "name": "Maximum I/O Submission Queue Entry Size (MAXSQES)",
+      "action": "rename",
+      "previous_name": "(i.e., the MIOSQES field). The value is in bytes and is reported as a power of"
+    },
+    {
+      "field": "SQES",
+      "bits": "3:0",
+      "name": "Minimum I/O Submission Queue Entry Size (MINSQES)",
+      "action": "rename",
+      "previous_name": "minimum entry size that may be used. The value is in bytes and is reported as"
+    },
+    {
+      "field": "CQES",
+      "bits": "7:4",
+      "name": "Maximum I/O Completion Queue Entry Size (MAXCQES)",
+      "action": "rename",
+      "previous_name": "value is in bytes and is reported as a power of two (2^n). The recommended"
+    },
+    {
+      "field": "CQES",
+      "bits": "3:0",
+      "name": "Minimum I/O Completion Queue Entry Size (MINCQES)",
+      "action": "rename",
+      "previous_name": "is the minimum entry size that may be used. The value is in bytes and is"
+    },
+    {
+      "field": "ONCS",
+      "bits": "12",
+      "name": "Namespace Zeroes Support (NSZS)",
+      "action": "add"
+    },
+    {
+      "field": "ONCS",
+      "bits": "11",
+      "name": "Maximum Write Zeroes with Deallocate (MAXWZD)",
+      "action": "add"
+    },
+    {
+      "field": "ONCS",
+      "bits": "10",
+      "name": "NVM All Fast Copy (NVMAFC)",
+      "action": "add"
+    },
+    {
+      "field": "ONCS",
+      "bits": "9",
+      "name": "NVM Copy Single Atomicity (NVMCSA)",
+      "action": "add"
+    },
+    {
+      "field": "ONCS",
+      "bits": "8",
+      "name": "Copy Support (NVMCPYS)",
+      "action": "add"
+    },
+    {
+      "field": "ONCS",
+      "bits": "7",
+      "name": "Verify Support (NVMVFYS)",
+      "action": "add"
+    },
+    {
+      "field": "ONCS",
+      "bits": "6",
+      "name": "Timestamp Support (TSS)",
+      "action": "add"
+    },
+    {
+      "field": "FUSES",
+      "bits": "0",
+      "name": "Fused Compare and Write Supported (FCWS)",
+      "action": "add"
+    },
+    {
+      "field": "FNA",
+      "bits": "3",
+      "name": "Format NVM Broadcast Support (FNVMBS)",
+      "action": "add"
+    },
+    {
+      "field": "FNA",
+      "bits": "2",
+      "name": "Cryptographic Erase Supported (CRYES)",
+      "action": "add"
+    },
+    {
+      "field": "FNA",
+      "bits": "1",
+      "name": "Secure Erase Namespace Scope (SENS)",
+      "action": "add"
+    },
+    {
+      "field": "FNA",
+      "bits": "0",
+      "name": "Format Namespace Scope (FNS)",
+      "action": "add"
+    },
+    {
+      "field": "VWC",
+      "bits": "2:1",
+      "name": "Flush Behavior (FB)",
+      "action": "add",
+      "previous_name": "01b Reserved"
+    },
+    {
+      "field": "VWC",
+      "bits": "0",
+      "name": "Volatile Write Cache Present (VWCP)",
+      "action": "add"
+    },
+    {
+      "field": "ICSVSCC",
+      "bits": "0",
+      "name": "Same NVM Vendor Specific Command Format (SNVSCF)",
+      "action": "add"
+    },
+    {
+      "field": "NWPC",
+      "bits": "2",
+      "name": "Permanent Write Protect Support (PWPS)",
+      "action": "add"
+    },
+    {
+      "field": "NWPC",
+      "bits": "1",
+      "name": "Write Protect Until Power Cycle Support (WPUPCS)",
+      "action": "add"
+    },
+    {
+      "field": "NWPC",
+      "bits": "0",
+      "name": "No Write Protect and Write Protect Support (NWPWPS)",
+      "action": "add"
+    },
+    {
+      "field": "CDFS",
+      "bits": "4",
+      "name": "Copy Descriptor Format 4 Support (CDF4S)",
+      "action": "add"
+    },
+    {
+      "field": "CDFS",
+      "bits": "3",
+      "name": "Copy Descriptor Format 3 Support (CDF3S)",
+      "action": "add"
+    },
+    {
+      "field": "CDFS",
+      "bits": "2",
+      "name": "Copy Descriptor Format 2 Support (CDF2S)",
+      "action": "add"
+    },
+    {
+      "field": "CDFS",
+      "bits": "1",
+      "name": "Copy Descriptor Format 1 Support (CDF1S)",
+      "action": "add"
+    },
+    {
+      "field": "CDFS",
+      "bits": "0",
+      "name": "Copy Descriptor Format 0 Support (CDF0S)",
+      "action": "add"
+    },
+    {
+      "field": "SGLS",
+      "bits": "21",
+      "name": "Transport SGL Data Block Descriptor Support (TSDBDS)",
+      "action": "add"
+    },
+    {
+      "field": "SGLS",
+      "bits": "20",
+      "name": "SGL Address Offset Supported (SAOS)",
+      "action": "add"
+    },
+    {
+      "field": "SGLS",
+      "bits": "19",
+      "name": "MPTR SGL Descriptor Support (MSDS)",
+      "action": "add"
+    },
+    {
+      "field": "SGLS",
+      "bits": "18",
+      "name": "Length Larger than Data Transfer Support (LLDTS)",
+      "action": "add"
+    },
+    {
+      "field": "SGLS",
+      "bits": "17",
+      "name": "Metadata Buffer Alignment (MBA)",
+      "action": "add"
+    },
+    {
+      "field": "SGLS",
+      "bits": "16",
+      "name": "SGL Bit Bucket Descriptor Supported (SBBDS)",
+      "action": "add"
+    },
+    {
+      "field": "SGLS",
+      "bits": "15:8",
+      "name": "SGL Descriptor Threshold (SDT)",
+      "action": "rename",
+      "previous_name": "(refer to section 4.3.2). If this field is cleared to 0h, then no"
+    },
+    {
+      "field": "SGLS",
+      "bits": "2",
+      "name": "Keyed SGL Data Block Descriptor Support (KSDBDS)",
+      "action": "add"
+    },
+    {
+      "field": "SGLS",
+      "bits": "1:0",
+      "name": "SGL Support (SGLS)",
+      "action": "rename",
+      "previous_name": "01b"
+    },
+    {
+      "field": "TRATTR",
+      "bits": "2",
+      "name": "Memory Range Tracking Length Limit (MRTLL)",
+      "action": "add"
+    },
+    {
+      "field": "TRATTR",
+      "bits": "1",
+      "name": "Track User Data Changes Support (TUDCS)",
+      "action": "add"
+    },
+    {
+      "field": "TRATTR",
+      "bits": "0",
+      "name": "Track Host Memory Changes Support (THMCS)",
+      "action": "add"
+    },
+    {
+      "field": "FCATT",
+      "bits": "1",
+      "name": "Non-Zero NVM Set ID Support (NZNSETIDS)",
+      "action": "add"
+    },
+    {
+      "field": "FCATT",
+      "bits": "0",
+      "name": "Dynamic Controller Model Support (DCMS)",
+      "action": "add"
+    },
+    {
+      "field": "OFCS",
+      "bits": "0",
+      "name": "Disconnect Command Support (DCS)",
+      "action": "add"
+    }
+  ],
+  "skipped": [],
+  "review_rows": [
+    {
+      "kind": "bit",
+      "field": "OAES",
+      "bits": "31",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "DLPCN",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "OAES",
+      "bits": "27",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "ZDCN",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "OAES",
+      "bits": "19",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "ANSAN",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "OAES",
+      "bits": "14",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "EGEAN",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "15",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL15",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "14",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL14",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "13",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL13",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "12",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL12",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "11",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL11",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "10",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL10",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "9",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL9",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "8",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL8",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "7",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL7",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "6",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL6",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "5",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL5",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "4",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL4",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "3",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL3",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "2",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL2",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL1",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RRLS",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRL0",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "BPCAP",
+      "bits": "2",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "SFBPWPS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "BPCAP",
+      "bits": "1:0",
+      "status": "MISMATCH",
+      "candidate": "00b base specification, revision 2.0 and earlier are allowed to",
+      "catalog": "RPMBBPWPS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "PLSI",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "PLSFQ",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "PLSI",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "PLSEPF",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "CRCAP",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RGIDC",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "CRCAP",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RRSUP",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "NVMSR",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "NVMEE",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "NVMSR",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "NVMESD",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "VWCI",
+      "bits": "7",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "VWCRV",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "VWCI",
+      "bits": "6:0",
+      "status": "MISMATCH",
+      "candidate": "field is set to 7fh, then the remaining number of times that vpd contents are",
+      "catalog": "VWCR",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "MEC",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "TWPME",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FRMW",
+      "bits": "5",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "SMUD",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FRMW",
+      "bits": "4",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "FAWR",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FRMW",
+      "bits": "3:1",
+      "status": "MISMATCH",
+      "candidate": "shall specify a value from one to seven, indicating that at least one firmware",
+      "catalog": "NOFS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FRMW",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "FFSRO",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "LPA",
+      "bits": "6",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "DA4S",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "LPA",
+      "bits": "5",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "MLPS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "LPA",
+      "bits": "4",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "PES",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "LPA",
+      "bits": "3",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "TS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "LPA",
+      "bits": "2",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "LPEDS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "LPA",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "CSES",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "LPA",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "SMARTS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "AVSCC",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "VSCF",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "APSTA",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "APTS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RPMBS",
+      "bits": "31:24",
+      "status": "MISMATCH",
+      "candidate": "commands for the controller. this is a 0’s based value. a value of 0h",
+      "catalog": "ASZE",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RPMBS",
+      "bits": "23:16",
+      "status": "MISMATCH",
+      "candidate": "for one unit of 128 kib of data",
+      "catalog": "TSZE",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RPMBS",
+      "bits": "5:3",
+      "status": "MISMATCH",
+      "candidate": "value definition",
+      "catalog": "AUTHM",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "RPMBS",
+      "bits": "2:0",
+      "status": "MISMATCH",
+      "candidate": "indicates the controller does not support replay protected memory blocks",
+      "catalog": "NRPMBU",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "DSTO",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "HIRS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "DSTO",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "SDSO",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "HCTMA",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "HCTMS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SANICAP",
+      "bits": "31:30",
+      "status": "MISMATCH",
+      "candidate": "earlier, or controllers that do not support the sanitize",
+      "catalog": "NODMMAS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SANICAP",
+      "bits": "29",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "NDI",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ANACAP",
+      "bits": "7",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "ANAGIDS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ANACAP",
+      "bits": "6",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "ANAGIDLWAS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ANACAP",
+      "bits": "4",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RANACS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ANACAP",
+      "bits": "3",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RANAPLS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ANACAP",
+      "bits": "2",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RANAIS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ANACAP",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RANANOS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ANACAP",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "RANAOS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "KPIOC",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "KPIOSC",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "KPIOC",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "KPIOS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "TMPTHHA",
+      "bits": "2:0",
+      "status": "MISMATCH",
+      "candidate": "supported by the controller. this is the absolute value of the difference",
+      "catalog": "TMPTHMH",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SQES",
+      "bits": "7:4",
+      "status": "MISMATCH",
+      "candidate": "(i.e., the miosqes field). the value is in bytes and is reported as a power of",
+      "catalog": "MAXSQES",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SQES",
+      "bits": "3:0",
+      "status": "MISMATCH",
+      "candidate": "minimum entry size that may be used. the value is in bytes and is reported as",
+      "catalog": "MINSQES",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "CQES",
+      "bits": "7:4",
+      "status": "MISMATCH",
+      "candidate": "value is in bytes and is reported as a power of two (2^n). the recommended",
+      "catalog": "MAXCQES",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "CQES",
+      "bits": "3:0",
+      "status": "MISMATCH",
+      "candidate": "is the minimum entry size that may be used. the value is in bytes and is",
+      "catalog": "MINCQES",
+      "markdown_witness": true
+    },
+    {
+      "kind": "field",
+      "field": "ONCS",
+      "bits": null,
+      "status": "AGREE",
+      "candidate": "521:520",
+      "catalog": "521:520",
+      "markdown_witness": false
+    },
+    {
+      "kind": "bit",
+      "field": "ONCS",
+      "bits": "12",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "NSZS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ONCS",
+      "bits": "11",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "MAXWZD",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ONCS",
+      "bits": "10",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "NVMAFC",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ONCS",
+      "bits": "9",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "NVMCSA",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ONCS",
+      "bits": "8",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "NVMCPYS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ONCS",
+      "bits": "7",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "NVMVFYS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ONCS",
+      "bits": "6",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "TSS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FUSES",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "FCWS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FNA",
+      "bits": "3",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "FNVMBS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FNA",
+      "bits": "2",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "CRYES",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FNA",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "SENS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FNA",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "FNS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "VWC",
+      "bits": "2:1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "FB",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "VWC",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "VWCP",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "ICSVSCC",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "SNVSCF",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "NWPC",
+      "bits": "2",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "PWPS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "NWPC",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "WPUPCS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "NWPC",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "NWPWPS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "CDFS",
+      "bits": "4",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "CDF4S",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "CDFS",
+      "bits": "3",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "CDF3S",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "CDFS",
+      "bits": "2",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "CDF2S",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "CDFS",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "CDF1S",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "CDFS",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "CDF0S",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SGLS",
+      "bits": "21",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "TSDBDS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SGLS",
+      "bits": "20",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "SAOS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SGLS",
+      "bits": "19",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "MSDS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SGLS",
+      "bits": "18",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "LLDTS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SGLS",
+      "bits": "17",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "MBA",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SGLS",
+      "bits": "16",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "SBBDS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SGLS",
+      "bits": "15:8",
+      "status": "MISMATCH",
+      "candidate": "(refer to section 4.3.2). if this field is cleared to 0h, then no",
+      "catalog": "SDT",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SGLS",
+      "bits": "2",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "KSDBDS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "SGLS",
+      "bits": "1:0",
+      "status": "MISMATCH",
+      "candidate": "01b",
+      "catalog": "SGLS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "TRATTR",
+      "bits": "2",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "MRTLL",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "TRATTR",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "TUDCS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "TRATTR",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "THMCS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FCATT",
+      "bits": "1",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "NZNSETIDS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "FCATT",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "DCMS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "bit",
+      "field": "OFCS",
+      "bits": "0",
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "DCS",
+      "markdown_witness": true
+    },
+    {
+      "kind": "field",
+      "field": "psd descriptors",
+      "bits": null,
+      "status": "CANDIDATE_ONLY",
+      "candidate": "3071:2048",
+      "catalog": null,
+      "markdown_witness": false
+    },
+    {
+      "kind": "field",
+      "field": "VS",
+      "bits": null,
+      "status": "CATALOG_ONLY",
+      "candidate": null,
+      "catalog": "4095:3072",
+      "markdown_witness": true
+    },
+    {
+      "kind": "field",
+      "field": "vendor specific",
+      "bits": null,
+      "status": "CANDIDATE_ONLY",
+      "candidate": "4095:3072",
+      "catalog": null,
+      "markdown_witness": false,
+      "candidate_state": "vendor_specific"
+    }
+  ]
+}

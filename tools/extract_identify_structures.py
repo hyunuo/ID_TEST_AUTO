@@ -229,7 +229,7 @@ def main():
     payload={"kind":"structure_candidates","format_version":1,"document_hashes":hashes,"structures":structures,"nested_templates":nested,
              "review_status":"candidate","extraction_note":"Conservative machine candidates; source rows are authoritative review evidence, not approved knowledge."}
     args.output.parent.mkdir(parents=True,exist_ok=True)
-    args.output.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    args.output.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     print(json.dumps({"structures":len(structures),"nested_templates":len(nested),"fields":sum(len(s['fields']) for s in structures),
                       "byte_complete":sum(s['byte_coverage_complete'] for s in structures)}))
 

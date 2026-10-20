@@ -200,7 +200,7 @@ def test_scope_facts_cannot_be_forged(prepared):
             context_facts={'input.has_namespace':True})
 
 def test_explicit_registration_backup_replay_cas_and_idempotence(tmp_path):
-    pdf_directory=ROOT.parent
+    pdf_directory=ROOT/'spec'
     if not all((pdf_directory/d['filename']).is_file() for d in json.loads((ROOT/'candidates/nvme/catalog.json').read_text())['documents']):
         pytest.skip('Optional original PDFs are not available on this host')
     w=DatabaseWorkflow(ROOT,tmp_path/'TEST.sqlite3')

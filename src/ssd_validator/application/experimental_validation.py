@@ -60,7 +60,9 @@ def evaluate_log(root: Path, observation_report: dict, source_bytes: bytes, *, c
     context = RuntimeContext(bundle_id=config.context.bundle_id, facts=context_values)
     if config.bundle.bundle_id != bundle_id or config.context.bundle_id != bundle_id:
         raise KnowledgeError('BUNDLE_MISMATCH', 'Experimental configuration must match the selected DUT Bundle')
-    if config.candidate_knowledge_hash != observation_report['knowledge_manifest']['knowledge_hash']:
+    manifest = observation_report['knowledge_manifest']
+    # Pins made before content hashing hashed raw bytes; they stay valid for historical revisions.
+    if config.candidate_knowledge_hash not in {manifest['knowledge_hash'], manifest.get('byte_knowledge_hash')}:
         raise KnowledgeError('CANDIDATE_SOURCE_CHANGED', 'Reconcile experimental references with current candidate knowledge')
     build = compile_knowledge(folder / bundle_id)
     snapshots = tuple(s for s in build.snapshots if s.spec.key in config.bundle.snapshot_keys)

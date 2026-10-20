@@ -16,7 +16,7 @@ render=function(r){productPreviousRender(r);if(r.scopes?.some(s=>s.product_selec
 
 // All edits retain provenance and use the same reviewed source transaction as other entities.
 const productPanel=document.createElement('details');productPanel.id='productmanagement';
-const productSummary=document.createElement('summary');productSummary.textContent='제품 관리 — Profile·정책·Capability 요구·Context';productPanel.append(productSummary);
+const productSummary=document.createElement('summary');productSummary.textContent='제품 Profile 관리 — 정책·필수 기능·검사 조건';productPanel.append(productSummary);
 const productToolbar=document.createElement('div');productToolbar.className='toolbar';
 const productKind=productControl('제품 관리 종류','profile',['profile','product_policy','context']),productBundle=productControl('제품 관리 Bundle','',[]);
 const productNew=document.createElement('button');productNew.textContent='추가';const productRefresh=document.createElement('button');productRefresh.textContent='목록 새로고침';productToolbar.append(productKind.wrapper,productBundle.wrapper,productNew,productRefresh);productPanel.append(productToolbar);

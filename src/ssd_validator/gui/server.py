@@ -44,7 +44,7 @@ def create_server(port: int = 8765, sample: Path | None = None, root: Path | Non
             elif self.path == "/":
                 page = files('ssd_validator.gui').joinpath('index.html').read_text(encoding='utf-8').replace('__SESSION_TOKEN__', token)
                 self.send(200, page, "text/html; charset=utf-8")
-            elif self.path in {'/management.js','/entities.js','/captures.js','/products.js','/coverage.js','/supplemental.js'}:
+            elif self.path in {'/management.js','/entities.js','/captures.js','/products.js','/coverage.js','/supplemental.js','/visual.js'}:
                 self.send(200, files('ssd_validator.gui').joinpath(self.path[1:]).read_text(encoding='utf-8'),
                           'text/javascript; charset=utf-8')
             elif self.path == "/api/sample":

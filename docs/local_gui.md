@@ -8,7 +8,7 @@
 .\.venv\Scripts\python.exe -m ssd_validator.cli gui --sample ..\id-ctrl_test.txt
 ```
 
-표시된 로컬 URL을 열고 첨부 로그 열기를 누르거나 txt/log를 선택합니다.
+표시된 로컬 URL을 열고 로그 파일을 선택합니다. `--sample`로 실행하면 `샘플 로그 열기` 버튼이 보입니다.
 다른 프로그램이 해당 포트를 사용하면 --port 8767처럼 다른 포트를 지정합니다.
 종료는 실행 터미널의 Ctrl+C입니다. 외부 서버로 로그를 보내지 않습니다.
 
@@ -68,7 +68,7 @@ PASS는 SSD 전체 적합성을 의미하지 않습니다. 도구 버전은 UNKN
 GUI와 saved-log CLI는 `data/validator.sqlite3`를 원본으로 사용합니다. 첫 실행에 기존
 knowledge/ 및 candidates/ 데이터를 가져오고, 이후 파일 수정은 DB에 자동 반영하지 않습니다.
 
-`규칙·정책 관리`를 펼쳐 관리 Bundle과 규칙을 선택하세요. 제약·조건·출처를 수정하고
+`관리` 탭에서 `규칙·정책 편집`을 펼쳐 관리 Bundle과 규칙을 선택하세요. 제약·조건·출처를 수정하고
 변경 사유를 입력해 저장하면 기존 Builder/Resolver 검증 후 새 리비전으로 저장합니다.
 규칙 추가·삭제도 같은 경로를 사용합니다. confirmed 승격은 일반 편집 기능에 포함하지 않습니다.
 단순 조건과 필드 관계는 폼으로 입력하며 AND/OR/NOT 등 복잡한 조건만 고급 입력을 사용합니다.

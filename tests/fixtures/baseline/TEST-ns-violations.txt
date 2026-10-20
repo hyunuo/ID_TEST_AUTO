@@ -1,0 +1,13 @@
+NVME Identify Namespace:
+nsze:100
+ncap:120
+nuse:130
+nsfeat:0x2
+nlbaf:20
+nawun:2
+nawupf:4
+nabsn:1
+nabo:3
+nabspf:1
+lbaf 0 : ms:8 lbads:0 rp:0
+lbaf 1 : ms:0 lbads:12 rp:1

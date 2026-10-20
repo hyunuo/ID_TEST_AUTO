@@ -64,7 +64,7 @@ def test_context_and_policy_selection_affect_same_dut_log():
 
 def test_gui_home_contains_one_workflow_and_no_fixture_buttons():
     html = (ROOT / 'src/ssd_validator/gui/index.html').read_text(encoding='utf-8')
-    assert '필드별 검사 결과' in html and 'Expected / 제약' in html
+    assert '필드별 결과' in html and '<th>규칙</th>' in html and html.count('type="file" id="file"') == 1
     assert 'data-op=' not in html and 'TEST/FIXTURE' not in html
     assert 'Builder 실행</button>' not in html
     assert 'policy_mode:' in html and 'context_facts:' in html

@@ -1,0 +1,14 @@
+NVME Identify Controller:
+sn:TEST_ONLY_NOT_REAL_DUT
+sqes:0x55
+cqes:0x33
+npss:2
+awun:4
+awupf:8
+acwu:5
+oacs:0
+oncs:0
+hmpre:10
+hmmin:20
+rpmbs:0x1
+dsto:0

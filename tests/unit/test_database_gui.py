@@ -21,10 +21,14 @@ def test_gui_sqlite_rule_edit_history_replay_and_session(tmp_path):
         conn.request('GET', '/')
         page = conn.getresponse().read().decode()
         token = re.search("const token='([^']+)'", page).group(1)
-        assert '규칙·정책 관리' in page and '검사 이력' in page
+        assert '규칙·정책 편집' in page and '검사 이력' in page and 'id="managetab"' in page
         conn.request('GET', '/management.js')
         response = conn.getresponse()
         assert response.status == 200 and b'/api/rule' in response.read()
+        assert '/visual.js' in page and 'id="verdictviz"' in page and 'id="bitmap"' in page
+        conn.request('GET', '/visual.js')
+        response = conn.getresponse()
+        assert response.status == 200 and b'function renderBitMap' in response.read()
 
         def call(path, body, authorized=True):
             headers = {'Content-Type': 'application/json'}

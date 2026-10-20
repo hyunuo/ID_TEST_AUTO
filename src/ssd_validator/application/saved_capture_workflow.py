@@ -16,6 +16,8 @@ from ssd_validator.models.saved_captures import SavedCaptureSet
 from ssd_validator.resolver import evaluate
 
 PRIORITY = ('ERROR','CONFLICT','FAIL','UNKNOWN','REVIEW','PASS','N/A')
+# nvme-cli JSON uses libnvme member names where they differ from the specification abbreviation.
+NVME_CLI_JSON_NAMES = {'ds':'lbads'}
 
 
 def worst(states, default='UNKNOWN'):
@@ -73,11 +75,12 @@ def normalize_capture(capture, profile, bundle, bindings):
     for observation in rows:
         name, index = observation['field'], observation.get('index')
         name_key = (name.casefold(),index)
+        lookup = NVME_CLI_JSON_NAMES.get(name.casefold(),name.casefold()) if 'json_path' in observation else name.casefold()
         ids = set()
         for definition in definitions:
             aliases = {definition['field_id'].casefold(),definition['field_id'].split('.')[-1].casefold(),definition['name'].casefold()}
             aliases.update(a.casefold() for a in re.findall(r'\b[A-Z][A-Z0-9]{1,}\b',definition['name']))
-            if name.casefold() in aliases:
+            if lookup in aliases:
                 ids.add(definition['field_id'])
         if 'json_path' in observation:
             path=observation['json_path']

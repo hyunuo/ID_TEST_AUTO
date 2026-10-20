@@ -10053,113 +10053,23 @@
           "bit_fields": [
             {
               "name": "Reserved",
-              "lsb": 28,
-              "msb": 30,
+              "lsb": 0,
+              "msb": 7,
               "state": "reserved",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
                   "section": "5.1.13.2.1",
                   "figure": "312",
-                  "pdf_page": 322,
-                  "printed_page": "300"
-                }
-              ]
-            },
-            {
-              "name": "Reserved",
-              "lsb": 20,
-              "msb": 26,
-              "state": "reserved",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 322,
-                  "printed_page": "300"
-                }
-              ]
-            },
-            {
-              "name": "Reachability Groups Change Notices Support (RGCNS)",
-              "lsb": 17,
-              "msb": 17,
-              "state": "defined",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
                   "pdf_page": 323,
                   "printed_page": "301"
                 }
               ]
             },
             {
-              "name": "Temperature Threshold Hysteresis Recovery (TTHR)",
-              "lsb": 16,
-              "msb": 16,
-              "state": "defined",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 323,
-                  "printed_page": "301"
-                }
-              ]
-            },
-            {
-              "name": "Normal NVM Subsystem Shutdown (NNSS)",
-              "lsb": 15,
-              "msb": 15,
-              "state": "defined",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 323,
-                  "printed_page": "301"
-                }
-              ]
-            },
-            {
-              "name": "LBA Status Information Alert Notices (LSIAN)",
-              "lsb": 13,
-              "msb": 13,
-              "state": "defined",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 323,
-                  "printed_page": "301"
-                }
-              ]
-            },
-            {
-              "name": "Predictable Latency Event Aggregate Log Change Notices (PLEAN)",
-              "lsb": 12,
-              "msb": 12,
-              "state": "defined",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 323,
-                  "printed_page": "301"
-                }
-              ]
-            },
-            {
-              "name": "Asymmetric Namespace Access Change Notices (ANACN)",
-              "lsb": 11,
-              "msb": 11,
+              "name": "Attached Namespace Attribute Notices (NSAN)",
+              "lsb": 8,
+              "msb": 8,
               "state": "defined",
               "evidence": [
                 {
@@ -10187,9 +10097,9 @@
               ]
             },
             {
-              "name": "Attached Namespace Attribute Notices (NSAN)",
-              "lsb": 8,
-              "msb": 8,
+              "name": "Asymmetric Namespace Access Change Notices (ANACN)",
+              "lsb": 11,
+              "msb": 11,
               "state": "defined",
               "evidence": [
                 {
@@ -10202,10 +10112,10 @@
               ]
             },
             {
-              "name": "Reserved",
-              "lsb": 0,
-              "msb": 7,
-              "state": "reserved",
+              "name": "Predictable Latency Event Aggregate Log Change Notices (PLEAN)",
+              "lsb": 12,
+              "msb": 12,
+              "state": "defined",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
@@ -10213,6 +10123,156 @@
                   "figure": "312",
                   "pdf_page": 323,
                   "printed_page": "301"
+                }
+              ]
+            },
+            {
+              "name": "LBA Status Information Alert Notices (LSIAN)",
+              "lsb": 13,
+              "msb": 13,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 323,
+                  "printed_page": "301"
+                }
+              ]
+            },
+            {
+              "name": "Endurance Group Event Aggregate Log Page Change Notices\n(EGEAN)",
+              "lsb": 14,
+              "msb": 14,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 323,
+                  "printed_page": "301"
+                }
+              ]
+            },
+            {
+              "name": "Normal NVM Subsystem Shutdown (NNSS)",
+              "lsb": 15,
+              "msb": 15,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 323,
+                  "printed_page": "301"
+                }
+              ]
+            },
+            {
+              "name": "Temperature Threshold Hysteresis Recovery (TTHR)",
+              "lsb": 16,
+              "msb": 16,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 323,
+                  "printed_page": "301"
+                }
+              ]
+            },
+            {
+              "name": "Reachability Groups Change Notices Support (RGCNS)",
+              "lsb": 17,
+              "msb": 17,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 323,
+                  "printed_page": "301"
+                }
+              ]
+            },
+            {
+              "name": "Allocated Namespace Attribute Notices (ANSAN)",
+              "lsb": 19,
+              "msb": 19,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 322,
+                  "printed_page": "300"
+                }
+              ]
+            },
+            {
+              "name": "Reserved",
+              "lsb": 20,
+              "msb": 26,
+              "state": "reserved",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 322,
+                  "printed_page": "300"
+                }
+              ]
+            },
+            {
+              "name": "Zone Descriptor Changed Notices (ZDCN)",
+              "lsb": 27,
+              "msb": 27,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 322,
+                  "printed_page": "300"
+                }
+              ]
+            },
+            {
+              "name": "Reserved",
+              "lsb": 28,
+              "msb": 30,
+              "state": "reserved",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 322,
+                  "printed_page": "300"
+                }
+              ]
+            },
+            {
+              "name": "Discovery Log Page Change Notification (DLPCN)",
+              "lsb": 31,
+              "msb": 31,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 322,
+                  "printed_page": "300"
                 }
               ]
             }
@@ -10593,7 +10653,248 @@
               "printed_page": "304"
             }
           ],
-          "bit_fields": [],
+          "bit_fields": [
+            {
+              "name": "Read Recovery Level 0 (RRL0)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 1 (RRL1)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 2 (RRL2)",
+              "lsb": 2,
+              "msb": 2,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 3 (RRL3)",
+              "lsb": 3,
+              "msb": 3,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "1\nRead Recovery Level 4 (RRL4)",
+              "lsb": 4,
+              "msb": 4,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 5 (RRL5)",
+              "lsb": 5,
+              "msb": 5,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 6 (RRL6)",
+              "lsb": 6,
+              "msb": 6,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 7 (RRL7)",
+              "lsb": 7,
+              "msb": 7,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 8 (RRL8)",
+              "lsb": 8,
+              "msb": 8,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 9 (RRL9)",
+              "lsb": 9,
+              "msb": 9,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 10 (RRL10)",
+              "lsb": 10,
+              "msb": 10,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 11 (RRL11)",
+              "lsb": 11,
+              "msb": 11,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 12 (RRL12)",
+              "lsb": 12,
+              "msb": 12,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 13 (RRL13)",
+              "lsb": 13,
+              "msb": 13,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "Read Recovery Level 14 (RRL14)",
+              "lsb": 14,
+              "msb": 14,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            },
+            {
+              "name": "1\nRead Recovery Level 15 (RRL15)",
+              "lsb": 15,
+              "msb": 15,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 326,
+                  "printed_page": "304"
+                }
+              ]
+            }
+          ],
           "array": null,
           "description": "Read Recovery Levels Supported (RRLS): If Read Recovery Levels (RRL) are\nsupported, then this field shall be supported. If a bit is set to ‘1’, then the corresponding\nRead Recovery Level is supported. If a bit is cleared to ‘0’, then the corresponding Read\nRecovery Level is not supported.\nBits Description\n1\n15 Read Recovery Level 15 (RRL15): Fast Fail\n14 Read Recovery Level 14 (RRL14)\n13 Read Recovery Level 13 (RRL13)\n12 Read Recovery Level 12 (RRL12)\n11 Read Recovery Level 11 (RRL11)\n10 Read Recovery Level 10 (RRL10)\n9 Read Recovery Level 9 (RRL9)\n8 Read Recovery Level 8 (RRL8)\n7 Read Recovery Level 7 (RRL7)\n6 Read Recovery Level 6 (RRL6)\n5 Read Recovery Level 5 (RRL5)\n1\n4 Read Recovery Level 4 (RRL4): Default\n3 Read Recovery Level 3 (RRL3)\n2 Read Recovery Level 2 (RRL2)\n1 Read Recovery Level 1 (RRL1)\n0 Read Recovery Level 0 (RRL0)\nNotes:\n1. If Read Recovery Levels are supported, then this bit shall be set to ‘1’.",
           "review_status": "candidate"
@@ -10615,10 +10916,10 @@
           ],
           "bit_fields": [
             {
-              "name": "Reserved",
-              "lsb": 3,
-              "msb": 7,
-              "state": "reserved",
+              "name": "RPMB Boot Partition Write Protection Support (RPMBBPWPS)",
+              "lsb": 0,
+              "msb": 1,
+              "state": "defined",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
@@ -10630,10 +10931,25 @@
               ]
             },
             {
-              "name": "00b Base Specification, Revision 2.0 and earlier are allowed to",
-              "lsb": 0,
-              "msb": 1,
+              "name": "Set Features Boot Partition Write Protection Support (SFBPWPS)",
+              "lsb": 2,
+              "msb": 2,
               "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 327,
+                  "printed_page": "305"
+                }
+              ]
+            },
+            {
+              "name": "Reserved",
+              "lsb": 3,
+              "msb": 7,
+              "state": "reserved",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
@@ -10725,6 +11041,36 @@
             }
           ],
           "bit_fields": [
+            {
+              "name": "PLS Emergency Power Fail (PLSEPF)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 327,
+                  "printed_page": "305"
+                }
+              ]
+            },
+            {
+              "name": "PLS Forced Quiescence (PLSFQ)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 327,
+                  "printed_page": "305"
+                }
+              ]
+            },
             {
               "name": "Reserved",
               "lsb": 2,
@@ -10862,6 +11208,36 @@
           ],
           "bit_fields": [
             {
+              "name": "Reachability Reporting Supported (RRSUP)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 328,
+                  "printed_page": "306"
+                }
+              ]
+            },
+            {
+              "name": "Reachability Group ID Changeable (RGIDC)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 328,
+                  "printed_page": "306"
+                }
+              ]
+            },
+            {
               "name": "Reserved",
               "lsb": 2,
               "msb": 7,
@@ -10938,6 +11314,36 @@
           ],
           "bit_fields": [
             {
+              "name": "NVMe Storage Device (NVMESD)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 329,
+                  "printed_page": "307"
+                }
+              ]
+            },
+            {
+              "name": "NVMe Enclosure (NVMEE)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 329,
+                  "printed_page": "307"
+                }
+              ]
+            },
+            {
               "name": "Reserved",
               "lsb": 2,
               "msb": 7,
@@ -10974,9 +11380,24 @@
           ],
           "bit_fields": [
             {
-              "name": "field is set to 7Fh, then the remaining number of times that VPD contents are",
+              "name": "VPD Write Cycles Remaining (VWCR)",
               "lsb": 0,
               "msb": 6,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 329,
+                  "printed_page": "307"
+                }
+              ]
+            },
+            {
+              "name": "VPD Write Cycles Remaining Valid (VWCRV)",
+              "lsb": 7,
+              "msb": 7,
               "state": "defined",
               "evidence": [
                 {
@@ -11010,10 +11431,10 @@
           ],
           "bit_fields": [
             {
-              "name": "Reserved",
-              "lsb": 2,
-              "msb": 7,
-              "state": "reserved",
+              "name": "2-Wire Port Management Endpoint (TWPME)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
@@ -11029,6 +11450,21 @@
               "lsb": 1,
               "msb": 1,
               "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 329,
+                  "printed_page": "307"
+                }
+              ]
+            },
+            {
+              "name": "Reserved",
+              "lsb": 2,
+              "msb": 7,
+              "state": "reserved",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
@@ -11324,10 +11760,10 @@
           ],
           "bit_fields": [
             {
-              "name": "Reserved",
-              "lsb": 6,
-              "msb": 7,
-              "state": "reserved",
+              "name": "First Firmware Slot Read Only (FFSRO)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
@@ -11339,10 +11775,55 @@
               ]
             },
             {
-              "name": "shall specify a value from one to seven, indicating that at least one firmware",
+              "name": "Number Of Firmware Slots (NOFS)",
               "lsb": 1,
               "msb": 3,
               "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 331,
+                  "printed_page": "309"
+                }
+              ]
+            },
+            {
+              "name": "Firmware Activation Without Reset (FAWR)",
+              "lsb": 4,
+              "msb": 4,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 331,
+                  "printed_page": "309"
+                }
+              ]
+            },
+            {
+              "name": "Support Multiple Update Detection (SMUD)",
+              "lsb": 5,
+              "msb": 5,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 331,
+                  "printed_page": "309"
+                }
+              ]
+            },
+            {
+              "name": "Reserved",
+              "lsb": 6,
+              "msb": 7,
+              "state": "reserved",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
@@ -11373,7 +11854,113 @@
               "printed_page": "310"
             }
           ],
-          "bit_fields": [],
+          "bit_fields": [
+            {
+              "name": "SMART Support (SMARTS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 332,
+                  "printed_page": "310"
+                }
+              ]
+            },
+            {
+              "name": "Commands Supported and Effects Support (CSES)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 332,
+                  "printed_page": "310"
+                }
+              ]
+            },
+            {
+              "name": "Log Page Extended Data Support (LPEDS)",
+              "lsb": 2,
+              "msb": 2,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 332,
+                  "printed_page": "310"
+                }
+              ]
+            },
+            {
+              "name": "Telemetry Support (TS)",
+              "lsb": 3,
+              "msb": 3,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 332,
+                  "printed_page": "310"
+                }
+              ]
+            },
+            {
+              "name": "Persistent Event Support (PES)",
+              "lsb": 4,
+              "msb": 4,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 332,
+                  "printed_page": "310"
+                }
+              ]
+            },
+            {
+              "name": "Miscellaneous Log Page Support (MLPS)",
+              "lsb": 5,
+              "msb": 5,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 332,
+                  "printed_page": "310"
+                }
+              ]
+            },
+            {
+              "name": "Data Area 4 Support (DA4S)",
+              "lsb": 6,
+              "msb": 6,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 332,
+                  "printed_page": "310"
+                }
+              ]
+            }
+          ],
           "array": null,
           "description": "Log Page Attributes (LPA): This field indicates optional attributes for log pages that are\naccessed via the Get Log Page command.\nBits Description\n7 Reserved\nData Area 4 Support (DA4S): If this bit is set to ‘1’, then the controller\nsupports Data Area 4 for the Telemetry Host-Initiated and Telemetry\n6 Controller-Initiated log. If this bit is cleared to ’0’, then the controller does not\nsupport Data Area 4 for the Telemetry Host-Initiated and Telemetry\nController-Initiated log pages.\nMiscellaneous Log Page Support (MLPS): If this bit is set to ‘1’, then the\ncontroller supports:\n• the Supported Log Pages log page (Log Page Identifier 0h);\n• returning the scope of each command in the Commands Supported\nand Effects log page (Log Page Identifier 05h);\n• the Feature Identifiers Supported and Effects log page (Log Page\nIdentifier 12h); and\n• the NVMe-MI Commands Supported and Effects log page (Log\n5 Page Identifier 13h).\nIf this bit is cleared to ‘0’, then the controller:\n• does not support returning the scope of each command in the\nCommands Supported and Effects log page;\n• may support the Supported Log Pages log page;\n• may support the Feature Identifiers Supported and Effects log\npage; and\n• may support the NVMe-MI Commands Supported and Effects log\npage.\nPersistent Event Support (PES): If this bit is set to ‘1’, then the controller\n4 supports the Persistent Event log. If this bit is cleared to ‘0’, then the\ncontroller does not support the Persistent Event log page.\nTelemetry Support (TS): If this bit is set to ‘1’, then the controller supports\nthe Telemetry Host-Initiated and Telemetry Controller-Initiated log pages and\n3 sending Telemetry Log Notices. If this bit is cleared to ’0’, then the controller\ndoes not support the Telemetry Host-Initiated and Telemetry Controller-\nInitiated log pages and Telemetry Log Notice events.\nLog Page Extended Data Support (LPEDS): If this bit is set to ‘1’, then the\ncontroller supports extended data for the Get Log Page command (including\n2 extended Number of Dwords and Log Page Offset fields). If this bit is cleared\nto ‘0’, then the controller does not support extended data for the Get Log\nPage command.\nCommands Supported and Effects Support (CSES): If this bit is set to ‘1’,\nthen the controller supports the Commands Supported and Effects log page.\n1\nIf this bit is cleared to ‘0’, then the controller does not support the Commands\nSupported and Effects log page.\nSMART Support (SMARTS): If this bit is set to ‘1’, then the controller\nsupports the SMART / Health Information log page on a per namespace\n0\nbasis. If this bit is cleared to ‘0’, then the controller does not support the\nSMART / Health Information log page on a per namespace basis.",
           "review_status": "candidate"
@@ -11435,6 +12022,21 @@
           ],
           "bit_fields": [
             {
+              "name": "Vendor Specific Command Format (VSCF)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 333,
+                  "printed_page": "311"
+                }
+              ]
+            },
+            {
               "name": "Reserved",
               "lsb": 1,
               "msb": 7,
@@ -11470,6 +12072,21 @@
             }
           ],
           "bit_fields": [
+            {
+              "name": "Autonomous Power Transition Support (APTS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 333,
+                  "printed_page": "311"
+                }
+              ]
+            },
             {
               "name": "Reserved",
               "lsb": 1,
@@ -11647,7 +12264,7 @@
           ],
           "bit_fields": [
             {
-              "name": "commands for the controller. This is a 0’s based value. A value of 0h",
+              "name": "Access Size (ASZE)",
               "lsb": 24,
               "msb": 31,
               "state": "defined",
@@ -11662,7 +12279,7 @@
               ]
             },
             {
-              "name": "for one unit of 128 KiB of data.",
+              "name": "Total Size (TSZE)",
               "lsb": 16,
               "msb": 23,
               "state": "defined",
@@ -11692,7 +12309,7 @@
               ]
             },
             {
-              "name": "Value Definition",
+              "name": "Authentication Method (AUTHM)",
               "lsb": 3,
               "msb": 5,
               "state": "defined",
@@ -11707,7 +12324,7 @@
               ]
             },
             {
-              "name": "indicates the controller does not support Replay Protected Memory Blocks.",
+              "name": "Number of RPMB Units (NRPMBU)",
               "lsb": 0,
               "msb": 2,
               "state": "defined",
@@ -11762,6 +12379,36 @@
             }
           ],
           "bit_fields": [
+            {
+              "name": "Single Device Self-test Operation (SDSO)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 335,
+                  "printed_page": "313"
+                }
+              ]
+            },
+            {
+              "name": "Host-Initiated Refresh Support (HIRS)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 335,
+                  "printed_page": "313"
+                }
+              ]
+            },
             {
               "name": "Reserved",
               "lsb": 2,
@@ -11838,6 +12485,21 @@
             }
           ],
           "bit_fields": [
+            {
+              "name": "Host Controlled Thermal Management Support (HCTMS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 335,
+                  "printed_page": "313"
+                }
+              ]
+            },
             {
               "name": "Reserved",
               "lsb": 1,
@@ -11922,54 +12584,9 @@
           ],
           "bit_fields": [
             {
-              "name": "earlier, or controllers that do not support the Sanitize",
-              "lsb": 30,
-              "msb": 31,
-              "state": "defined",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 336,
-                  "printed_page": "314"
-                }
-              ]
-            },
-            {
-              "name": "Reserved",
-              "lsb": 4,
-              "msb": 28,
-              "state": "reserved",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 336,
-                  "printed_page": "314"
-                }
-              ]
-            },
-            {
-              "name": "Verification Support (VERS)",
-              "lsb": 3,
-              "msb": 3,
-              "state": "defined",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 337,
-                  "printed_page": "315"
-                }
-              ]
-            },
-            {
-              "name": "Overwrite Support (OWS)",
-              "lsb": 2,
-              "msb": 2,
+              "name": "Crypto Erase Support (CES)",
+              "lsb": 0,
+              "msb": 0,
               "state": "defined",
               "evidence": [
                 {
@@ -11997,9 +12614,9 @@
               ]
             },
             {
-              "name": "Crypto Erase Support (CES)",
-              "lsb": 0,
-              "msb": 0,
+              "name": "Overwrite Support (OWS)",
+              "lsb": 2,
+              "msb": 2,
               "state": "defined",
               "evidence": [
                 {
@@ -12008,6 +12625,66 @@
                   "figure": "312",
                   "pdf_page": 337,
                   "printed_page": "315"
+                }
+              ]
+            },
+            {
+              "name": "Verification Support (VERS)",
+              "lsb": 3,
+              "msb": 3,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 337,
+                  "printed_page": "315"
+                }
+              ]
+            },
+            {
+              "name": "Reserved",
+              "lsb": 4,
+              "msb": 28,
+              "state": "reserved",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 336,
+                  "printed_page": "314"
+                }
+              ]
+            },
+            {
+              "name": "No-Deallocate Inhibited (NDI)",
+              "lsb": 29,
+              "msb": 29,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 336,
+                  "printed_page": "314"
+                }
+              ]
+            },
+            {
+              "name": "No-Deallocate Modifies Media After Sanitize (NODMMAS)",
+              "lsb": 30,
+              "msb": 31,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 336,
+                  "printed_page": "314"
                 }
               ]
             }
@@ -12131,7 +12808,113 @@
               "printed_page": "316"
             }
           ],
-          "bit_fields": [],
+          "bit_fields": [
+            {
+              "name": "Report ANA Optimized State (RANAOS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 338,
+                  "printed_page": "316"
+                }
+              ]
+            },
+            {
+              "name": "Report ANA Non-Optimized State (RANANOS)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 338,
+                  "printed_page": "316"
+                }
+              ]
+            },
+            {
+              "name": "Report ANA Inaccessible State (RANAIS)",
+              "lsb": 2,
+              "msb": 2,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 338,
+                  "printed_page": "316"
+                }
+              ]
+            },
+            {
+              "name": "Report ANA Persistent Loss State (RANAPLS)",
+              "lsb": 3,
+              "msb": 3,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 338,
+                  "printed_page": "316"
+                }
+              ]
+            },
+            {
+              "name": "Report ANA Change State (RANACS)",
+              "lsb": 4,
+              "msb": 4,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 338,
+                  "printed_page": "316"
+                }
+              ]
+            },
+            {
+              "name": "ANA Group ID Locked When Attached Support (ANAGIDLWAS)",
+              "lsb": 6,
+              "msb": 6,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 338,
+                  "printed_page": "316"
+                }
+              ]
+            },
+            {
+              "name": "ANA Group ID Support (ANAGIDS)",
+              "lsb": 7,
+              "msb": 7,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 338,
+                  "printed_page": "316"
+                }
+              ]
+            }
+          ],
           "array": null,
           "description": "Asymmetric Namespace Access Capabilities (ANACAP): This field indicates the\ncapabilities associated with Asymmetric Namespace Access Reporting (refer to section\n8.1.1).\nBits Description\nANA Group ID Support (ANAGIDS): Iif this bit is set to ‘1’, then the\ncontroller supports a non-zero value in the ANAGRPID field of the\nNamespace Management command. If this bit is cleared to ‘0’, then the\n7\ncontroller does not support a non-zero value in the ANAGRPID field of the\nNamespace Management command. If the Namespace Management\ncommand is not supported, then this bit shall be cleared to ‘0’.\nANA Group ID Locked When Attached Support (ANAGIDLWAS): Iif this\nbit is set to ‘1’, then the ANAGRPID field in the Identify Namespace data\nstructure (refer to the NVM Command Set Specification) does not change\n6\nwhile the namespace is attached to any controller. If this bit is cleared to ‘0’,\nthen the ANAGRPID field may change while the namespace is attached to\nany controller. Refer to section 8.1.1.2.\n5 Reserved\nReport ANA Change State (RANACS) : Iif this bit is set to ‘1’, then the\n4 controller is able to report ANA Change state (refer to section 8.1.1.8). If this\nbit is cleared to ‘0’, then the controller does not report ANA Change state.\nReport ANA Persistent Loss State (RANAPLS): Iif this bit is set to ‘1’, then\nthe controller is able to report ANA Persistent Loss state (refer to section\n3\n8.1.1.7). If this bit is cleared to ‘0’, then the controller does not report ANA\nPersistent Loss state.\nReport ANA Inaccessible State (RANAIS): Iif this bit is set to ‘1’, then the\ncontroller is able to report ANA Inaccessible state (refer to section 8.1.1.6).\n2\nIf this bit is cleared to ‘0’, then the controller does not report ANA Inaccessible\nstate.\nReport ANA Non-Optimized State (RANANOS): Iif this bit is set to ‘1’, then\nthe controller is able to report ANA Non-Optimized state (refer to section\n1\n8.1.1.5). If this bit is cleared to ‘0’, then the controller does not report ANA\nNon-Optimized state.\nReport ANA Optimized State (RANAOS): Iif this bit is set to ‘1’, then the\ncontroller is able to report ANA Inaccessible state (refer to section 8.1.1.4).\n0\nIf this bit is cleared to ‘0’, then the controller does not report ANA Inaccessible\nstate.",
           "review_status": "candidate"
@@ -12232,6 +13015,36 @@
             }
           ],
           "bit_fields": [
+            {
+              "name": "Key Per I/O Supported (KPIOS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 339,
+                  "printed_page": "317"
+                }
+              ]
+            },
+            {
+              "name": "Key Per I/O Scope (KPIOSC)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 339,
+                  "printed_page": "317"
+                }
+              ]
+            },
             {
               "name": "Reserved",
               "lsb": 2,
@@ -12364,7 +13177,7 @@
               ]
             },
             {
-              "name": "supported by the controller. This is the absolute value of the difference.",
+              "name": "Temperature Threshold Maximum Hysteresis (TMPTHMH)",
               "lsb": 0,
               "msb": 2,
               "state": "defined",
@@ -12467,7 +13280,7 @@
           ],
           "bit_fields": [
             {
-              "name": "(i.e., the MIOSQES field). The value is in bytes and is reported as a power of",
+              "name": "Maximum I/O Submission Queue Entry Size (MAXSQES)",
               "lsb": 4,
               "msb": 7,
               "state": "defined",
@@ -12482,7 +13295,7 @@
               ]
             },
             {
-              "name": "minimum entry size that may be used. The value is in bytes and is reported as",
+              "name": "Minimum I/O Submission Queue Entry Size (MINSQES)",
               "lsb": 0,
               "msb": 3,
               "state": "defined",
@@ -12518,7 +13331,7 @@
           ],
           "bit_fields": [
             {
-              "name": "value is in bytes and is reported as a power of two (2^n). The recommended",
+              "name": "Maximum I/O Completion Queue Entry Size (MAXCQES)",
               "lsb": 4,
               "msb": 7,
               "state": "defined",
@@ -12533,7 +13346,7 @@
               ]
             },
             {
-              "name": "is the minimum entry size that may be used. The value is in bytes and is",
+              "name": "Minimum I/O Completion Queue Entry Size (MINCQES)",
               "lsb": 0,
               "msb": 3,
               "state": "defined",
@@ -12616,69 +13429,9 @@
           ],
           "bit_fields": [
             {
-              "name": "Reserved",
-              "lsb": 13,
-              "msb": 15,
-              "state": "reserved",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 341,
-                  "printed_page": "319"
-                }
-              ]
-            },
-            {
-              "name": "Reservations Support (RESERVS)",
-              "lsb": 5,
-              "msb": 5,
-              "state": "defined",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 342,
-                  "printed_page": "320"
-                }
-              ]
-            },
-            {
-              "name": "Save and Select Feature Support (SSFS)",
-              "lsb": 4,
-              "msb": 4,
-              "state": "defined",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 342,
-                  "printed_page": "320"
-                }
-              ]
-            },
-            {
-              "name": "Write Zeroes Support Variants (NVMWZSV)",
-              "lsb": 3,
-              "msb": 3,
-              "state": "defined",
-              "evidence": [
-                {
-                  "document_id": "BASE_2_1",
-                  "section": "5.1.13.2.1",
-                  "figure": "312",
-                  "pdf_page": 342,
-                  "printed_page": "320"
-                }
-              ]
-            },
-            {
-              "name": "Dataset Management Support Variants (NVMDSMSV)",
-              "lsb": 2,
-              "msb": 2,
+              "name": "Compare Command Support (NVMCMPS)",
+              "lsb": 0,
+              "msb": 0,
               "state": "defined",
               "evidence": [
                 {
@@ -12706,9 +13459,9 @@
               ]
             },
             {
-              "name": "Compare Command Support (NVMCMPS)",
-              "lsb": 0,
-              "msb": 0,
+              "name": "Dataset Management Support Variants (NVMDSMSV)",
+              "lsb": 2,
+              "msb": 2,
               "state": "defined",
               "evidence": [
                 {
@@ -12717,6 +13470,171 @@
                   "figure": "312",
                   "pdf_page": 342,
                   "printed_page": "320"
+                }
+              ]
+            },
+            {
+              "name": "Write Zeroes Support Variants (NVMWZSV)",
+              "lsb": 3,
+              "msb": 3,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 342,
+                  "printed_page": "320"
+                }
+              ]
+            },
+            {
+              "name": "Save and Select Feature Support (SSFS)",
+              "lsb": 4,
+              "msb": 4,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 342,
+                  "printed_page": "320"
+                }
+              ]
+            },
+            {
+              "name": "Reservations Support (RESERVS)",
+              "lsb": 5,
+              "msb": 5,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 342,
+                  "printed_page": "320"
+                }
+              ]
+            },
+            {
+              "name": "Timestamp Support (TSS)",
+              "lsb": 6,
+              "msb": 6,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 341,
+                  "printed_page": "319"
+                }
+              ]
+            },
+            {
+              "name": "Verify Support (NVMVFYS)",
+              "lsb": 7,
+              "msb": 7,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 341,
+                  "printed_page": "319"
+                }
+              ]
+            },
+            {
+              "name": "Copy Support (NVMCPYS)",
+              "lsb": 8,
+              "msb": 8,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 341,
+                  "printed_page": "319"
+                }
+              ]
+            },
+            {
+              "name": "NVM Copy Single Atomicity (NVMCSA)",
+              "lsb": 9,
+              "msb": 9,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 341,
+                  "printed_page": "319"
+                }
+              ]
+            },
+            {
+              "name": "NVM All Fast Copy (NVMAFC)",
+              "lsb": 10,
+              "msb": 10,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 341,
+                  "printed_page": "319"
+                }
+              ]
+            },
+            {
+              "name": "Maximum Write Zeroes with Deallocate (MAXWZD)",
+              "lsb": 11,
+              "msb": 11,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 341,
+                  "printed_page": "319"
+                }
+              ]
+            },
+            {
+              "name": "Namespace Zeroes Support (NSZS)",
+              "lsb": 12,
+              "msb": 12,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 341,
+                  "printed_page": "319"
+                }
+              ]
+            },
+            {
+              "name": "Reserved",
+              "lsb": 13,
+              "msb": 15,
+              "state": "reserved",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 341,
+                  "printed_page": "319"
                 }
               ]
             }
@@ -12741,6 +13659,21 @@
             }
           ],
           "bit_fields": [
+            {
+              "name": "Fused Compare and Write Supported (FCWS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 342,
+                  "printed_page": "320"
+                }
+              ]
+            },
             {
               "name": "Reserved",
               "lsb": 1,
@@ -12778,6 +13711,66 @@
           ],
           "bit_fields": [
             {
+              "name": "Format Namespace Scope (FNS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 343,
+                  "printed_page": "321"
+                }
+              ]
+            },
+            {
+              "name": "Secure Erase Namespace Scope (SENS)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 343,
+                  "printed_page": "321"
+                }
+              ]
+            },
+            {
+              "name": "Cryptographic Erase Supported (CRYES)",
+              "lsb": 2,
+              "msb": 2,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 343,
+                  "printed_page": "321"
+                }
+              ]
+            },
+            {
+              "name": "Format NVM Broadcast Support (FNVMBS)",
+              "lsb": 3,
+              "msb": 3,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 343,
+                  "printed_page": "321"
+                }
+              ]
+            },
+            {
               "name": "Reserved",
               "lsb": 4,
               "msb": 7,
@@ -12814,10 +13807,10 @@
           ],
           "bit_fields": [
             {
-              "name": "Reserved",
-              "lsb": 3,
-              "msb": 7,
-              "state": "reserved",
+              "name": "Volatile Write Cache Present (VWCP)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
@@ -12829,9 +13822,24 @@
               ]
             },
             {
-              "name": "01b Reserved",
+              "name": "Flush Behavior (FB)",
               "lsb": 1,
               "msb": 2,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 344,
+                  "printed_page": "322"
+                }
+              ]
+            },
+            {
+              "name": "Reserved",
+              "lsb": 3,
+              "msb": 7,
               "state": "reserved",
               "evidence": [
                 {
@@ -12905,6 +13913,21 @@
           ],
           "bit_fields": [
             {
+              "name": "Same NVM Vendor Specific Command Format (SNVSCF)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 344,
+                  "printed_page": "322"
+                }
+              ]
+            },
+            {
               "name": "Reserved",
               "lsb": 1,
               "msb": 7,
@@ -12940,6 +13963,51 @@
             }
           ],
           "bit_fields": [
+            {
+              "name": "No Write Protect and Write Protect Support (NWPWPS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 345,
+                  "printed_page": "323"
+                }
+              ]
+            },
+            {
+              "name": "Write Protect Until Power Cycle Support (WPUPCS)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 345,
+                  "printed_page": "323"
+                }
+              ]
+            },
+            {
+              "name": "Permanent Write Protect Support (PWPS)",
+              "lsb": 2,
+              "msb": 2,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 345,
+                  "printed_page": "323"
+                }
+              ]
+            },
             {
               "name": "Reserved",
               "lsb": 3,
@@ -12997,6 +14065,81 @@
           ],
           "bit_fields": [
             {
+              "name": "Copy Descriptor Format 0 Support (CDF0S)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 345,
+                  "printed_page": "323"
+                }
+              ]
+            },
+            {
+              "name": "Copy Descriptor Format 1 Support (CDF1S)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 345,
+                  "printed_page": "323"
+                }
+              ]
+            },
+            {
+              "name": "Copy Descriptor Format 2 Support (CDF2S)",
+              "lsb": 2,
+              "msb": 2,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 345,
+                  "printed_page": "323"
+                }
+              ]
+            },
+            {
+              "name": "Copy Descriptor Format 3 Support (CDF3S)",
+              "lsb": 3,
+              "msb": 3,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 345,
+                  "printed_page": "323"
+                }
+              ]
+            },
+            {
+              "name": "Copy Descriptor Format 4 Support (CDF4S)",
+              "lsb": 4,
+              "msb": 4,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 345,
+                  "printed_page": "323"
+                }
+              ]
+            },
+            {
               "name": "Reserved",
               "lsb": 5,
               "msb": 15,
@@ -13033,10 +14176,10 @@
           ],
           "bit_fields": [
             {
-              "name": "Reserved",
-              "lsb": 22,
-              "msb": 31,
-              "state": "reserved",
+              "name": "SGL Support (SGLS)",
+              "lsb": 0,
+              "msb": 1,
+              "state": "defined",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
@@ -13048,9 +14191,9 @@
               ]
             },
             {
-              "name": "(refer to section 4.3.2). If this field is cleared to 0h, then no",
-              "lsb": 8,
-              "msb": 15,
+              "name": "Keyed SGL Data Block Descriptor Support (KSDBDS)",
+              "lsb": 2,
+              "msb": 2,
               "state": "defined",
               "evidence": [
                 {
@@ -13078,10 +14221,115 @@
               ]
             },
             {
-              "name": "01b",
-              "lsb": 0,
-              "msb": 1,
+              "name": "SGL Descriptor Threshold (SDT)",
+              "lsb": 8,
+              "msb": 15,
               "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 346,
+                  "printed_page": "324"
+                }
+              ]
+            },
+            {
+              "name": "SGL Bit Bucket Descriptor Supported (SBBDS)",
+              "lsb": 16,
+              "msb": 16,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 346,
+                  "printed_page": "324"
+                }
+              ]
+            },
+            {
+              "name": "Metadata Buffer Alignment (MBA)",
+              "lsb": 17,
+              "msb": 17,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 346,
+                  "printed_page": "324"
+                }
+              ]
+            },
+            {
+              "name": "Length Larger than Data Transfer Support (LLDTS)",
+              "lsb": 18,
+              "msb": 18,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 346,
+                  "printed_page": "324"
+                }
+              ]
+            },
+            {
+              "name": "MPTR SGL Descriptor Support (MSDS)",
+              "lsb": 19,
+              "msb": 19,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 346,
+                  "printed_page": "324"
+                }
+              ]
+            },
+            {
+              "name": "SGL Address Offset Supported (SAOS)",
+              "lsb": 20,
+              "msb": 20,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 346,
+                  "printed_page": "324"
+                }
+              ]
+            },
+            {
+              "name": "Transport SGL Data Block Descriptor Support (TSDBDS)",
+              "lsb": 21,
+              "msb": 21,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 346,
+                  "printed_page": "324"
+                }
+              ]
+            },
+            {
+              "name": "Reserved",
+              "lsb": 22,
+              "msb": 31,
+              "state": "reserved",
               "evidence": [
                 {
                   "document_id": "BASE_2_1",
@@ -13313,6 +14561,51 @@
             }
           ],
           "bit_fields": [
+            {
+              "name": "Track Host Memory Changes Support (THMCS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 348,
+                  "printed_page": "326"
+                }
+              ]
+            },
+            {
+              "name": "Track User Data Changes Support (TUDCS)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 348,
+                  "printed_page": "326"
+                }
+              ]
+            },
+            {
+              "name": "Memory Range Tracking Length Limit (MRTLL)",
+              "lsb": 2,
+              "msb": 2,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 348,
+                  "printed_page": "326"
+                }
+              ]
+            },
             {
               "name": "Reserved",
               "lsb": 3,
@@ -13590,6 +14883,36 @@
           ],
           "bit_fields": [
             {
+              "name": "Dynamic Controller Model Support (DCMS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 349,
+                  "printed_page": "327"
+                }
+              ]
+            },
+            {
+              "name": "Non-Zero NVM Set ID Support (NZNSETIDS)",
+              "lsb": 1,
+              "msb": 1,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 349,
+                  "printed_page": "327"
+                }
+              ]
+            },
+            {
               "name": "Reserved",
               "lsb": 2,
               "msb": 7,
@@ -13645,6 +14968,21 @@
             }
           ],
           "bit_fields": [
+            {
+              "name": "Disconnect Command Support (DCS)",
+              "lsb": 0,
+              "msb": 0,
+              "state": "defined",
+              "evidence": [
+                {
+                  "document_id": "BASE_2_1",
+                  "section": "5.1.13.2.1",
+                  "figure": "312",
+                  "pdf_page": 349,
+                  "printed_page": "327"
+                }
+              ]
+            },
             {
               "name": "Reserved",
               "lsb": 1,

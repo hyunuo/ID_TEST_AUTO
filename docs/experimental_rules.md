@@ -35,7 +35,7 @@ provisional 데이터다. Samsung·OCP·MFND의 공식 제품 정책이나 규�
 ## 기존 가져오기 자료 (SQLite 전환 이후)
 
 현재 GUI와 saved-log CLI의 원본은 data/validator.sqlite3다. 아래 파일은 최초 가져오기 자료로
-유지하며 파일 수정만으로 DB 원본이 바뀌지 않는다. GUI의 규칙·정책 관리에서 수정하거나,
+유지하며 파일 수정만으로 DB 원본이 바뀌지 않는다. GUI `관리` 탭의 규칙·정책 편집에서 수정하거나,
 전체 원본 패키지를 내보내어 수정 후 검증하여 가져온다. [전환 계약](sqlite_transition.md)을 따른다.
 
 - knowledge/experimental/id_ctrl/nvme-2.1-nvm-1.1.json

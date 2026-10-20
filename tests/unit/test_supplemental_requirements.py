@@ -13,6 +13,7 @@ from ssd_validator.models.runtime import EffectiveExpectedProfile,ActualFact
 from ssd_validator.resolver import evaluate
 
 ROOT=Path(__file__).resolve().parents[2]
+SPEC=ROOT/'spec'
 PACK=parse((ROOT/CANDIDATE_PATH).read_text(encoding='utf-8'))
 P={'source_type':'fixture','source_document':'TEST_PRODUCT','source_version':'v1','source_section':'Synthetic TEST only','status':'provisional'}
 CONF={**P,'status':'confirmed','verified_by':'TEST_REVIEWER','verified_date':'2026-10-12'}
@@ -127,10 +128,10 @@ def test_registration_guards_and_reference_validation(w,tmp_path):
     local=DatabaseWorkflow(ROOT,tmp_path/'TEST-register.sqlite3')
     nvme=prepare_nvme(local.repository.sources(),json.loads((ROOT/PACK_PATH).read_text(encoding='utf-8')))
     local.import_sources({'format':'ssd-validator-source-v1','sources':nvme},expected_revision=1,reason='TEST prerequisite')
-    if not (ROOT.parent/'OCP2_6.pdf').exists():pytest.skip('Optional OCP original not supplied on this host')
+    if not (SPEC/'OCP2_6.pdf').exists():pytest.skip('Optional OCP original not supplied on this host')
     before=local.analyze(b'NVME Identify Controller:\noacs:6\n','TEST.txt',PACK.bundles[0].bundle_id,experimental=True)
-    result=register(local,ROOT/CANDIDATE_PATH,ROOT.parent,expected_revision=2,reason='TEST source verification')
+    result=register(local,ROOT/CANDIDATE_PATH,SPEC,expected_revision=2,reason='TEST source verification')
     assert result['revision']==3 and Path(result['pre_change_backup']).exists() and result['product_profiles_created']==0
     assert local.load_run(before['run_id'])==before
-    assert register(local,ROOT/CANDIDATE_PATH,ROOT.parent,expected_revision=3,reason='TEST repeat')['changed'] is False
-    with pytest.raises(ValueError,match='REVISION_CONFLICT'):register(local,ROOT/CANDIDATE_PATH,ROOT.parent,expected_revision=2,reason='TEST stale')
+    assert register(local,ROOT/CANDIDATE_PATH,SPEC,expected_revision=3,reason='TEST repeat')['changed'] is False
+    with pytest.raises(ValueError,match='REVISION_CONFLICT'):register(local,ROOT/CANDIDATE_PATH,SPEC,expected_revision=2,reason='TEST stale')

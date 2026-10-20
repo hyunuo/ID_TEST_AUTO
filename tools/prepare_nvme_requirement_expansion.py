@@ -71,7 +71,7 @@ def recipe(catalog):
             ('HMPRE','Host Memory Buffer Preferred Size (HMPRE)',272,4,'integer',334 if newer else 274),
             ('HMMIN','Host Memory Buffer Minimum Size (HMMIN)',276,4,'integer',334 if newer else 274),
             ('RPMBS','Replay Protected Memory Block Support (RPMBS)',312,4,'bitmask',334 if newer else 275),
-            ('FUSES','Fused Operation Support (FUSES)',524,2,'bitmask',341 if newer else 281),
+            ('FUSES','Fused Operation Support (FUSES)',522,2,'bitmask',341 if newer else 281),
             ('ACWU','Atomic Compare and Write Unit (ACWU)',532,2,'integer',92 if newer else 66)]:
             field(CTRL+suffix,name,offset,length,kind,nvm if suffix=='ACWU' else base,page)
             if suffix=='ACWU':item['fields'][-1]['evidence']['evidence']=[evidence(nvm,page,'4.1.5.2','117' if newer else '99')]
@@ -190,7 +190,7 @@ def main():
     if target.suffix!='.json' or 'generated' in target.parts or 'knowledge' in target.parts or target in protected or target in {(args.pdf_dir/d['filename']).resolve() for d in catalog['documents']}:
         raise ValueError('Output must be a separate candidate JSON, never generated or original PDF')
     target.parent.mkdir(parents=True,exist_ok=True)
-    target.write_text(json.dumps(recipe(catalog),indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+    target.write_text(json.dumps(recipe(catalog),indent=2,ensure_ascii=False)+'\n',encoding='utf-8',newline='\n')
     print('Candidate recipe only; human review pending:',target)
 
 if __name__=='__main__':main()
